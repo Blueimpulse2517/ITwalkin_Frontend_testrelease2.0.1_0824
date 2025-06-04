@@ -1,3 +1,273 @@
+.container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+  }
+
+
+  
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .successMessage {
+    color: green;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+  }
+  
+  .select,
+  .textarea,
+  .input {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .submitButton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .cancelButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  @media(max-width:426px){
+    .container {
+        width: 80%;
+      }
+      .buttonContainer {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .submitButton {
+        width:46%;
+        font-size: 11px;
+      }
+      
+      .cancelButton {
+       width:46%;
+       font-size: 11px;
+      }
+  }
+
+.tableContainer {
+    width: 95%;
+    border-radius: 15px;
+    border-collapse: collapse;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    box-shadow: 6px 6px 12px 6px rgba(0, 0, 0, 0.4);
+    margin: auto;
+    /* height: 97%; */
+    margin-bottom: 20px;
+    margin-left: 30px;
+
+  }
+  
+  .headerRow {
+    background-color: rgb(40, 4, 99);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+  }
+  
+  .th, .td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  .descriptionRow {
+    background-color: rgb(40, 4, 99);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+  }
+  
+  .descriptionContent {
+    padding: 10px;
+    background-color: white;
+  }
+  
+/* -----------------Share button starts---------------- */
+.shareContainer{
+    position: absolute;
+    border: 2px solid rgb(12, 12, 12);
+    border-radius: 3%;
+    background-color: rgb(40, 4, 99);
+    /* left: 1090px; */
+    top: 62px;
+    right: 1px;
+    padding: 20px;
+    /* width: 20%;
+    height: 30%; */
+}
+.shareContainerMob{
+    position: absolute;
+    border: 2px solid rgb(12, 12, 12);
+    border-radius: 3%;
+    background-color: rgb(40, 4, 99);
+    /* left: 15px;
+    top: 109px;
+    width: 91%;
+    height: 30%; */
+    right: -8px;
+    top:42px;
+    padding-bottom: 13px;
+}
+.shareBtn {
+    display: flex;  
+    align-items: center; 
+    gap: 8px; 
+    cursor: pointer;
+    background-color: rgb(40, 4, 99);
+    height: 42px;
+    width: 95px;
+    color: white;
+    border-radius: 2px;
+    padding-right: 6px;
+
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 1.0rem; 
+    margin-right: 20px;
+  }
+
+  .shareBtnBlog {
+    display: flex;  
+    align-items: center; 
+    gap: 8px; 
+    cursor: pointer;
+    background-color: rgb(40, 4, 99);
+    height: 36px;
+    width: 70px;
+    color: white;
+    border-radius: 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 1.0rem; 
+    margin-right: 20px;
+  }
+
+  .shareBtnMobile{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+    background-color: rgb(40, 4, 99);
+    height: 29px;
+    width: 61px;
+    color: white;
+    border-radius: 2px;
+    /* padding-right: 6px; */
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+.shareButtonsContainer{
+       display: flex;
+        gap: -46px;
+        /* justify-content: space-between; */
+        gap: 35px;
+        margin-left: 50px;
+        margin-top: 30px;
+        margin-right: 35px;
+}
+
+.copyLinkContainer{
+    display:flex;
+    margin-top: 21px;
+    background-color: white;
+    border-radius: 8px;
+    width:92%;
+    margin-left: 15px;
+    height:40px;
+    align-items: center;
+}
+
+.urlInput{
+    /* height:30px; */
+    width:100%;
+    margin-left: 7px;
+    height:30px;
+    /* background-color: red; */
+    /* border-radius: 25px; */
+    border:none;
+    margin-top: 2px;
+    
+}
+.copyButton{
+        background-color: rgb(40, 4, 99);
+        color: white;
+        border: none;
+        padding: 2px 2px 2px 2px;
+        cursor: pointer;
+        border-radius: 25px;
+        font-weight: 500;
+        font-size: 0.8rem; 
+        width:100px;
+        height:35px;
+        margin-right:7px;
+    }
+
+/* ----------------share button ends--------------------------- */
+
 /* ---------------Home Page starts------------- */
 .homePageCompanyLogo{
     height:45px;
@@ -5,7 +275,20 @@
     border-radius: 180%;
     margin-left:-10px;
 }
+.selectContainer{
+    height: 30px;
+    width: 154px;
+    margin-left: -36px;
+    border-radius: 4px;
 
+}
+.selectContainerMobile{
+    height: 27px;
+    width: 134px;
+    margin-left: -35px;
+    border-radius: 4px;
+    margin-top: -4px;
+}
 
 /* ---------------Home Page ends------------- */
 
@@ -15,45 +298,61 @@
     display: flex;
     justify-content: space-between;
 
-
 }
 .jobdetailBackBtn{
     background-color: rgb(40, 4, 99);
     color: white;
     border: none;
-    padding: 10px 15px 10px 15px;
+    padding: 0px 10px 0px 10px;
     cursor: pointer;
     border-radius: 5px;
     margin-top: 10px;
     font-weight: 500;
     font-size: 1.0rem; 
     margin-left: 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    gap:3px;
+
+    
 }
-.jobdetailBackBtn:hover{
-    background-color: white;
-    color: rgb(40, 4, 99);
-    border: 2px solid  rgb(40, 4, 99);
-}
-.jobdetailApplyBtn{
-    /* position: absolute;
-    right:0px;
-    top:60px; */
+
+.jobdetailBackBtnMobile{
     background-color: rgb(40, 4, 99);
     color: white;
     border: none;
-    padding: 10px 15px 10px 15px;
+    /* padding: 10px 15px 10px 15px; */
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 12px;
+    width: 53px;
+    padding: 7px;
+}
+
+/* .jobdetailBackBtn:hover{
+    background-color: white;
+    color: rgb(40, 4, 99);
+    border: 2px solid  rgb(40, 4, 99);
+} */
+.jobdetailApplyBtn{
+    background-color: rgb(40, 4, 99);
+    color: white;
+    border: none;
+    padding: 4px 12px 4px 16px;
     cursor: pointer;
     border-radius: 5px;
     margin-top: 10px;
     font-weight: 500;
-    font-size: 1.0rem; 
+    font-size: 1.0rem;
     margin-right: 20px;
 }
-.jobdetailApplyBtn:hover{
+/* .jobdetailApplyBtn:hover{
     background-color: white;
     color: rgb(40, 4, 99);
     border: 2px solid  rgb(40, 4, 99);
-}
+} */
 .jobDetailsHeading{
     display: flex;
     
@@ -88,6 +387,36 @@
 
 /* ---------------Job Details Ends------------- */
 
+/* ---------------------Blog Home page starts--------------- */
+
+.blogSearchContainer{
+    display: flex;
+    gap:2px;
+    width: 84%;
+    margin-right: 7px; 
+}
+.searchicon{
+    margin-top: 10px;
+}
+.blogInputboxsearch {
+    border-radius: 18px;
+    border: 2px solid rgb(40, 4, 99);
+    height: 29px;
+    width: 100%;
+    margin-top: 3px;
+    transition: width 0.9s ease-in-out;
+   
+
+}
+.blogInputboxsearch::placeholder{
+    font-size:10.5px;
+}
+
+
+
+
+/* ---------------------Blog Home page ends--------------- */
+
 /* ------------------Blog Read Page starts-------------------- */
 .readPageContainer{
     background-color: white;
@@ -101,37 +430,51 @@
 }
 .ReadPageBtnTitleContainer{
     display: flex;
-    /* justify-content: space-between;   */
-    gap: 80px;
-    
+    justify-content: space-between;  
+    /* gap: 80px; */
+        /* justify-content: space-around; */
+    gap: 5px;
 }
 .readPageBackBtn{
     background-color: rgb(40, 4, 99);
     color: white;
     border: none;
-    padding: 10px 15px 10px 15px;
+    padding: 0px 10px 0px 10px;
     cursor: pointer;
     border-radius: 5px;
     margin-top: 10px;
     font-weight: 500;
     font-size: 1.0rem; 
-    margin-left: 6px;
-    height: 42px;
-    width: 70px;
-    margin-right:20px;
+    margin-left: 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    gap:6px;
 }
-.readPageBackBtn:hover{
+/* .readPageBackBtn:hover{
     background-color: white;
     color: rgb(40, 4, 99);
     border: 2px solid  rgb(40, 4, 99);
-}
+} */
 .blogReadTitlePosterDesc{
     margin-top: -18px;
 }
 .mobileReadTopbtnsContainer{
     display: flex;
     margin-top: 12px;
-    
+    justify-content: space-between;
+}
+.linkedinLogoDesktop{
+    height: 35px;
+    width: auto;
+    margin-top:10px; 
+    margin-right:5px;   
+}
+.linkedinLogoMobile{
+    height: 30px;
+    width: auto;
+    margin-top: 15px;
+    margin-right:0px;
 }
 
 
@@ -424,7 +767,7 @@ background-color: white;
 
   
 .JobtitleFilterWrapper{
-    background:rgb(242, 244, 245);
+    background:rgb(202, 202, 202);
 
     margin-left: 3px;
     margin-top: 20px;
@@ -437,10 +780,28 @@ background-color: white;
             text-align: justify;
             margin-right: 10px;
 }
-
 .JobtitleFilterWrapper:hover{
     scrollbar-color:  rgb(40, 4, 99) white ;
 }
+
+
+.JobtitleFilterWrapperMobile{
+background: rgb(202, 202, 202);
+    margin-left: 12px;
+    margin-top: 18px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    height: 105px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+    margin-right: 10px;
+}
+.JobtitleFilterWrapperMobile{
+    scrollbar-color:  rgb(40, 4, 99) white ;
+}
+
 
 .JobtitleFilter{
     /* margin-left: 5px;
@@ -459,9 +820,8 @@ background-color: white;
     border-radius: 3px;
 
 }
-.JobtitleFilter:hover{
+/* .JobtitleFilter:hover{
     background-color: rgb(40, 4, 99);
-    /* background-color:blue; */
     margin: 4px;
     cursor: pointer;
     color:white;
@@ -471,7 +831,7 @@ background-color: white;
     align-content: center;
     text-wrap: nowrap ;
     border-radius: 3px;
-}
+} */
 
 .active{
     background-color: rgb(40, 4, 99);
@@ -520,12 +880,11 @@ background-color: white;
     background-color: #ffffff;
 }
 
-
 .imageV{
     height:100px;
     width:100px;
     border-radius: 180%;
-    margin-left: 7%;
+    margin-left: 2%;
     margin-top: 10px;
     /* background-color: aqua; */
 }
@@ -640,12 +999,32 @@ background-color: white;
     margin:10px;
 
 }
+
+.navigationWrapperbtn{
+    text-align:right;
+    margin:10px;
+    display: flex;
+    gap: 5px;
+}
 .navigation{
     background-color:rgb(214, 212, 212);
     padding:3px;
     padding-right:10px; 
     border:none;
 }
+.navigationbtn{
+    background-color:rgb(214, 212, 212);
+    border:none;
+    height: 30px;
+    font-weight: 700;
+}
+.navigationbtnMob{
+    background-color:rgb(214, 212, 212);
+    border:none;
+    height: 30px;
+    font-weight: 700;
+}
+
 
 .seeMore{
  color: blue;
@@ -791,6 +1170,21 @@ background-color: white;
     margin-left: 6%;
     cursor:pointer;
 }
+.applyRegisterButton{
+    border: 1px solid rgb(40, 4, 99);
+    background-color: rgb(40, 4, 99);
+    display: flex;
+    color: white;
+    /* font-weight: bold; */
+    width:70px;
+    padding: 12px;
+    /* padding-right: 1px; */
+    height: 25px;
+    align-items: center;
+    text-align: center;
+    margin-left: 6%;
+    cursor:pointer;
+}
 .BlogApplybutton{
     border: 1px solid rgb(40, 4, 99);
     background-color: rgb(40, 4, 99);
@@ -835,6 +1229,69 @@ background-color: white;
     width:75%;
     margin-left: -15%;
 }
+
+/* ---------------help card----- */
+.helpPageContainer{
+    background-color: white;
+    margin-left: 120px;
+    border: 2px solid black;
+    border-radius: 10px;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.75); */
+    width:85%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.helpTitle{
+    text-align: center;
+    font-size: 40px;
+    white-space: nowrap; /* Fixed the incorrect 'no' */
+    margin-top: 10px;
+    margin-right: 300px;
+}
+@media (max-width: 768px) {
+    .helpPageContainer{
+        margin-left: 10px;
+        width:95%;
+    }
+
+    .helpTitle{
+        text-align: center;
+    font-size: 24px;
+    white-space: normal;
+    margin-top: 10px;
+    margin-left: -24px;
+    margin-right: 0px;
+    }
+}
+.helpCard{
+   /* display: flex; */
+    /* background-color: aqua;    */
+    margin-left: 8px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    white-space:wrap;
+    /* height: 250px; */
+    width: 90%;
+    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 2px 2px 2px 2px #999999;
+    padding-bottom: 7px;
+    padding:10px;
+}
+
+.contactTable{
+   width:30%;
+margin-bottom:20px;
+margin-left: -5px;
+}
+@media (max-width: 768px) {
+    .contactTable {
+        width: 100%;
+    }
+}
+
 
 /* ..............Job Details  Table */
 
@@ -1014,16 +1471,18 @@ table {
 .JobTitleDateWrapper{
     margin-left: 15px;
     display: flex;
-    margin-top: -10px;
+    margin-top: -18px;
 }
 .jobTitle{
     font-weight: 500;
-    font-size:medium;
+    /* font-size:medium; */
+    font-size: 18px;
     display: inline;
     text-decoration: underline;
     width:90%;
     overflow: hidden;
     text-wrap: nowrap;
+    white-space: normal;
 }
 .QuestionjobTitle{
     font-weight: 600;
@@ -1037,8 +1496,12 @@ table {
 .Date{
     font-weight: 500;
     font-size: x-small;
-    width:25%;
+    /* width:25%; */
+    width: 35%;
+    margin-top: -13px;
+    margin-right: -11px;
 }
+
 .readPageDate{
     display: flex;
 
@@ -1161,9 +1624,64 @@ margin-top: 11px;
     padding-bottom: 15px;
      */
 }
+.ApplyPackageJobseeker{
+    display: flex;
+    border: 1px solid rgb(40, 4, 99);
+    background-color: rgb(241,248,234);
+    border-radius: 10px; 
+    height: 50px;
+    margin-top: 8px;
+    justify-content: space-between;
+}
+.homeApplyPackage{
+    display: flex;
+    margin-left: 1px;
+    border: 1px solid rgb(40, 4, 99);
+    background-color: rgb(241,248,234);
+    border-radius: 10px; 
+    height: 50px;
+    margin-top: 8px;
+    justify-content: space-between;
+}
+.applyDrivePackage {
+    display: flex;
+    margin-left: 15px;
+    border: 1px solid rgb(40, 4, 99);
+    background-color: rgb(241,248,234);
+    width:90%;
+    border-radius: 10px; 
+    height: 50px;
+    margin-top: 8px;
+    justify-content: space-between;
+    /*
+    padding-bottom: 15px;
+     */
+}
+
+.ApplyDriveMobile {
+    border: 1px solid rgb(40, 4, 99);
+    background-color: rgb(40, 4, 99);
+    display: flex;
+    color: white;
+    font-weight: bold;
+    width:70px;
+    height: 35px;
+    align-items: center;
+    text-align: center;
+    align-content: center;
+    margin-right: 4%;
+    margin-top: 9px;
+    border-radius: 5px;
+    padding-left: 15px;
+}
 .salaryRange{
     font-weight: bold;
     margin-left: 30px;
+    margin-top: 13px;
+    font-size: large;
+}
+.salaryRangeJobseeker{
+    font-weight: bold;
     margin-top: 13px;
     font-size: large;
 }
@@ -1183,6 +1701,37 @@ margin-top: 11px;
     border-radius: 5px;
     padding-left: 15px;
 }
+.ApplyMobileJobseeker{
+    border: 1px solid rgb(40, 4, 99);
+    background-color: rgb(40, 4, 99);
+    display: flex;
+    color: white;
+    font-weight: bold;
+    height: 35px;
+    align-items: center;
+    text-align: center;
+    align-content: center;
+    margin-top: 9px;
+    border-radius: 5px;
+    padding-left: 15px;
+}
+.homeApplyMobileBtn{
+    border: 1px solid rgb(40, 4, 99);
+    background-color: rgb(40, 4, 99);
+    display: flex;
+    color: white;
+    font-weight: bold;
+    width:70px;
+    height: 35px;
+    align-items: center;
+    text-align: center;
+    align-content: center;
+    margin-top: 9px;
+    border-radius: 5px;
+    padding-left: 15px;
+    margin-right:2%;
+}
+
 .MobileAppliedButton{
     border: 1px solid green;
     border-radius: 5px;
@@ -1209,3 +1758,5 @@ margin-top: 11px;
        overflow: hidden;
        box-sizing: border-box;
 }
+
+

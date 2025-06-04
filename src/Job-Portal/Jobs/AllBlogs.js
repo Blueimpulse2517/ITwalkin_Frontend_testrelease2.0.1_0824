@@ -33,15 +33,15 @@ const responsive = {
 
 function Blogs() {
 
-  const [jobs, setJobs] = useState([])
+  const [blogs, setBlogs] = useState([])
 
   const [nopageFilter, setNoPageFilter] = useState(false)
-  const [Filtereredjobs, setFiltereredjobs] = useState([])
+  const [Filtereredblogs, setFiltereredblogs] = useState([])
 
-  const [Filterjobs, setFilterjobs] = useState([])
+  const [Filterblogs, setFilterblogs] = useState([])
 
   const [isReadMore, setIsReadMore] = useState(true)
-  const [showJobs, setshowJobs] = useState(false)
+  const [showblogs, setshowblogs] = useState(false)
   const [showExperiance, setshowExperiance] = useState(false)
   const [showPackage, setshowPackage] = useState(false)
   const [PageLoader, setPageLoader] = useState(false)
@@ -65,16 +65,16 @@ function Blogs() {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [recordsPerPage, setrecordsPerPage] = useState(recordsperpage ? recordsperpage : 10)
-  const[jobsPerPageValue,setJobsPerPageValue]=useState(10);
+  const[blogsPerPageValue,setblogsPerPageValue]=useState(10);
 
   const lastIndex = currentPage * recordsPerPage //10
   const firstIndex = lastIndex - recordsPerPage //5
-  const records = jobs.slice(firstIndex, lastIndex)//0,5
-  const npage = Math.ceil(jobs.length / recordsPerPage) // last page
+  const records = blogs.slice(firstIndex, lastIndex)//0,5
+  const npage = Math.ceil(blogs.length / recordsPerPage) // last page
   const number = [...Array(npage + 1).keys()].slice(1)
 
 
-  async function getjobs() {
+  async function getBlogs() {
     setCount(1)
     setActive([])
     setPageLoader(true)
@@ -86,19 +86,19 @@ function Blogs() {
         let sortedate = result.sort(function (a, b) {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        setJobs(sortedate)
-        setFilterjobs(sortedate)
+        setBlogs(sortedate)
+        setFilterblogs(sortedate)
         setPageLoader(false)
       }).catch((err) => {
         alert("some thing went wrong")
       })
   }
   useEffect(() => {
-    getjobs()
+    getBlogs()
   }, [])
 
   async function applyforJob(id) {
-    navigate("/JobSeekerLogin", { state: { Jid: id } })
+    navigate("/blogseekerLogin", { state: { Jid: id } })
    
   }
   async function applyforOtherJob(Link) {
@@ -107,22 +107,22 @@ function Blogs() {
   }
 
   const [searchKey, setsearchKey] = useState()
-  // const [jobs, setJobs] = useState([])  
+  // const [blogs, setblogs] = useState([])  
   async function searchIcon(key) {
     setNoPageFilter(true)
-    setFiltereredjobs(key)
+    setFiltereredblogs(key)
     setsearchKey(key)
     if (key) {
       setResult(true)
-      let dubmyjobs = [...Filterjobs]
-      const filteredItems = dubmyjobs.filter((user) => {
+      let dubmyblogs = [...Filterblogs]
+      const filteredItems = dubmyblogs.filter((user) => {
         if (JSON.stringify(user).includes(key.toLowerCase())) {
           return user
         }
       })
-      setJobs(filteredItems)
+      setBlogs(filteredItems)
     } else {
-      getjobs()
+      getBlogs()
       setResult(false)
     }
   }
@@ -130,94 +130,94 @@ function Blogs() {
 
     setNoPageFilter(true)
     let key = e.target.value
-    setFiltereredjobs(key)
+    setFiltereredblogs(key)
     setsearchKey(key)
     if (key) {
       setResult(true)
-      let dubmyjobs = [...Filterjobs]
-      const filteredItems = dubmyjobs.filter((user) => {
+      let dubmyblogs = [...Filterblogs]
+      const filteredItems = dubmyblogs.filter((user) => {
         if (JSON.stringify(user).includes(key.toLowerCase())) {
           return user
         }
       })
-      setJobs(filteredItems)
+      setBlogs(filteredItems)
     } else {
-      getjobs()
+      getBlogs()
       setResult(false)
     }
   }
 
 
 
-  function sortbyOldjobs() {
-    let newjob = [...jobs]
-    let oldjobSort = newjob.sort(function (a, b) {
+  function sortbyOldblogs() {
+    let newBlog = [...blogs]
+    let oldBlogsort = newBlog.sort(function (a, b) {
       return new Date(a.createdAt) - new Date(b.createdAt);
     })
-    setJobs(oldjobSort)
+    setBlogs(oldBlogsort)
   }
 
-  function sortbyNewjobs() {
+  function sortbyNewblogs() {
 
-    let newjob = [...jobs]
-    let newjobSort = newjob.sort(function (a, b) {
+    let newBlog = [...blogs]
+    let newBlogSort = newBlog.sort(function (a, b) {
       return new Date(b.createdAt) - new Date(a.createdAt);
     })
-    setJobs(newjobSort)
+    setBlogs(newBlogSort)
   }
 
 
   function SdescendingOrder() {
-    let newJobs = [...jobs]
+    let newBlogs = [...blogs]
  
     const collator = new Intl.Collator(undefined, {
       numeric: true,
       sensitivity: 'base'
     });
-    const sorted = newJobs.sort((a, b) => {
+    const sorted = newBlogs.sort((a, b) => {
       return collator.compare(b.salaryRange, a.salaryRange)
     })
-    setJobs(sorted)
+    setBlogs(sorted)
   }
 
   function SascendingOrder() {
-    let newJObs = [...jobs]
+    let newBlogs = [...blogs]
    
     const collator = new Intl.Collator(undefined, {
       numeric: true,
       sensitivity: 'base'
     });
-    const sorted = newJObs.sort((a, b) => {
+    const sorted = newBlogs.sort((a, b) => {
       return collator.compare(a.salaryRange, b.salaryRange)
     })
-    setJobs(sorted)
+    setBlogs(sorted)
   }
 
   function EdescendingOrder() {
-    let newjob = [...jobs]
+    let newBlog = [...blogs]
    
     const collator = new Intl.Collator(undefined, {
       numeric: true,
       sensitivity: 'base'
     });
-    const sorted = newjob.sort((a, b) => {
+    const sorted = newBlog.sort((a, b) => {
       return collator.compare(b.experiance, a.experiance)
     })
-    setJobs(sorted)
+    setBlogs(sorted)
 
   }
 
   function EascendingOrder() {
-    let newjob = [...jobs]
+    let newBlog = [...blogs]
    
     const collator = new Intl.Collator(undefined, {
       numeric: true,
       sensitivity: 'base'
     });
-    const sorted = newjob.sort((a, b) => {
+    const sorted = newBlog.sort((a, b) => {
       return collator.compare(a.experiance, b.experiance)
     })
-    setJobs(sorted)
+    setBlogs(sorted)
   }
   function checkEmpHalf(empId, e) {
 
@@ -231,24 +231,24 @@ function Blogs() {
   const [jobTitle, setjobTitle] = useState("")
 
   async function getjobTitleAll(all) {
-    await axios.get("/jobpost/getjobs")
+    await axios.get("/jobpost/getBlogs")
       .then((res) => {
         let result = (res.data)
         let sortedate = result.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        setJobs(sortedate)
+        setBlogs(sortedate)
 
       })
   }
-  async function getjobsAllLoc(all) {
-    await axios.get("/jobpost/getjobs")
+  async function getblogsAllLoc(all) {
+    await axios.get("/jobpost/getBlogs")
       .then((res) => {
         let result = (res.data)
         let sortedate = result.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        setJobs(sortedate)
+        setBlogs(sortedate)
       })
   }
 
@@ -259,7 +259,7 @@ function Blogs() {
         let sortedate = result.sort(function (a, b) {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        setJobs(sortedate)
+        setBlogs(sortedate)
         // setPageLoader(false)
       }).catch((err) => {
         alert("some thing went wrong")
@@ -275,7 +275,7 @@ function Blogs() {
         let sortedate = result.sort(function (a, b) {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        setJobs(sortedate)
+        setBlogs(sortedate)
         // setPageLoader(false)
       }).catch((err) => {
         alert("some thing went wrong")
@@ -307,7 +307,7 @@ function Blogs() {
   function handleRecordchange(e) {
     sessionStorage.setItem("recordsperpageHome", JSON.stringify(e.target.value));
     let recordsperpage = JSON.parse(sessionStorage.getItem("recordsperpageHome"))
-    setJobsPerPageValue(Number(e.target.value));
+    setblogsPerPageValue(Number(e.target.value));
     setrecordsPerPage(recordsperpage)
     setCurrentPage(1)
   }
@@ -317,7 +317,7 @@ function Blogs() {
   async function filterByJobTitle(key) {
 
     if(count==1){
-      setJobs("")
+      setBlogs("")
 
     }
     setCount(prev=>prev+1)
@@ -337,30 +337,30 @@ return(
             })
             Active.splice(IndexId,1)
                 if(Active.length===0){
-      getjobs()
+      getBlogs()
     }
-    if(jobs.length>0){
-         let removedItems = jobs.filter((tags)=>{
+    if(blogs.length>0){
+         let removedItems = blogs.filter((tags)=>{
             return(
               !tags.Tags.includes(key)
                
         )
       })
-      setJobs(removedItems)
+      setBlogs(removedItems)
       return false
     }
   }
 
     setNoPageFilter(true)
-    setFiltereredjobs(key)
-    await axios.get(`/BlogRoutes/getTagsJobs/${key}`)
+    setFiltereredblogs(key)
+    await axios.get(`/BlogRoutes/getTagsblogs/${key}`)
       .then( (res) => {
         let result = (res.data)
         let sortedate = result.sort( (a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
         let elements=  sortedate.flatMap(element => {
-          setJobs(oldArray => [...oldArray,element] )
+          setBlogs(oldArray => [...oldArray,element] )
      });
       })
   }
@@ -368,7 +368,7 @@ return(
   async function getLocation(jobLocation) {
     setCount(1)
     setActive(["Banglore"])
-    setFiltereredjobs(jobLocation)
+    setFiltereredblogs(jobLocation)
     setNoPageFilter(true)
 
     await axios.get(`/jobpost/getjobLocation/${jobLocation}`)
@@ -377,7 +377,7 @@ return(
         let sortedate = result.sort(function (a, b) {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        setJobs(sortedate)
+        setBlogs(sortedate)
         // setPageLoader(false)
       }).catch((err) => {
         alert("some thing went wrong")
@@ -388,13 +388,13 @@ return(
   const [checkBoxValue, setCheckBoxValue] = useState([])
   const [check, setCheck] = useState(true)
 
- async function deleteCheckedJobs(){
+ async function deleteCheckedblogs(){
   let userid = atob(JSON.parse(localStorage.getItem("IdLog")))
   const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("AdMLog"))) };
 await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers} )
 .then((res)=>{
   if(res.data==="success"){
-    getjobs()
+    getBlogs()
     alert("deletd succesfully")
     window.location.reload()
   }
@@ -445,7 +445,7 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
                   <label className={styles.JobLocationFilter}>
                   <input type="radio" checked disabled={location == "Chennai" ||
                   location == "Hyderabad" || location == "Mumbai" || location == "Delhi"} name="filter" onClick={() =>
-                      { getjobs() }} />{location}</label><br></br>
+                      { getBlogs() }} />{location}</label><br></br>
                       </>
                 )
               })
@@ -461,7 +461,7 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
           :""
           }
           {Result ?
-            <h4 style={{ marginLeft: "40%", marginTop: "20px" }}> {jobs.length} matching Result Found  </h4>
+            <h4 style={{ marginLeft: "40%", marginTop: "20px" }}> {blogs.length} matching Result Found  </h4>
             : ""
           }
         </>
@@ -474,7 +474,7 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
               <button style={{
                 backgroundColor: "red", border: "none", color: "white", marginLeft:"5px",
                 padding: "5px 10px", fontWeight: "bold", cursor: "pointer"
-              }} onClick={()=>{deleteCheckedJobs()}}>Delete</button>
+              }} onClick={()=>{deleteCheckedblogs()}}>Delete</button>
               </>
             : ""
           }
@@ -486,7 +486,7 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
 
 
           <div className={styles.JobtitleFilterWrapper}>
-            <buton className={ Active.length===0? styles.active:styles.JobtitleFilter} onClick={() => { getjobs() }}>All</buton>
+            <buton className={ Active.length===0? styles.active:styles.JobtitleFilter} onClick={() => { getBlogs() }}>All</buton>
             {
               jobTags.map((tags, i) => {
                 return (
@@ -511,10 +511,10 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             {nopageFilter ?
-              <p style={{ fontWeight: 400, marginLeft: "10px" }}>Displaying Jobs with following matching tags:
+              <p style={{ fontWeight: 400, marginLeft: "10px" }}>Displaying blogs with following matching tags:
               <span style={{ color: "blue" }}>{Active.toString()}</span></p>
               :
-              <p style={{ fontWeight: 400, marginLeft: "10px" }}>showing {firstIndex + 1} to {lastIndex} latest jobs</p>
+              <p style={{ fontWeight: 400, marginLeft: "10px" }}>showing {firstIndex + 1} to {lastIndex} latest blogs</p>
             }
             <div className={styles.navigationWrapper}>
               <button disabled={currentPage === 1} style={{ display: "inline", margin: "5px" }} className={styles.navigation} onClick={firstPage}>
@@ -538,10 +538,10 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
               <option selected={lastIndex === 25} value={25}>25</option>
               <option selected={lastIndex === 50} value={50}>50</option>
               <option selected={lastIndex === 100} value={100}>100</option> */}
-              <option selected={jobsPerPageValue==10} value={10}>10</option>
-              <option selected={jobsPerPageValue==25} value={25}>25</option>
-              <option selected={jobsPerPageValue==50} value={50}>50</option>
-              <option selected={jobsPerPageValue==100} value={100}>100</option>
+              <option selected={blogsPerPageValue==10} value={10}>10</option>
+              <option selected={blogsPerPageValue==25} value={25}>25</option>
+              <option selected={blogsPerPageValue==50} value={50}>50</option>
+              <option selected={blogsPerPageValue==100} value={100}>100</option>
             </select>  blogs per page
           </div>
 
@@ -554,8 +554,8 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
               {/* <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.BlogDescription}`}><b>Blog description</b></li> */}
               <li style={{ backgroundColor: " rgb(40, 4, 99)", }} className={`${styles.li} ${styles.Blogdate}`}>Posted Date
                 <p className={styles.arrowWrapper} >
-                  <i onClick={sortbyNewjobs} className={`${styles.arrow} ${styles.up}`} ></i>
-                  <i onClick={sortbyOldjobs} className={`${styles.arrow} ${styles.down}`}></i>
+                  <i onClick={sortbyNewblogs} className={`${styles.arrow} ${styles.up}`} ></i>
+                  <i onClick={sortbyOldblogs} className={`${styles.arrow} ${styles.down}`}></i>
                 </p>
               </li>
              
@@ -573,8 +573,8 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
               : ""
             }
             {
-              jobs.length > 0 ?
-                jobs.map((items, i) => {
+              blogs.length > 0 ?
+                blogs.map((items, i) => {
                   return (
 
                     <ul className={styles.ul} key={i}>
@@ -641,10 +641,10 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
                 <option selected={lastIndex === 25} value={25}>25</option>
                 <option selected={lastIndex === 50} value={50}>50</option>
                 <option selected={lastIndex === 100} value={100}>100</option> */}
-                <option selected={jobsPerPageValue==10} value={10}>10</option>
-              <option selected={jobsPerPageValue==25} value={25}>25</option>
-              <option selected={jobsPerPageValue==50} value={50}>50</option>
-              <option selected={jobsPerPageValue==100} value={100}>100</option>
+                <option selected={blogsPerPageValue==10} value={10}>10</option>
+              <option selected={blogsPerPageValue==25} value={25}>25</option>
+              <option selected={blogsPerPageValue==50} value={50}>50</option>
+              <option selected={blogsPerPageValue==100} value={100}>100</option>
               </select>  blogs per page
             </div>
 
@@ -678,7 +678,7 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
             <input className={styles.inputboxsearch} type="text" placeholder='Search for a Job / Skills / Location / Experiance' onChange={(e) => { search(e) }} />
           </div>
           {Result ?
-            <h4 style={{ marginLeft: "18.5%", marginTop: "10px" }}> {jobs.length} matching Result Found  </h4>
+            <h4 style={{ marginLeft: "18.5%", marginTop: "10px" }}> {blogs.length} matching Result Found  </h4>
             : ""
           }
           {/* ...................... All Filter for Mobile */}
@@ -716,7 +716,7 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
              
 
               <div className={styles.MobFilterJobTitleWrapper}>
-                <label><input className={styles.MobJobtitleFilter} type="radio" name="filter" onClick={() => { getjobs() }} />All</label>
+                <label><input className={styles.MobJobtitleFilter} type="radio" name="filter" onClick={() => { getBlogs() }} />All</label>
                 {
                   jobTags.map((tags, i) => {
                     return (
@@ -1231,10 +1231,10 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
               <option selected={lastIndex === 25} value={25}>25</option>
               <option selected={lastIndex === 50} value={50}>50</option>
               <option selected={lastIndex === 100} value={100}>100</option> */}
-              <option selected={jobsPerPageValue==10} value={10}>10</option>
-              <option selected={jobsPerPageValue==25} value={25}>25</option>
-              <option selected={jobsPerPageValue==50} value={50}>50</option>
-              <option selected={jobsPerPageValue==100} value={100}>100</option>
+              <option selected={blogsPerPageValue==10} value={10}>10</option>
+              <option selected={blogsPerPageValue==25} value={25}>25</option>
+              <option selected={blogsPerPageValue==50} value={50}>50</option>
+              <option selected={blogsPerPageValue==100} value={100}>100</option>
             </select>  blogs per page
           </div>
           <div className={styles.navigationWrapper} style={{textAlign:"left"}}>
@@ -1258,9 +1258,9 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
           }
           <div id={styles.JobCardWrapper} >
             {
-              // jobs.length > 0 ?
+              // blogs.length > 0 ?
 
-              //   jobs.map((job, i) => {
+              //   blogs.map((job, i) => {
                
               records.length > 0 ?
                 records.map((job, i) => {
@@ -1359,10 +1359,10 @@ await axios.delete(`/BlogRoutes/deleteCheckBoxArray/${checkBoxValue}`, {headers}
               <option selected={lastIndex === 25} value={25}>25</option>
               <option selected={lastIndex === 50} value={50}>50</option>
               <option selected={lastIndex === 100} value={100}>100</option> */}
-              <option selected={jobsPerPageValue==10} value={10}>10</option>
-              <option selected={jobsPerPageValue==25} value={25}>25</option>
-              <option selected={jobsPerPageValue==50} value={50}>50</option>
-              <option selected={jobsPerPageValue==100} value={100}>100</option>
+              <option selected={blogsPerPageValue==10} value={10}>10</option>
+              <option selected={blogsPerPageValue==25} value={25}>25</option>
+              <option selected={blogsPerPageValue==50} value={50}>50</option>
+              <option selected={blogsPerPageValue==100} value={100}>100</option>
             </select>  blogs per page
           </div>
           <div className={styles.navigationWrapper} style={{textAlign:"left"}}>

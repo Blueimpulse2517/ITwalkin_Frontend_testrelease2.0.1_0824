@@ -13,6 +13,7 @@ import socketIO from 'socket.io-client';
 import CreatableSelect from "react-select"
 import useScreenSize from '../SizeHook';
 import {jobTags} from "../Tags"
+import CustomTextEditor from '../Editor/CustomTextEditor'
 
 // import CreatableSelect  from 'react-select/creatable';
 
@@ -55,7 +56,9 @@ function PostBlogs(props) {
     const [skills, setSkills] = useState("")
     const [name, setName] = useState("")
     const [concent, setconcent] = useState(true)
+    const [profileConcent,setProfileConcent] = useState(false)
     
+
 
     // function handleChange(tag) {
     //     setTag(tag)
@@ -126,15 +129,11 @@ function PostBlogs(props) {
 
 
     async function postJob() {
-        if(!jobtitle){
-            alert("fields are missing")
-            return false
-        }
         // let userid = JSON.parse(localStorage.getItem("EmpIdG"))
         // const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("EmpLog"))) };
         const headers = { authorization: 'BlueItImpulseWalkinIn' };
 
-        let jobTitle = jobtitle
+        let jobTitle = jobtitle.toLowerCase()
         let jobLocation = joblocation.toLowerCase()
         await axios.post("/BlogRoutes/blogpost/", {
             Logo, SourceLink, Source, empId, jobTitle, companyName,
@@ -297,7 +296,7 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
                                             onChange={(e) => { setJobDescription(e.blocks) }}
                                         /> */}
 <JoditEditor  ref={editor} className={Style.inputbox} value={jobDescription.toString()} onChange={(e)=>{setJobDescription(e)}} />
-
+{/* <CustomTextEditor  ref={editor} className={Style.inputbox} value={jobDescription.toString()} onChange={(e)=>{setJobDescription(e)}}></CustomTextEditor> */}
                                         <p className={Style.jobHeadline}>Blog Tags <span className={Style.hint}>(Select multiple Tags to reach the best Matching Blogs)</span></p>
 
 <div className={Style.JobtitleFilterWrapper}>
@@ -392,6 +391,12 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
 <p><input type="checkbox" onChange={()=>{setconcent((prev)=>!prev)}}/>
     I have read the terms and conditions of ITwalkin.com and I agree to all the 
      <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}> terms and conditons</span> before posting the jobs </p> 
+
+     <p><input type="checkbox" onChange={()=>{setProfileConcent((prev)=>!prev)}}/>
+     Show my company and designation</p>
+    
+
+     
 
 
                                         {/* {Logo ? <p ><span style={{ color: "blue" }}>Note** :</span> Logo will also be posted with the Job</p> : ""} */}

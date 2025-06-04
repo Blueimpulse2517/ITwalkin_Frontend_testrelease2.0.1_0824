@@ -85,7 +85,7 @@ function AdminPostedJobs(props) {
       confirmButtonText: 'delete!'
     }).then((result) => {
       if (result.isConfirmed) {
-        axios.delete(`/jobpost/deleteProduct/${deleteid}`, {headers})
+        axios.delete(`/jobpost/deleteJob/${deleteid}`, {headers})
           .then((res) => {
             // console.log(res.data)
             getjobs()

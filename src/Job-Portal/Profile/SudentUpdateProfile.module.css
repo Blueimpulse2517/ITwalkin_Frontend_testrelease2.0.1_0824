@@ -1,4 +1,100 @@
-/* ------------------------Employer registration back button starts-------------------- */
+
+.minusbtn{
+    background: red;
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 1px 0px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 26px;
+    height: 19px;
+
+}
+.suffix {
+    position: absolute;
+    left: 45px;
+    top: 78%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: black;
+  }
+
+  .suffixCTCMob {
+    position: absolute;
+    right: 266px;
+    top: 90%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: black;
+  }
+  .suffixExpMob {
+  position: absolute;
+  right: 266px;
+  top: 90%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: black;
+  }
+.tooltipWrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltipIcon {
+    cursor: pointer;
+    border: 1px solid #aaa;
+    border-radius: 25px;
+    padding: 2px 6px;
+    font-size: 8px;
+    font-weight: bold;
+    background-color: black;
+    display: inline-block;
+    text-align: center;
+    color: white;
+  }
+  
+  .tooltipText {
+    visibility: hidden;
+    opacity: 0;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Show above */
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.3s;
+    width: max-content;
+    max-width: 200px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  
+  .tooltipWrapper:hover .tooltipText {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+/* ------------------------Employer registration  starts-------------------- */
+.readPageBackBtn{
+    background-color: rgb(40, 4, 99);
+    color: white;
+    border: none;
+    padding: 7px 15px 10px 13px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 1.0rem;
+    margin-left: 6px;
+    height: 33px;
+    width: 62px;
+    margin-right: 20px;
+}
 .empRegBackBtnContainer{
     background-color: red;
 
@@ -13,34 +109,186 @@
     margin-top: 10px;
     font-weight: 500;
     font-size: 1.0rem; 
-    margin-left: 25px;
+    margin-left: 10px;
 }
-.empRegBackButton:hover{
+/* .empRegBackButton:hover{
     background-color: white;
     color: rgb(40, 4, 99);
     border: 2px solid  rgb(40, 4, 99);
+} */
+.jobseekerHelpDropDown{
+    position:absolute;
+
+   padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    border-radius: 8px;
+    border: 1px solid rgb(202, 202, 202);
+    cursor: pointer;
+    z-index:100;
+    background-color: white;
+    margin-top: 17px;
+    /* margin-left:50px; */
+}
+.jobseekerHelpDropDown::after {
+    content: "";
+    position: absolute;
+    top: -0.7rem;
+    right: 9rem;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    background-color: white;
+    border-left: 1px solid grey;
+    border-top: 1px solid grey;
+}
+.dropdownwrapperHomeRegistration {
+    position:absolute;
+
+   padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    border-radius: 8px;
+    border: 1px solid rgb(202, 202, 202);
+    cursor: pointer;
+    z-index:100;
+    background-color: white;
+    margin-top: 17px;
+}
+
+.dropdownwrapperHomeRegistration::after {
+    content: "";
+    position: absolute;
+    top: -0.7rem;
+    right: 9rem;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    background-color: white;
+    border-left: 1px solid grey;
+    border-top: 1px solid grey;
+}
+
+.dropdownwrapperHomeRegistrationMob {
+    position:absolute;
+
+   padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 0px;
+    border-radius: 8px;
+    border: 1px solid rgb(202, 202, 202);
+    cursor: pointer;
+    z-index:100;
+    background-color: white;
+    margin-top: 67px;
+    margin-left: 106px;
+}
+
+.dropdownwrapperHomeRegistrationMob::after {
+    content: "";
+    position: absolute;
+    top: -0.7rem;
+    right: 1rem;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    background-color: white;
+    border-left: 1px solid grey;
+    border-top: 1px solid grey;
 }
 
 
-/* ----------Employer registration back button ends---------------- */
+
+.RegEntireFullWrapper {
+    /* background-color: red; */
+    /* padding-top: 1%; */
+    overflow-y: hidden;
+}
+
+/* ----------Employer registration  ends---------------- */
 .EntireFullWrapper {
     background-color: rgb(240, 240, 241);
-    padding-top: 2%;
+    /* padding-top: 1%; */
+    overflow-y: hidden;
+}
+.EntireFullWrapperStd{
+    background-color: rgb(240, 240, 241);
 }
 
 .EntireWrapper {
-    margin-left: 15%;
-    width: 70%;
+    margin-left: 22%;
+    width: 49%;
     border: 1px solid rgb(40, 4, 99);
     /* border: 1px solid blue; */
     border-radius: 10px;
     background-color: white;
+    margin-top: 5px;
+    /* height: 624px; */
+    height:100%;
+    margin-bottom: 18px;
 }
+
+.EntireWrapperStd {
+    margin-left: 22%;
+    width: 49%;
+    border: 1px solid rgb(40, 4, 99);
+    /* border: 1px solid blue; */
+    border-radius: 10px;
+    background-color: white;
+    margin-top: 5px;
+    height: 690px;
+}
+
+.screen1 .jodit-wysiwyg {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    /* color: #bd1515; */
+    /* background-color: purple;  */
+    padding: 10px;
+    /* min-height: 200px; */
+    border-radius: 5px;
+    min-height: 33px !important;
+    height: 2px;
+  }
+  
+  .screen1 .jodit-placeholder {
+    /* color: #d71212; */
+    font-style: italic;
+    /* background-color: #bd1515; */
+  }
+  
+  .screen1 .jodit-workplace {
+    /* background-color: #ee1111; */
+    border: 0 solid #dadada;
+    /* max-height: 100%; */
+    min-height: 80px !important;
+    height: 45px !important;
+  }
+  .screen1 .jodit-container:not(.jodit_inline) {
+    background-color: #f5f5f6;
+    border: 1px solid #dadada;
+    border-radius: 3px;
+    min-height: 20px !important;
+    height:170px !important;
+  }
+
+
+
 @media(max-width:1200px){
     .empRegBackButton{
         margin-left:15px;
     }
 }
+
+
+@media (max-width:768px){
+    .suffixCTCMob {
+        right: 587px;
+      }
+      .suffixExpMob {
+      right: 587px;
+      }
+    }
 @media (max-width:650px){
     .EntireWrapper {
         margin-left: 9%;  
@@ -48,6 +296,55 @@
         border: 1px solid rgb(40, 4, 99);
         border-radius: 10px;
     }
+    .dropdownwrapperHomeRegistrationMob {
+        margin-left: 192px;
+      }
+}
+
+@media (max-width:650px){
+.suffixCTCMob {
+    right: 307px;
+  }
+  .suffixExpMob {
+  right: 307px;
+  }
+}
+
+
+@media (max-width:376px){
+    
+    .dropdownwrapperHomeRegistrationMob {
+        margin-left: 142px;
+      }
+      .suffixCTCMob {
+        position: absolute;
+        right: 266px;
+        top: 90%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: black;
+      }
+      .suffixExpMob {
+      position: absolute;
+      right: 266px;
+      top: 90%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: black;
+      }
+}
+@media (max-width:320px){
+    
+    .dropdownwrapperHomeRegistrationMob {
+        margin-left: 100px;
+      }
+
+      .suffixCTCMob {
+        right: 224px;
+      }
+      .suffixExpMob {
+      right: 224px;
+      }
 }
 
 .imageViewWrapper {
@@ -79,6 +376,7 @@
     border-radius: 180%;
     /* background-color: blue; */
 }
+
 
 .addfileDiconwrapper {
     margin-left: -120px;
@@ -177,7 +475,13 @@
     font-weight:500;
 }
 .Editor{
-    margin-top: 20px;
+    margin-top: -19px;
+    margin-left: 18px;
+    width:87%
+}
+
+.EmpEditor{
+    margin-top: 0px;
     margin-left: 18px;
     width:87%
 }
@@ -186,13 +490,20 @@
     flex-wrap: wrap;
     /* background-color: aqua; */
     /* height: 90%; */
+    margin-top: -26px;
+    margin-left: 18px;
 
+}
+.jodit-toolbar-editor-collection,
+.jodit-toolbar-editor-collection_mode_horizontal,
+.jodit-toolbar-editor-collection_size_middle {
+    height: 2px !important;
 }
 
 .inputName {
     width: 48%;
-    /* margin-left: 1%; */
-    padding-top: 20px;
+    margin-left: 2%;
+    padding-top: 0px;
 
 }
 
@@ -202,12 +513,13 @@ h4 {
     font-size: small;
     white-space: nowrap;
     margin-left: 15px;
+    
 
 }
 
 .input {
     width: 80%;
-    height: 32px;
+    height: 26px;
     border-radius: 5px;
     border: 1px solid rgb(40, 4, 99);
     margin-top: -100px;
@@ -266,7 +578,7 @@ h4 {
     width: 110px;
     /* background-color: red; */
     border:none;
-    z-index:999;
+    /* z-index:999; */
 }
 .EmpfileView {
     height: 100px;

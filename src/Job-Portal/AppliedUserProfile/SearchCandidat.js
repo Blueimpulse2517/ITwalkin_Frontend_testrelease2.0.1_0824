@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useRef } from 'react'
 import styles from "./AppliedUserProfile.module.css"
 import { useEffect, useState } from 'react'
 import axios from "axios";
@@ -12,6 +12,17 @@ import {jobTags} from '../Tags'
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import location from "../img/icons8-location-20.png"
+
+
+const options = [
+  { value: "bangalore", label: "Bangalore, India", img:location},
+  { value: "san Francisco", label: "San Francisco, USA", img:location},
+  { value: "new york", label: "New York, USA", img:location},
+  { value: "sydney", label: "Sydney, Australia", img:location},
+  { value: "london", label: "London, UK", img:  location},
+  { value: "berlin", label: "Berlin, Germany", img:location},
+];
 const responsive = {
 
   desktop: {
@@ -28,34 +39,36 @@ const responsive = {
   }
 };
 
+function SearchCandidate({nopageFilter,setNoPageFilter,searchKey, setsearchKey,Filtereredjobs, setFiltereredjobs
+  ,Result,setResult,Filterjobs, setFilterjobs,jobs, setJobs,count,setCount, Active,setActive,
+  PageLoader,setPageLoader,totalCount,settotalCount,searchs,getjobs,gettotalcount,searchIcon
+  ,FilCandidate,setFilCandidate,getAllJobSeekers,Candidate,setCandidate
+  ,searchClick,setSearchClick,ShowSideNave,setShowSideNave,showMobileSearchIcon,setShowMobileSearchIcon
+}) {
 
-// import { useSnapCarousel } from 'react-snap-carousel';
-// import AutoplaySlider from 'react-awesome-slider'
-// import Slider from "react-slick";
 
-function SearchCandidate() {
   let params = useParams()
   let navigate = useNavigate()
+  const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [isOpen, setIsOpen] = useState(false);
+  // const [Candidate, setCandidate] = useState([])
+  // const [FilCandidate, setFilCandidate] = useState([])
+  // const [nopageFilter, setNoPageFilter] = useState(false)
+  // const [Filtereredjobs, setFiltereredjobs] = useState([])
 
-  const [Candidate, setCandidate] = useState([])
-  const [FilCandidate, setFilCandidate] = useState([])
-  const [Filtereredjobs, setFiltereredjobs] = useState([])
-  
   const [jobSeekers, setjobSeekers] = useState([])
   const [NotFound, setNotFound] = useState("")
-  const [Result, setResult] = useState(false)
+  // const [Result, setResult] = useState(false)
   const screenSize = useScreenSize();
-  const [nopageFilter, setNoPageFilter] = useState(false)
-  const [Active, setActive] = useState([])
+  // const [Active, setActive] = useState([])
   
   const Location = ['Bangalore']
+  // const [totalCount, settotalCount] = useState()
 
-  const [totalCount, settotalCount] = useState()
-
-  let recordsperpage = JSON.parse(sessionStorage.getItem("recordsperpageSerachCand"))
+  // let recordsperpage = JSON.parse(sessionStorage.getItem("recordsperpageSerachCand"))
 
   const [currentPage, setCurrentPage] = useState(1)
-  const [recordsPerPage, setrecordsPerPage] = useState(recordsperpage?recordsperpage:10)
+  const [recordsPerPage, setrecordsPerPage] = useState(10)
 
   const lastIndex = currentPage * recordsPerPage //10
   const firstIndex = lastIndex - recordsPerPage //0
@@ -82,11 +95,7 @@ function SearchCandidate() {
     setActive([])
     setJobTagsIds([])
 
-    // let userid = JSON.parse(localStorage.getItem("EmpIdG"))
-    // const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("EmpLog"))) };
     const headers = { authorization: 'BlueItImpulseWalkinIn' };
-
-    // await axios.get("StudentProfile/getAllJobseekers", { headers })
     await axios.get(`/StudentProfile/getLimitJobs/${recordsPerPage}`, { params: { currentPage }, headers })
 
       .then((res) => {
@@ -99,21 +108,17 @@ function SearchCandidate() {
         setFilCandidate(sortedate)
       })
   }
-
-  // useEffect(() => {
-  //   getAllJobSeekers()
-  // }, [])
-
       useEffect(() => {
         if (jobTagsIds.length < 1) {
       getAllJobSeekers()
-  
+              // console.log("this")
         } else {
+          // console.log("that")
           getTagId();
         }
       }, [currentPage, recordsPerPage])
 
-  const [searchKey, setsearchKey] = useState()
+  // const [searchKey, setsearchKey] = useState()
 
   async function searchIcon(key) {
     setFiltereredjobs(key)
@@ -130,7 +135,6 @@ function SearchCandidate() {
     }
   }
 
-  // const [status, setstatus] = useState({select})
   async function search(e) {
     let key = e.target.value
     setsearchKey(key)
@@ -152,7 +156,6 @@ function SearchCandidate() {
   }
 
   function CheckProfile(StudID) {
-    // navigate(`/Check-Profile/${StudID}`)
     window.open(`/Check-Profile/${StudID}`, '_blank')
   }
 
@@ -196,20 +199,48 @@ function SearchCandidate() {
   }
 
   function handleRecordchange(e){  
-    sessionStorage.setItem("recordsperpageSerachCand", JSON.stringify(e.target.value));
-    let recordsperpage = JSON.parse(sessionStorage.getItem("recordsperpageSerachCand"))
-    setrecordsPerPage(recordsperpage) 
+    // sessionStorage.setItem("recordsperpageSerachCand", JSON.stringify(e.target.value));
+    // let recordsperpage = JSON.parse(sessionStorage.getItem("recordsperpageSerachCand"))
+    setrecordsPerPage(Number(e.target.value))
     setCurrentPage(1)
   }
-    const [count, setCount]=useState(1)
+    // const [count, setCount]=useState(1)
   
       const [jobTagsIds, setJobTagsIds] = useState([])
 
       useEffect(() => {
         if (jobTagsIds.length > 0) {
+          // console.log("thisss")
           getTagId();
         }
       }, [jobTagsIds])
+
+// -------------exp----------------
+// const [pathChanged, setPathChanged] = useState(false); 
+
+// Run getjobs() only if path changes
+// useEffect(() => {
+//   console.log("Path changed, executing getjobs...");
+//   setPathChanged(true); // Mark that getjobs() was executed
+//   getAllJobSeekers();
+
+//   // Reset after a delay to allow normal execution of getTagId() in future updates
+//   setTimeout(() => setPathChanged(false), 500); 
+// }, [location.pathname]);
+
+// Run getTagId() only if path didn't change recently
+// useEffect(() => {
+//   if (!pathChanged && jobTagsIds.length > 0) {
+//     console.log("jobtagsids-->", jobTagsIds);
+//     getTagId();
+//   }
+// }, [jobTagsIds]);
+
+
+
+
+// -----------------exp-------------
+
 
       let ids = jobTagsIds.map((id) => {
         return (
@@ -234,6 +265,7 @@ function SearchCandidate() {
             }
     
           })
+          // console.log("candidate",Candidate)
       }
     
       useEffect(()=>{
@@ -255,7 +287,7 @@ return(
 )
     })
     if(isIndex<0){
-    var updatedActive = [...Active, key]; // Add the new key to the array
+    var updatedActive = [...Active, key]; 
     setActive(updatedActive);
     }else{
       const IndexId=Active.findIndex((present)=>{
@@ -270,20 +302,6 @@ return(
     }
     changeTags()
   }}
-  //   if(Candidate.length>0){
-  //        let removedItems = Candidate.filter((tags)=>{
-  //           return( 
-  //             !tags.Tags.map((value)=>{
-  //               return(
-  //               value.value
-  //               )
-  //             }).includes(key)    
-  //       )
-  //     }) 
-  //     setCandidate(removedItems)
-  //     return false
-  //   }
-  // }
 
   async function changeTags(key){
 
@@ -296,37 +314,13 @@ return(
         let sortedate = result.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-        setJobTagsIds(sortedate)
-    //     let elements=  sortedate.flatMap(element => {
-    //       setCandidate(oldArray => [...oldArray,element] )
-    //  });
-        // setCandidate(sortedate)
+    
       })
   }
 
       
-
-  // async function filterByJobTitle(key) {
-  //   setNoPageFilter(true)
-  //   setFiltereredjobs(key)
-  //   setActive(key)
-  //   await axios.get(`/StudentProfile/getSkillTags/${key}`)
-  //     .then((res) => {
-  //       let result = (res.data)
-  //       let sortedate = result.sort((a, b) => {
-  //         return new Date(b.createdAt) - new Date(a.createdAt);
-  //       });
-  //       setCandidate(sortedate)
-  //     })
-  // }
-  // .........Notice Period sorting....
   function NoticeAscendingOrder() {
     let newjob = [...FilCandidate]
-    // const descend = newjob.sort(function (a, b) {
-    //   return (
-    //     b.experiance - a.experiance
-    //   )
-    // })
     const collator = new Intl.Collator(undefined, {
       numeric: true,
       sensitivity: 'base'
@@ -472,40 +466,152 @@ return(
     setCandidate(sorted)
   }
 
+   const dropdownRef = useRef(null);
+  
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+          setIsOpen(false);
+        }
+      }
+   
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
+  
+    const handleSelect = (option) => {
+      setSelectedOption(option);
+      setIsOpen(false);
+    };
+// const[searchClick,setSearchClick]=useState(false);
 
+// const [empHome, setEmpHome] = useState(false);
+//   const locationemp = useLocation();
+
+//   useEffect(() => {
+//     console.log("Current Path:", locationemp.pathname);
+//     if (locationemp.pathname === "/Search-Candidate") {
+//       setEmpHome(true);  
+//     } else {
+//       console.log("hhhh")
+//       setEmpHome(false); 
+//     }
+//   }, [locationemp.pathname]); 
+
+//   console.log("pathname",empHome)
+// console.log("canidate -f -->",Candidate)
   return (
     <>
       {screenSize.width > 850 ?
         <>
   <div className={styles.NavConetenetWrapper}>
 
-  <div className={styles.LocationFilterWrapper}>
-  {
+  {/* <div className={styles.LocationFilterWrapper}>
+  <div ref={dropdownRef} style={{ position: "relative" }}>
+    
+      <div style={{ display: "flex", marginLeft: "-40px", marginTop: "-5px" }}>
+        <button
+          onClick={() => setIsOpen((prev) => !prev)}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "24px",
+            color: "#007bff",
+          }}
+        >
+          <img className={styles.jobLocationImage} src={location} alt="Location" />
+        </button>
+        <p style={{ marginTop: "17px", fontWeight: "bold", color: "white" }}>
+          {selectedOption?.label}
+        </p>
+      </div> */}
+
+      {/* Dropdown Menu */}
+      {/* {isOpen && (
+        <div
+          style={{
+            position: "absolute",
+            top: "45px",
+            left: "-43px",
+            background: "white",
+            color: "black",
+            borderRadius: "20px",
+            width: "160px",
+            padding: "15px",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            animation: "fadeIn 0.2s ease-in-out",
+          }}
+        > */}
+          {/* Speech Bubble Tail */}
+          {/* <div
+            style={{
+              position: "absolute",
+              top: "-9px",
+              left: "25px",
+              width: "0",
+              height: "0",
+              borderLeft: "10px solid transparent",
+              borderRight: "10px solid transparent",
+              borderBottom: "10px solid white",
+            }}
+          ></div> */}
+
+          {/* Options List */}
+          {/* <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+            {options.map((option) => (
+              <li
+                key={option.value}
+                onClick={() => handleSelect(option)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "10px",
+                  cursor: "pointer",
+                  borderRadius: "10px",
+                }}
+              >
+                <img
+                  src={option.img}
+                  alt={option.label}
+                  style={{ width: "22px", height: "22px", marginRight: "12px" }}
+                />
+                <span>{option.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div> */}
+
+  {/* {
     Location.map((location, i) => {
       return (
         <>
         <label className={styles.JobLocationFilter}>
         <input type="radio"  disabled={location == "Chennai" ||
         location == "Hyderabad" || location == "Mumbai" || location == "Delhi"} name="filter" onClick={() => 
-            {getAllJobSeekers() }} />{location}</label><br></br>
+            { getLocation(location.toLowerCase()); setActive("Bangalore") }} />{location}</label><br></br>
             </>
       )
     })
-  }
-</div>
+  } */}
+{/* </div> */}
           
-<div className={styles.searchBothForNavWrapper}>
-  <input className={styles.inputboxsearchNav}  type="text" placeholder='Search for a Job / Skills / Location / Experiance' onChange={(e) => { search(e) }} />
+{/* <div className={styles.searchBothForNavWrapper}>
+  <input className={styles.inputboxsearchNav}  type="text" placeholder='Search for a Job / Skills / Location / Experiance' onChange={(e) => { searchs(e) }} />
 
   <i style={{ color: "rgb(40, 4, 99)", fontSize: "18px", cursor: "pointer" , marginLeft:"3%"}} onClick={() => { searchIcon(searchKey) }}
     class="fa fa-search" ></i>
-</div>
+</div> */}
 
 </div>
-          {Result ?
+          {/* {Result ?
             <h4 style={{ marginLeft: "40%", marginTop: "20px" }}> {Candidate.length} matching Result Found  </h4>
             : ""
-          }
+          } */}
         </>
         : ""
       }
@@ -513,7 +619,7 @@ return(
       {screenSize.width > 850 ?
         <>
          
-            <div className={styles.JobtitleFilterWrapper}>
+            <div className={styles.JobtitleFilterWrapper} style={{marginTop:"55px"}}>
                    <buton className={Active.length===0?styles.active:styles.JobtitleFilter} onClick={() => 
                 { getAllJobSeekers() }}>All</buton>
               {
@@ -538,13 +644,7 @@ return(
               }
               </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* {nopageFilter ?
-              <p style={{ fontWeight: 400, marginLeft: "10px" }}>Displaying Candidates with with following matching tags
-               <span style={{ color: "blue" }}>{Filtereredjobs}</span></p>
-              :
-              <p style={{ fontWeight: 400, marginLeft: "10px" }}>showing {firstIndex + 1} to {lastIndex} latest Candidates</p>
-            } */}
-              
+          
 {nopageFilter ?
               <p style={{ fontWeight: 400, marginLeft: "10px" }}>Displaying <span style={{ color: "blue" }}>
                 {uniqueList.length} </span>Jobs with following matching tags:
@@ -624,14 +724,14 @@ return(
 
 
             </ul>
-
+           
             {
-              
+             
                 Candidate.length > 0 ?
                   Candidate.map((Applieduser, i) => {
                     return (
                       <>
-
+ 
                         <ul className={styles.ul} key={i}>
                           <li className={`${styles.li} ${styles.name} ${styles.onclick}`} onClick={() => { CheckProfile(btoa(Applieduser._id)) }} >
                             {Applieduser.name ? <a className={styles.namelink} title="Click to check the Contact Details">
@@ -669,7 +769,7 @@ return(
                     )
                   })
                   :
-                  <p style={{ marginLeft: "45%", color: "red" }}>No Record found</p>
+                  <p style={{ marginLeft: "45%", color: "red" }}>Loading......</p>
 
             }
             <div>
@@ -700,26 +800,58 @@ return(
               </button>
             </div>
             </div>
-            {/* <div style={{marginTop:"180px", position:"sticky", bottom:0}}>
-          <Footer/>
-        </div> */}
 
         </>
         :
         <>
 
-        
+        {/* <div style={{display:"flex"}}> */}
+           {/* <h2 style={{marginLeft:"3%", fontWeight:"800", marginTop:"5px", marginBottom:"-15px"}}>Home</h2> */}
 
-          <div className={styles.searchBoth}>
+          {/* <div className={styles.blogSearchContainer}> */}
+             {/* <i style={{ color: "white", fontSize: "18px", cursor: "pointer" , marginLeft:"41px",marginTop:"-38px",position:"fixed",zIndex:"999"}} onClick={() => { searchIcon(searchKey) ;setSearchClick((currentvalue)=>!currentvalue)}}
+              class="searchicon fa fa-search" ></i> */}
+              {/* <i style={{ visibility:showMobileSearchIcon?"visible":"hidden", color: "white", fontSize: "18px", cursor: "pointer" , marginLeft:"41px",marginTop:"-38px", position:"absolute",zIndex:"999"}} onClick={() => { searchIcon(searchKey) ;setSearchClick((currentvalue)=>!currentvalue);setShowMobileSearchIcon((currentvalue)=>!currentvalue);setShowSideNave((currentvalue)=>!currentvalue)}}
+              class="searchicon fa fa-search" ></i> */}
+            {/* <input style={{visibility:searchClick?"visible":"hidden"}} className={styles.blogInputboxsearch} type="text" placeholder='Search for a Job / Skills / Location / Experiance' onChange={(e) => { search(e) }} /> */}
+          {/* </div> */}
+          {/* </div> */}
+
+          {/* <div className={styles.searchBoth}>
             <p className={styles.p}>Search </p>
             <input className={styles.inputboxsearch} type="text" placeholder="candidate's/skills/experience/qualification/noticeperiod" onChange={(e) => { search(e) }} />
-          </div>
-          {Result ?
+          </div> */}
+          {/* {Result ?
             <h4 style={{ marginLeft: "19%", marginTop: "10px" }}> {Candidate.length} matching Result Found  </h4>
             : ""
-          }
+          } */}
+           <div className={styles.JobtitleFilterWrapper}>
+                   <buton className={Active.length===0?styles.active:styles.JobtitleFilter} onClick={() => 
+                { getAllJobSeekers() }}>All</buton>
+              {
+                jobTags.map((tags, i) => {
+                  return (
+                    <button disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
+                      tags.value==="EXPERIENCE" || tags.value==="Job Type" || tags.value==="INDUSTRY" || tags.value==="TOOLS/PROTOCOLS" || tags.value==="ROLE" || tags.value==="COMPANY TYPE" } 
+                      className={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
+                      tags.value==="EXPERIENCE" || tags.value==="Job Type" || tags.value==="INDUSTRY" || tags.value==="TOOLS/PROTOCOLS" || tags.value==="COMPANY TYPE" || tags.value==="ROLE"?
+                      styles.TagHeading: 
+                      //  Active === tags.value ? 
+                      Active.findIndex(  (present)=>{
+                        return(
+                          present===tags.value
+                        )
+                            }) >=0?
+                      styles.active : styles.JobtitleFilter} onClick={() => 
+                        { filterByJobTitle(tags.value) }}>{tags.value} </button>
+                  
+                  )
+                })
+              }
+              </div>
 
-<Carousel
+
+{/* <Carousel
             swipeable={true}
             draggable={false}
             responsive={responsive}
@@ -733,9 +865,9 @@ return(
             infinite={true}
             // className='cardWrapper'
             removeArrowOnDeviceType={["tablet", "mobile", "desktop"]}
-          >
+          > */}
 
-<div style={{ display: "flex" }}>
+{/* <div style={{ display: "flex" }}>
               
 
               <div className={styles.MobFilterJobTitleWrapper}>
@@ -748,11 +880,7 @@ return(
                         className={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
                         tags.value==="EXPERIENCE" || tags.value==="Job Type" || tags.value==="INDUSTRY" || tags.value==="TOOLS/PROTOCOLS" || tags.value==="COMPANY TYPE" || tags.value==="ROLE"?
                         styles.TagHeading: styles.MobJobtitleFilter} 
-                      // checked={Active.findIndex(  (present)=>{
-                      //     return(
-                      //       present===tags.value
-                      //     )
-                      //         }) >=0}
+                    
                         type= "radio" name="filter"  onClick={() => { filterByJobTitle(tags.value) }} />{tags.value}</label>
                    
                       )
@@ -788,10 +916,10 @@ return(
                 }).slice(9, 14)
                 }
               </div>
-            </div>
+            </div> */}
 
             {/* ....up to here is 1st div i.e button in 1st display and now from down here is 2nd div..i.e 2nd display..................................... */}
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
@@ -833,10 +961,10 @@ return(
                   )
                 }).slice(24, 29)
                 }
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
             {/* ....from down here is 3rd div..i.e 3rd display..................................... */}
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
@@ -879,9 +1007,9 @@ return(
                 }).slice(39, 44)
                 }
               </div>
-            </div>
+            </div> */}
             {/* .................from down here is 4th div..i.e 4th display....................... */}
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
@@ -924,10 +1052,10 @@ return(
                 }).slice(54, 59)
                 }
               </div>
-            </div>
+            </div> */}
             {/* .................from down here is 5th div..i.e 5th display....................... */}
 
-            <div style={{ display: "flex" }}>              
+            {/* <div style={{ display: "flex" }}>              
 
               <div className={styles.MobFilterJobTitleWrapper}>
                 {
@@ -972,11 +1100,11 @@ return(
                   )
                 }).slice(69, 74)
                 }
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
 
             {/* ....ufrom down here is 6th div..i.e 6th display..................................... */}
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
@@ -990,8 +1118,8 @@ return(
                   )
                 }).slice(74, 79)
                 }
-              </div>
-              <div className={styles.MobFilterJobTitleWrapper}>
+              </div> */}
+              {/* <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
                     <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
@@ -1015,13 +1143,13 @@ return(
                       styles.TagHeading: styles.MobJobtitleFilter} 
                       type= "radio" name="filter"  onClick={() => { filterByJobTitle(tags.value) }} />{tags.value}</label>
                  
-                  )
-                }).slice(84, 89)
+                  ) */}
+                {/* }).slice(84, 89)
                 }
               </div>
-            </div>
+            </div> */}
             {/* ....from down here is 7th div..i.e 7th display..................................... */}
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
@@ -1035,8 +1163,8 @@ return(
                   )
                 }).slice(89, 94)
                 }
-              </div>
-              <div className={styles.MobFilterJobTitleWrapper}>
+              </div> */}
+              {/* <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
                     <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
@@ -1049,8 +1177,8 @@ return(
                   )
                 }).slice(94, 99)
                 }
-              </div>
-              <div className={styles.MobFilterJobTitleWrapper}>
+              </div> */}
+              {/* <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
                     <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
@@ -1064,9 +1192,9 @@ return(
                 }).slice(99, 104)
                 }
               </div>
-            </div>
+            </div> */}
             {/* .................from down here is 8th div..i.e 8th display....................... */}
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
@@ -1080,22 +1208,9 @@ return(
                   )
                 }).slice(104, 109)
                 }
-              </div>
-              <div className={styles.MobFilterJobTitleWrapper}>
-                {jobTags.map((tags, i) => {
-                  return (
-                    <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
-                      tags.value==="EXPERIENCE" || tags.value==="Job Type" || tags.value==="INDUSTRY" || tags.value==="TOOLS/PROTOCOLS" || tags.value==="ROLE" || tags.value==="COMPANY TYPE" } 
-                      className={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
-                      tags.value==="EXPERIENCE" || tags.value==="Job Type" || tags.value==="INDUSTRY" || tags.value==="TOOLS/PROTOCOLS" || tags.value==="COMPANY TYPE" || tags.value==="ROLE"?
-                      styles.TagHeading: styles.MobJobtitleFilter} 
-                      type= "radio" name="filter"  onClick={() => { filterByJobTitle(tags.value) }} />{tags.value}</label>
-                 
-                  )
-                }).slice(109,114)
-                }
-              </div>
-              <div className={styles.MobFilterJobTitleWrapper}>
+              </div> */}
+              {/*  */}
+              {/* <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
                     <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
@@ -1109,10 +1224,10 @@ return(
                 }).slice(114, 119)
                 }
               </div>
-            </div>
+            </div> */}
             {/* .................from down here is 9th div..i.e 9th display....................... */}
 
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               
               <div className={styles.MobFilterJobTitleWrapper}>
                 {
@@ -1127,15 +1242,28 @@ return(
                                          )
                   }).slice(119, 124)
                 }
-              </div>
+              </div> */}
 
-              <div className={styles.MobFilterJobTitleWrapper}>
+              {/* <div className={styles.MobFilterJobTitleWrapper}>
+                {jobTags.map((tags, i) => {
+                  return (
+                    <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
+                      tags.value==="EXPERIENCE" || tags.value==="Job Type" || tags.value==="INDUSTRY" || tags.value==="TOOLS/PROTOCOLS" || tags.value==="ROLE" || tags.value==="COMPANY TYPE" } 
+                      className={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
+                      <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
                     <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
                       tags.value==="EXPERIENCE" || tags.value==="Job Type" || tags.value==="INDUSTRY" || tags.value==="TOOLS/PROTOCOLS" || tags.value==="ROLE" || tags.value==="COMPANY TYPE" } 
                       className={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
                       tags.value==="EXPERIENCE" || tags.value==="Job Type" || tags.value==="INDUSTRY" || tags.value==="TOOLS/PROTOCOLS" || tags.value==="COMPANY TYPE" || tags.value==="ROLE"?
+                      styles.TagHeading: styles.MobJobtitleFilter} 
+                      type= "radio" name="filter"  onClick={() => { filterByJobTitle(tags.value) }} />{tags.value}</label>
+                 
+                  )
+                }).slice(109,114)
+                } */}
+              {/* </div>tags.value==="EXPERIENCE" || tags.value==="Job Type" || tags.value==="INDUSTRY" || tags.value==="TOOLS/PROTOCOLS" || tags.value==="COMPANY TYPE" || tags.value==="ROLE"?
                       styles.TagHeading: styles.MobJobtitleFilter} 
                       type= "radio" name="filter"  onClick={() => { filterByJobTitle(tags.value) }} />{tags.value}</label>
                  
@@ -1156,11 +1284,11 @@ return(
                   )
                 }).slice(129, 134)
                 }
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
 
             {/* ....from down here is 10th div..i.e 10th display..................................... */}
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
@@ -1174,8 +1302,8 @@ return(
                   )
                 }).slice(134, 139)
                 }
-              </div>
-              <div className={styles.MobFilterJobTitleWrapper}>
+              </div> */}
+              {/* <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
                     <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
@@ -1188,8 +1316,8 @@ return(
                   )
                 }).slice(139, 144)
                 }
-              </div>
-              <div className={styles.MobFilterJobTitleWrapper}>
+              </div> */}
+              {/* <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
                     <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
@@ -1203,9 +1331,9 @@ return(
                 }).slice(144, 149)
                 }
               </div>
-            </div>
+            </div> */}
             {/* ....from down here is 11th div..i.e 11th display..................................... */}
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
@@ -1219,8 +1347,8 @@ return(
                   )
                 }).slice(149, 154)
                 }
-              </div>
-              <div className={styles.MobFilterJobTitleWrapper}>
+              </div> */}
+              {/* <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
                     <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
@@ -1233,8 +1361,8 @@ return(
                   )
                 }).slice(154, 159)
                 }
-              </div>
-              <div className={styles.MobFilterJobTitleWrapper}>
+              </div> */}
+              {/* <div className={styles.MobFilterJobTitleWrapper}>
                 {jobTags.map((tags, i) => {
                   return (
                     <label><input disabled={tags.value==="TECHNOLOGIES" || tags.value==="EDUCATION" || tags.value==="COLLEGE TYPE" || tags.value==="NOTICE PERIOD" || tags.value==="SALARY" || 
@@ -1251,26 +1379,7 @@ return(
             </div> 
 
            
-          </Carousel>
-
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-
-          <div className={styles.navigationWrapper}>
-              <button disabled={currentPage === 1} style={{ display: "inline", margin: "5px" }} className={styles.navigation} onClick={firstPage}>
-                <i class='fas fa-step-backward' ></i>
-              </button>
-              <button disabled={currentPage === 1} style={{ display: "inline", margin: "5px" }} className={styles.navigation} onClick={previous}>
-                <i class='fas fa-caret-square-left'></i>
-              </button>
-              <span>{currentPage}</span>
-              <button disabled={currentPage === npage} style={{ display: "inline", margin: "5px" }} className={styles.navigation} onClick={next}>
-                <i class='fas fa-caret-square-right'></i>
-              </button>
-              <button disabled={currentPage === npage} style={{ display: "inline", margin: "5px" }} className={styles.navigation} onClick={last}>
-                <i class='fas fa-step-forward'></i>
-              </button>
-            </div>
-            </div>
+          </Carousel> */}
 
           <div id={styles.JobCardWrapper} >
 
@@ -1321,7 +1430,7 @@ return(
               )
             })
             :
-            <p style={{ marginLeft: "37%", color: "red" }}>No Record found</p>
+            <p style={{ marginLeft: "37%", color: "red" }}>Loading......</p>
           }
 
           </div>

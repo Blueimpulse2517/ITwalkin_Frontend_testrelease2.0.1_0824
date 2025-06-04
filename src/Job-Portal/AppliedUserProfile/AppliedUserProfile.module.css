@@ -1,3 +1,28 @@
+/* ---------------------Employer Home page starts--------------- */
+
+.blogSearchContainer{
+    display: flex;
+    gap:2px;
+    width: 84%;
+    margin-right: 7px; 
+}
+.searchicon{
+    margin-top: 10px;
+}
+.blogInputboxsearch {
+    border-radius: 18px;
+    border: 2px solid rgb(40, 4, 99);
+    height: 29px;
+    width: 100%;
+    margin-top: 3px;
+    transition: width 0.9s ease-in-out;
+}
+.blogInputboxsearch::placeholder{
+    font-size:10.5px;
+}
+
+
+/* ---------------------Employer Home page ends--------------- */
 
 .HomeNavConetenetWrapper{
     display: flex;
@@ -47,31 +72,9 @@
     position: sticky;
     top:10px;
     z-index: 100;
-    width:41%;
+    width:8%;
     margin-left: 28%;
     /* background-color: red; */
-}
-.AdminNavConetenetWrapper{
-    display: flex;
-    /* margin-top: -47.5px; */
-    align-items: center;
-    position: sticky;
-    top:60px;
-    z-index: 1000;
-    width:41%;
-    margin-left: 28%;
-    background-color: white;
-    border: 1px black solid;
-    border-radius: 5px;
-}
-.dot{
-    height: 8px;
-  width: 8px;
-  /* background-color:rgb(0, 255, 255); */
-  background-color:rgb(7, 252, 7);
-
-  border-radius: 50%;
-  display: inline-block;
 }
 .LocationFilterWrapper{
     z-index: 100;
@@ -88,15 +91,6 @@
     border: none;
     border-radius: 3px;
     color: white
-}
-.JobLocationFilterAdmin{
-    /* margin-left: 40px; */
-    cursor: pointer;
-    font-weight: 600;
-    align-content: center;
-    border: none;
-    border-radius: 3px;
-    
 }
 
 .searchBothForNavWrapper{
@@ -206,7 +200,7 @@
 /* ...........................for Filter..................... */
 .JobtitleFilterWrapper{
     /* background-color: rgb(40, 4, 99); */
-    background:rgb(242, 244, 245);
+    background:rgb(202, 202, 202);
 
     margin-left: 3px;
     padding: 10px;
@@ -217,6 +211,7 @@
     overflow-y: auto;
     text-align: justify;
     margin-right: 10px;
+    margin-top: 20px;
 
 }
 .JobtitleFilterWrapper:hover{
@@ -240,7 +235,7 @@
     border-radius: 3px;
     border: none;
 }
-.JobtitleFilter:hover{    
+/* .JobtitleFilter:hover{    
     background-color: rgb(40, 4, 99);
 
     margin: 4px;
@@ -252,7 +247,7 @@
     align-content: center;
     text-wrap: nowrap ;
     border-radius: 3px;
-}
+} */
 .TagHeading{
     /* background:rgb(242, 244, 245); */
     background:rgb(228, 230, 231);
@@ -452,44 +447,6 @@
     height: 20px;
 } */
 
-.Approved{
-    background-color: green;
-    color: white;
-    font-weight: bold;
-    width:80%;
-    border: 1px solid green;
-    height: 23px;
-}
-
-.Rejected{
-    background-color: red;
-    color: white;
-    font-weight: bold;
-    width:82px;
-    border: 1px solid green;
-    height: 23px;
-    margin-top:3px;
-}
-.OnHold{
-    background-color: blue;
-    color: white;
-    font-weight: bold;
-    width:82px;
-    border: 1px solid green;
-    height: 23px;
-    margin-top:3px;
-}
-
-.Approve{
-    background-color: rgb(40, 4, 99);
-    height: 23px;
-    color: white;
-    font-weight: bold;
-    width:80%;
-
-    border: 1px solid green;
-}
-
 /* .....For Mobile....... */
 
 .MobLocationFilterWrapper{
@@ -563,7 +520,8 @@
     margin-top: 20px;
     overflow:hidden;
 text-wrap: nowrap;
-    width:35%;
+    /* width:35%; */
+    width: 52%;
 }
 .MobileimageView{
     height:35px;
@@ -580,7 +538,7 @@ text-wrap: nowrap;
 }
 .span{
     font-weight: 500;
-    font-size:smaller;
+    font-size: small;
 
 }
 .Down{

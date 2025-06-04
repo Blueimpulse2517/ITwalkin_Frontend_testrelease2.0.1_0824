@@ -26,6 +26,69 @@ const screenSize = useScreenSize();
 
 const [message, setmessage] = useState("")
 
+function Reject(Empid , status){
+  const isReject=status
+  Swal.fire({
+    title: "Are You sure?",
+    // icon:"question",
+    width:"245",
+      position:"top",
+      customClass:{
+        popup:"alertIcon"
+      },
+    showCancelButton:true
+  }).then( async (res)=>{
+    if(res.isConfirmed){
+      await axios.put(`/StudentProfile/isReject/${Empid}`,{isReject})
+      .then((res)=>{
+          getProfile()
+
+      }).catch((err)=>{
+        alert("backend error occured")
+      })
+    }
+  })
+}    
+
+function unReject(Empid , status){
+  const isReject=status
+
+  Swal.fire({
+    title: "Are You sure ?",
+    // icon:"question",
+    width:"245",
+      position:"top",
+      customClass:{
+        popup:"alertIcon"
+      },
+    showCancelButton:true
+  }).then( async (res)=>{
+    if(res.isConfirmed){
+      await axios.put(`/StudentProfile/isReject/${Empid}`,{isReject})
+      .then((res)=>{
+          getProfile()
+
+      }).catch((err)=>{
+        alert("backend error occured")
+      })
+    }
+  })
+}
+
+
+
+    
+    async function sendMessage(id){
+      await axios.put(`/StudentProfile/sendMessage/${id}`, {message})
+      .then((res)=>{
+        if(res.data){
+        alert("Message Sent Successfully")
+        }
+      }).catch((err)=>{
+        alert("some thing went wrong")
+      })
+    }
+
     let studId = JSON.parse(localStorage.getItem("StudId"))
     let params =useParams()
     
@@ -35,9 +98,16 @@ const [message, setmessage] = useState("")
       const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("AdMLog"))) };
         await axios.get(`/StudentProfile/getArchivedProfile/${params.CP}`,{headers})
             .then((res) => {
-                let result = res.data
-                // console.log(result)
-                  setProfileData([result.Archived[0]])           
+                let result = res.data 
+                // console.log(result)     
+                for(let i=0; i<result.length; i++)   {
+                if(result[i].Archived._id=== params.CP){
+                  let res = result[i].Archived
+                  setProfileData([res])
+
+                }
+
+                }    
         setPageLoader(false)
 
             }).catch((err) => {
@@ -50,7 +120,78 @@ const [message, setmessage] = useState("")
         getProfile()
     }, [])
 
+    function Approve(Empid , status){
+        const isApproved = status
+        Swal.fire({
+          title: "Are You sure?",
+          // icon:"question",
+          width:"245",
+      position:"top",
+      customClass:{
+        popup:"alertIcon"
+      },
+          showCancelButton:true
+        }).then( async (res)=>{
+          if(res.isConfirmed){
+            await axios.put(`/StudentProfile/setApproval/${Empid}`,{isApproved})
+            .then((res)=>{
+                getProfile()
+   
+            }).catch((err)=>{
+              alert("backend error occured")
+            })
+          }
+        })
     
+      }
+    
+      function DisApprove(Empid , status){
+        const isApproved = status
+        Swal.fire({
+          title: "Are You sure?",
+          // icon:"question",
+          width:"245",
+      position:"top",
+      customClass:{
+        popup:"alertIcon"
+      },
+          showCancelButton:true
+        }).then( async (res)=>{
+          if(res.isConfirmed){
+            await axios.put(`/StudentProfile/setApproval/${Empid}`,{isApproved})
+            .then((res)=>{
+                getProfile()
+    
+            }).catch((err)=>{
+              alert("backend error occured")
+            })
+          }
+        })
+      }
+
+      async function DeleteProfile(id){
+        
+        Swal.fire({
+          title: 'Are you sure?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {      
+         axios.delete(`/StudentProfile/deleteProfile/${id}`)
+        .then((res)=>{
+          
+          navigate("/BIAddmin@AllJobSeekers")
+        }).catch((err)=>{
+  
+          alert("server error occured")
+        })
+      }
+    })
+      }
+
 
 
     return (
@@ -73,6 +214,8 @@ profileData.map((item, i) => {
  <Puff  height="90"  width="90"  color="#4fa94d"  ariaLabel="bars-loading"  wrapperStyle={{marginLeft:"45%", marginTop:"60px"}}/> 
      :""
   }
+
+           {screenSize.width>850?
            
 <div className={styles.uiwrapper}>
             <ul className={styles.ul}>
@@ -141,7 +284,70 @@ profileData.map((item, i) => {
 
             }
             </div>
-                    
+            :
+            <>
+            <div id={styles.JobCardWrapper} >
+
+{profileData.map((job, i) => {
+  return (
+    <>
+      <div className={styles.JobCard} key={i}>
+        <div style={{display:"flex"}}>
+        <div className={styles.LeftTable}>
+                        <span className={styles.span}>Name :  </span> <br></br>
+                        <span className={styles.span}>Age :</span><br></br>
+                        <span className={styles.span}> Email Id :</span><br></br>
+                        <span className={styles.span}> Phone number :</span><br></br>
+                        <span className={styles.span}> Aadhar Id :</span><br></br>
+                        <span className={styles.span}> Pand Card :</span><br></br>
+                        <span className={styles.span}> Notice Period :</span><br></br>
+                        <span className={styles.span}>Qualification :</span><br></br>
+                        <span className={styles.span}>Experience : </span><br></br>
+                        <span className={styles.span}> Current CTC :</span><br></br>
+                        <span className={styles.span}>Expected CTC : </span><br></br>
+                        <span className={styles.span}>Ip Address : </span><br></br>
+                    </div>
+            
+                    <div className={styles.RightTable}>
+                    <span className={styles.span}><span style={{color:"blue"}}  >{job.name}</span></span><br></br>      
+                    <span className={styles.span}>{job.age? <span style={{ color: "blue" }}>{job.age} </span>:<span style={{color:"red"}}>Not updated</span> }</span><br></br>
+                    <span className={styles.span}> {job.email?<span style={{ color: "blue" }}>{job.email} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                    <span className={styles.span}> {job.phoneNumber?<span style={{ color: "blue" }}>{job.phoneNumber} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                    <span className={styles.span}> {job.Aadhar?<span style={{ color: "blue" }}>{job.Aadhar} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                    <span className={styles.span}> {job.panCard?<span style={{ color: "blue" }}>{job.panCard} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                    <span className={styles.span}> {job.NoticePeriod?<span style={{ color: "blue" }}>{job.NoticePeriod} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                    <span className={styles.span}> {job.Qualification?<span style={{ color: "blue" }}>{job.Qualification} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                    <span className={styles.span}> {job.Experiance?<span style={{ color: "blue" }}>{job.Experiance} </span>:<span style={{color:"red"}}>Not updated</span>}   </span><br></br>
+                    <span className={styles.span}>{job.currentCTC?<span style={{ color: "blue" }}>{job.currentCTC} </span>:<span style={{color:"red"}}>Not updated</span>} </span><br></br>
+                    <span className={styles.span}> {job.ExpectedSalary?<span style={{ color: "blue" }}>{job.ExpectedSalary} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>          
+                    <span className={styles.span}> {job.ipAddress?<span style={{ color: "blue" }}>{job.ipAddress} </span>:<span style={{color:"red"}}>could not fetch the Ip Address</span>}</span><br></br>          
+                    </div>
+            
+                  </div>
+
+                  <div className={styles.Down}>
+                  <span className={styles.span}> Skills : {job.Skills?<span style={{ color: "blue" }}>{job.Skills} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                  <span className={styles.span}> Account Status:{job.isApproved?
+                  <button   className={styles.Approved} onClick={()=>{DisApprove(job._id, false)}}>Approved</button>
+                  :<button  className={styles.Approve} onClick={()=>{Approve(job._id, true)}}>Approve</button>}</span>
+                                        <span className={styles.span} > {job.isReject?
+                  <button className={styles.Approved} onClick={()=>{unReject(job._id, false)}}>Rejected&#10004;</button>
+                  :<button  className={styles.Approve} onClick={()=>{Reject(job._id, true)}}>Reject</button>}</span><br></br>
+
+
+                  <p  className={styles.span}> Message: <input style={{height:"24px", width:"60%", marginLeft:"1%"}}  value ={message} onChange={(e)=>{setmessage(e.target.value)}} />
+                     <button onClick={()=>{sendMessage(job._id)}}>Send</button></p>
+                  </div>
+     
+      </div>
+    </>
+  )
+})}
+
+</div>
+            </>
+
+          }         
 
         </>
     )

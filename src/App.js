@@ -102,6 +102,18 @@ import socketIO from 'socket.io-client';
 import SidebarNav from "./Job-Portal/BigSideNav";
 import useScreenSize from '../src/Job-Portal/SizeHook';
 import AskQuestion from "./Job-Portal/PostJobs/postQuesion";
+import PostHelp from "./Job-Portal/PostJobs/PostHelp";
+import AllHelps from "./Job-Portal/Jobs/AllHelps";
+import HelpDetails from "./Job-Portal/Jobs/HelpDetails";
+import AllWalkinDrive from "./Job-Portal/Jobs/AllWalkinDrive";
+import PostWalkinDrive from "./Job-Portal/PostJobs/PostWalkinDrive";
+import DriveDetails from "./Job-Portal/Jobs/DriveDetails";
+import location from "./Job-Portal/img/icons8-location-20.png"
+import AllResumes from "./Job-Portal/Resumes/AllResumes";
+import PostFraudForm from "./Job-Portal/Jobs/PostFraudForm";
+import AppliedDrives from "./Job-Portal/Jobs/AppliedDrives";
+import MyPostedDrives from "./Job-Portal/Jobs/MyPostedDrives";
+// import PostFraud from "./Job-Portal/Jobs/PostFraud";
 // axios.defaults.baseURL = "http://localhost:8080" 
 
 // simillry i want to show table on months condition if i select  yearly only 1 input column and 3 rows should be displayed and if  i select quarterly jan -march , april-jun , july-sep, oct-dec should be displayed and if i select half yearly then jan-jun, and july to dec shouldbe displayed and if i select monthly then all months from jan to dec should be displayed
@@ -121,101 +133,1165 @@ function App() {
 
   const [ShowSideNave, setShowSideNave] = useState(false)
 
-  // let jobSeekerId = JSON.parse(localStorage.getItem("StudId"))
-  // let empId = JSON.parse(localStorage.getItem("EmpIdG"))
- 
+  const [nopageFilter, setNoPageFilter] = useState(true)
+   const [searchKey, setsearchKey] = useState()
+   const [Filtereredjobs, setFiltereredjobs] = useState([])
+   const [Result, setResult] = useState(false)
+   const [Filterjobs, setFilterjobs] = useState([])
+   const [jobs, setJobs] = useState([])
+   const [count, setCount] = useState(1)
+   const [Active, setActive] = useState([])
+   const [jobTagsIds, setJobTagsIds] = useState([])
+   const [PageLoader, setPageLoader] = useState(false)
+  //  let recordsperpage = JSON.parse(sessionStorage.getItem("recordsperpageHome"))
+   const [recordsPerPages, setrecordsPerPageNo] = useState(10)
+   const [currentPageNo, setCurrentPages] = useState(1)
+   const [totalCount, settotalCount] = useState()
 
+   const [FilCandidate, setFilCandidate] = useState([])
+const [Candidate, setCandidate] = useState([])
+const [showDriveFlash, setShowDriveFlash] = useState(false);
+
+
+ async function getAllJobSeekers() {
+    setNoPageFilter(false)
+    setActive([])
+    setJobTagsIds([])
+
+    const headers = { authorization: 'BlueItImpulseWalkinIn' };
+    await axios.get(`/StudentProfile/getLimitJobs/${recordsPerPages}`, { params: { currentPageNo }, headers })
+
+      .then((res) => {
+        let result = (res.data)
+        gettotalcount()
+        let sortedate = result.sort(function (a, b) {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        setCandidate(sortedate)
+        setFilCandidate(sortedate)
+      })
+  }
+
+  
+//----------------------Tags search method starts----------------
+
+ //----------------search by tags(LOGGOUT USER - HOME PAGE) ---------
+
+// async function searchByTags(key) {
+//   setPageLoader(true); // Enable loader at the start
+
+//   if (count === 1) {
+//     setJobs([]);
+//   }
+//   setCount(prev => prev + 1);
+
+//   const isIndex = Active.findIndex((present) => present === key);
+
+//   if (isIndex < 0) { 
+//     var updatedActive = [...Active, key]; 
+//     setActive(updatedActive);
+
+//     setTimeout(() => {
+//       setPageLoader(false);
+//     }, 1000); 
+//     return;
+//   } else {
+//     const IndexId = Active.findIndex((present) => present === key);
+//     Active.splice(IndexId, 1);
+
+//     if (Active.length === 0) {
+//       await getjobs(); 
+//       setPageLoader(false);
+//       return;
+//     }
+
+//     await changeTags();
+//   }
+
+//   setPageLoader(false); 
+// }
+
+//   async function changeTags(key){
+     
+
+//     setNoPageFilter(true)
+//     setFiltereredjobs(key)
+//     await axios.get(`/jobpost/getTagsJobs/${Active}`)
+//       .then((res) => {
+//         let result = (res.data)
+        
+//         let sortedate = result.sort((a, b) => {
+//           return new Date(b.createdAt) - new Date(a.createdAt);
+//         });
+//         setJobTagsIds(sortedate)
+        
+//       })
+//   }
+
+
+  //---------------------blog search tags------------
+//   async function BlogSearchTags(key) {
+//     setPageLoader(true)
+//     if(count==1){
+//       setJobs("")
+
+//     }
+//     setCount(prev=>prev+1)
+
+//     const isIndex=Active.findIndex((present)=>{
+// return(
+//   present===key
+// )
+//     })
+//     if(isIndex<0){
+//     setActive([...Active, key])
+//     setTimeout(() => {
+//       setPageLoader(false);
+//     }, 1000); 
+//     }else{
+//       const IndexId=Active.findIndex((present)=>{
+//         return(
+//           present==key
+//         )
+//             })
+//             Active.splice(IndexId,1)
+//                 if(Active.length===0){
+//       getjobs()
+//     }
+//     if(jobs.length>0){
+//          let removedItems = jobs.filter((tags)=>{
+//             return( 
+//               !tags.Tags.includes(key)
+                
+//         )
+//       }) 
+//       setJobs(removedItems)
+//       return false
+//     }
+//   }
+
+//     setNoPageFilter(true)
+//     setFiltereredjobs(key)
+//     await axios.get(`/BlogRoutes/getTagsJobs/${key}`)
+//       .then( (res) => {
+//         let result = (res.data)
+//         let sortedate = result.sort( (a, b) => {
+//           return new Date(b.createdAt) - new Date(a.createdAt);
+//         });
+//         let elements=  sortedate.flatMap(element => {
+//           setJobs(oldArray => [...oldArray,element] )
+//      });
+//       })
+//   }
+//------------------carrer search tags-----------
+// async function carrerSearchTags(key) {
+//   setPageLoader(true)
+//   if (count == 1) {
+//     setJobs([])
+//   }
+//   setCount(prev => prev + 1)
+//   const isIndex = Active.findIndex((present) => {
+//     return (
+//       present === key
+//     )
+//   })
+//   if (isIndex < 0) {
+    
+    
+//     var updatedActive = [...Active, key];
+//     setActive(updatedActive);
+//     setTimeout(() => {
+//       setPageLoader(false);
+//     }, 1000); 
+//   } else {
+//     const IndexId = Active.findIndex((present) => {
+//       return (
+//         present == key
+//       )
+//     })
+//     Active.splice(IndexId, 1)
+//     if (Active.length === 0) {
+//       getjobs()
+//       return false
+//     }
+   
+//     changeTags()
+    
+//   }}
+//   async function changeTags(key){
+  
+
+//   setNoPageFilter(true)
+//   setFiltereredjobs(key)
+//   await axios.get(`/Careerjobpost/getTagsJobs/${Active}`)
+
+//     .then((res) => {
+//       let result = (res.data)
+      
+//       let sortedate = result.sort((a, b) => {
+//         return new Date(b.createdAt) - new Date(a.createdAt);
+//       });
+     
+//       setJobTagsIds(sortedate)
+     
+
+//       let elements = sortedate.flatMap(element => {
+        
+//       });
+//     })
+// }
+
+// //-----------------Jobseeker login search Tags---------
+// async function jobseekerSearchTags(key) {
+//   setPageLoader(true)
+//   if (count == 1) {
+//     setJobs([])
+//   }
+//   setCount(prev => prev + 1)
+//   const isIndex = Active.findIndex((present) => {
+//     return (
+//       present === key
+//     )
+//   })
+//   if (isIndex < 0) {
+//     // setActive([...Active, key])
+    
+//     var updatedActive = [...Active, key]; 
+//     setActive(updatedActive);
+//     setTimeout(() => {
+//       setPageLoader(false);
+//     }, 1000); 
+//   } else {
+//     const IndexId = Active.findIndex((present) => {
+//       return (
+//         present == key
+//       )
+//     })
+//     Active.splice(IndexId, 1)
+//     if (Active.length === 0) {
+//       getjobs()
+//       return false
+    // }
+  //   changeLoginTags()
+  // }}
+  // async function changeLoginTags(key){
+    // console.log("in APi",Active)
+
+  // setNoPageFilter(true)
+  // setFiltereredjobs(key)
+  // await axios.get(`/jobpost/getTagsJobs/${Active}`)
+  //   .then((res) => {
+  //     let result = (res.data)
+      // console.log("the total id's are", result)
+      // let sortedate = result.sort((a, b) => {
+      //   return new Date(b.createdAt) - new Date(a.createdAt);
+      // });
+      // setJobTagsIds(oldjobTagsIds => [...oldjobTagsIds, ...sortedate])
+//       setJobTagsIds(sortedate)
+//       // getTagId(sortedate)
+
+//       let elements = sortedate.flatMap(element => {
+       
+//       });
+//     })
+// }
+//--------------employer  tags-------------
+// async function searchEmpTags(key) {
+//   setPageLoader(false);
+//   if(count==1){
+//     setCandidate([])
+//   }
+//   setCount(prev=>prev+1)
+//   const isIndex=Active.findIndex((present)=>{
+// return(
+// present===key
+// )
+//   })
+//   if(isIndex<0){
+//   var updatedActive = [...Active, key]; 
+//   setActive(updatedActive);
+//   setTimeout(() => {
+//     setPageLoader(false);
+//   }, 1000);
+//   }else{
+//     const IndexId=Active.findIndex((present)=>{
+//       return(
+//         present==key
+//       )
+//           })
+//           Active.splice(IndexId,1)
+//               if(Active.length===0){
+//                 getAllJobSeekers()
+//                 return false
+//   }
+//   changeEmpTags()
+// }}
+
+// async function changeEmpTags(key){
+
+//   setNoPageFilter(true)
+//   setFiltereredjobs(key)
+//   await axios.get(`/StudentProfile/getTagsJobs/${Active}`)
+//     .then((res) => {
+//       let result = (res.data)
+//       // console.log(result)
+//       let sortedate = result.sort((a, b) => {
+//         return new Date(b.createdAt) - new Date(a.createdAt);
+//       });
+//       setJobTagsIds(sortedate)
+//     })
+// }
+
+
+//-------------------------search candidate hoem--------
+// async function searchBlurTags(key) {
+//   setPageLoader(true);
+//   if(count==1){
+//     setCandidate([])
+//   }
+//   setCount(prev=>prev+1)
+//   const isIndex=Active.findIndex((present)=>{
+// return(
+// present===key
+// )
+//   })
+//   if(isIndex<0){
+//   var updatedActive = [...Active, key]; 
+//   setActive(updatedActive);
+//   setTimeout(() => {
+//     setPageLoader(false);
+//   }, 1000);
+//   }else{
+//     const IndexId=Active.findIndex((present)=>{
+//       return(
+//         present==key
+//       )
+//           })
+//           Active.splice(IndexId,1)
+//               if(Active.length===0){
+//                 getAllJobSeekers()
+//                 return false
+//   }
+//   changeblurTags()
+// }}
+
+// async function changeblurTags(key){
+
+//   setNoPageFilter(true)
+//   setFiltereredjobs(key)
+//   await axios.get(`/StudentProfile/getTagsJobs/${Active}`)
+//     .then((res) => {
+//       let result = (res.data)
+//       // console.log(result)
+//       let sortedate = result.sort((a, b) => {
+//         return new Date(b.createdAt) - new Date(a.createdAt);
+//       });
+//       setJobTagsIds(sortedate)
+//       setTimeout(() => {
+//     setPageLoader(false);
+//   }, 1000);
+//     })
+// }
+
+
+
+//-------------------------Tags search method ends-----------------  
+
+  const [searchKeyState, setSearchKeyState] = useState(""); 
+
+//--------------------SEARCH METHODS---------------------------------
+
+  // ---------------home page search methods-------------------
+  async function search(e) {
+    setNoPageFilter(true)
+    let key = e.target.value
+    setFiltereredjobs(key)
+    setsearchKey(key)
+    if (key) {
+      setResult(true)
+      let dubmyjobs = [...Filterjobs]
+      const filteredItems = dubmyjobs.filter((user) => {
+        if (JSON.stringify(user).toLowerCase().includes(key.toLowerCase())) {
+          return user
+        }
+      })
+      setJobs(filteredItems)
+    } else {
+      getjobs()
+      setResult(false)
+    }
+    // if(e===""){
+    //   getjobs()
+    //   setResult(false)
+    //   setPageLoader(false)
+    //   return
+    // }
+    // setPageLoader(true)
+    // setJobTagsIds([]) 
+    // setJobs([])
+    // setNoPageFilter(true)
+
+    // let key = e.target.value
+    // setFiltereredjobs(key)
+    // setsearchKey(key)
+    // setSearchKeyState(key);
+
+  //   const currentSearchKey = key;
+
+  // if (!key) {
+  //   console.log("Input cleared, ignoring old API calls.");
+  //   setPageLoader(false);
+  //   setResult(false);
+  //   getjobs(); 
+  //   return;
+  // }
+
+    // if (key) { 
+      // console.log("executed after else") 
+    // setResult(true) 
+    //  -------------all new search-------------
+    // const headers = { authorization: 'BlueItImpulseWalkinIn' };
+    // await axios.get("/jobpost/getHomejobs", { headers })
+    // .then((res) => {
+    //   if (currentSearchKey !== e.target.value.trim()) {
+    //     console.log("Ignored stale API response for:", currentSearchKey);
+    //     return;
+    //   }
+  
+    //   let result = (res.data)
+
+    //   let filteredData = result.filter(job => 
+    //     (Array.isArray(job.Tags) && job.Tags.some(tag =>tag.toString().toLowerCase().includes(key.toLowerCase()))) || 
+    //     (job.jobTitle && job.jobTitle.toString().toLowerCase().includes(key.toLowerCase()))
+    //   );
+  
+    //   // let sortedData = filteredData.sort((a, b) => 
+    //   //   new Date(b.createdAt) - new Date(a.createdAt)
+    //   // );
+    
+    //   // console.log("Filtered Data:", sortedData);
+    //   setJobTagsIds(filteredData)  
+    //   setPageLoader(false)
+    // })
+
+    //-----------all new search ends ----------
+
+    //-------old search method-------------
+    //   setResult(true)
+    //   let dubmyjobs = [...Filterjobs]
+    //   const filteredItems = dubmyjobs.filter((user) => {
+    //     if (JSON.stringify(user).includes(key.toLowerCase())) {
+    //       return user
+    //     }
+    //   })
+    //   setJobs(filteredItems)
+    // } else {
+    //   getjobs()
+    //   setResult(false)
+    //   setPageLoader(false)
+    //   return
+    // }
+  
+  }
+
+  async function getjobs() {
+    setCount(1)
+    setActive([])
+    setJobTagsIds([])
+
+    setPageLoader(true)
+    setNoPageFilter(false)
+    const headers = { authorization: 'BlueItImpulseWalkinIn' };
+    // await axios.get("/jobpost/getHomejobs", { headers })
+    await axios.get(`/jobpost/getLimitJobs/${recordsPerPages}`, { params: { currentPageNo }, headers })
+      .then((res) => {
+        let result = (res.data)
+        gettotalcount()
+
+        let sortedate = result.sort(function (a, b) {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+      
+        setJobs(sortedate)
+        setFilterjobs(sortedate)
+        setPageLoader(false)
+      }).catch((err) => {
+        console.log(err)
+        alert("some thing went wrong")
+      })
+  }
+
+  async function searchIcon(key) {
+    setNoPageFilter(true)
+    setFiltereredjobs(key)
+    setsearchKey(key)
+    if (key) {
+      setResult(true)
+      let dubmyjobs = [...Filterjobs]
+      const filteredItems = dubmyjobs.filter((user) => {
+        if (JSON.stringify(user).includes(key.toLowerCase())) {
+          return user
+        }
+      })
+      setJobs(filteredItems)
+    } else {
+      getjobs()
+      setResult(false)
+    }
+  }
+// ------------home page search method ends------------------
+
+// ------------blog page search method starts------------------
+  async function searchBlog(e) {
+    if(e===""){
+      getblogs()
+      setResult(false)
+      return
+    }
+    // console.log("tyty xhxbc",e.target.value)
+    setNoPageFilter(true)
+    let key = e.target.value
+    setFiltereredjobs(key)
+    setsearchKey(key)
+    if (key) {
+      setResult(true)
+      let dubmyjobs = [...Filterjobs]
+      const filteredItems = dubmyjobs.filter((user) => {
+        if (JSON.stringify(user).toLowerCase().includes(key.toLowerCase())) {
+          return user
+        }
+      })
+      setJobs(filteredItems)
+    } else {
+      getblogs()
+      setResult(false)
+    }
+  }
+  async function getblogs() {
+    setCount(1)
+    setActive([])
+    setPageLoader(true)
+    setNoPageFilter(false)
+    const headers = { authorization: 'BlueItImpulseWalkinIn' };
+    await axios.get("/BlogRoutes/getAllBlogs", { headers })
+      .then((res) => {
+        let result = res.data
+        let sortedate = result.sort(function (a, b) {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        setJobs(sortedate)
+        setFilterjobs(sortedate)
+        setPageLoader(false)
+      }).catch((err) => {
+        alert("some thing went wrong")
+      })
+  }
+  async function blogsearchIcon(key) {
+    setNoPageFilter(true)
+    setFiltereredjobs(key)
+    setsearchKey(key)
+    if (key) {
+      setResult(true)
+      let dubmyjobs = [...Filterjobs]
+      const filteredItems = dubmyjobs.filter((user) => {
+        if (JSON.stringify(user).includes(key.toLowerCase())) {
+          return user
+        }
+      })
+      setJobs(filteredItems)
+    } else {
+      getblogs()
+      setResult(false)
+    }
+  }
+
+  // ------------blog page search method ends---------------
+
+  // ------------carrer page search method starts---------------
+  async function searchcarrer(e) {
+    if(e===""){
+      // console.log("carrer executed")
+      getcarrer()
+      setResult(false)
+      getcarrer()
+      return
+    }
+    // console.log("tyty xhxbc",e.target.value)
+    setNoPageFilter(true)
+    let key = e.target.value
+    setsearchKey(key)
+
+    setFiltereredjobs(key)
+    if (key) {
+      setResult(true)
+      let dubmyjobs = [...Filterjobs]
+      const filteredItems = dubmyjobs.filter((user) =>
+        JSON.stringify(user).toLowerCase().includes(key.toLowerCase())
+      )
+      setJobs(filteredItems)
+    } else {
+      getcarrer()
+      setResult(false)
+    }
+  }
+
+  
+  async function getcarrer() {
+    setCount(1)
+    setActive([])
+    setJobTagsIds([])
+
+    setPageLoader(true)
+    setNoPageFilter(false)
+   
+    const headers = { authorization: 'BlueItImpulseWalkinIn' };
+    await axios.get("/Careerjobpost/getCareerjobs", { headers })
+      .then((res) => {
+        let result = (res.data)
+        gettotalcount()
+
+        let sortedate = result.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        setJobs(sortedate)
+        setFilterjobs(sortedate)
+        setPageLoader(false)
+      }).catch((err) => {
+        alert("server issue occured")
+      })
+  }
+
+  async function searchCarrerIcon(key) {
+    setNoPageFilter(true)
+    setFiltereredjobs(key)
+    setsearchKey(key)
+    if (key) {
+      setResult(true)
+      let dubmyjobs = [...Filterjobs]
+      const filteredItems = dubmyjobs.filter((user) => {
+        if (JSON.stringify(user).includes(key.toLowerCase())) {
+          return user
+        }
+      })
+      setJobs(filteredItems)
+    } else {
+      getcarrer()
+      setResult(false)
+    }
+  }
+
+  //  ----------------carrer home page search method ends---------------- 
+
+//  ----------------employer home page search method starts---------------- 
+  async function searchs(e) {
+    // console.log("e is loading",e.target.value)
+    if(e===""){
+      getAllJobSeekers()
+      setResult(false)
+      return
+    }
+    let key = e.target.value
+    setsearchKey(key)
+    setFiltereredjobs(key)
+
+    if (key) {
+      setResult(true)
+      let dubmyjobs = [...FilCandidate]
+
+      const filteredItems = dubmyjobs.filter((user) =>
+        JSON.stringify(user).toLowerCase().includes(key.toLowerCase())
+      )
+      setCandidate(filteredItems)
+    } else {
+      getAllJobSeekers()
+      setResult(false)
+
+    }
+  }
+
+  // ---------------employer home page search method ends---------------
+
+  // ---------------jobseeker home page search method starts---------------
+  async function jobSeekersearch(e) {
+    if(e===""){
+      getJobseekerjobs()
+      setResult(false)
+      return
+    }
+    setNoPageFilter(true)
+    let key = e.target.value
+    setsearchKey(key)
+
+    setFiltereredjobs(key)
+    if (key) {
+      setResult(true)
+      let dubmyjobs = [...Filterjobs]
+      const filteredItems = dubmyjobs.filter((user) =>
+        JSON.stringify(user).toLowerCase().includes(key.toLowerCase())
+      )
+      setJobs(filteredItems)
+    } else {
+      getJobseekerjobs()
+      setResult(false)
+    }
+  }
+  async function getJobseekerjobs() {
+    setCount(1)
+    setActive([])
+    setJobTagsIds([])
+    setPageLoader(true)
+    setNoPageFilter(false)
+
+    let userid = JSON.parse(localStorage.getItem("StudId"))
+    const headers = { authorization: userid + " " + atob(JSON.parse(localStorage.getItem("StudLog"))) };
+    await axios.get("/jobpost/getjobs", { headers })
+      .then((res) => {
+        let result = (res.data)
+        gettotalcount()
+
+        let sortedate = result.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        setJobs(sortedate)
+        setFilterjobs(sortedate)
+        setPageLoader(false)
+      }).catch((err) => {
+        alert("server issue occured")
+      })
+  }
+
+  async function searchJobseekerIcon(key) {
+    setNoPageFilter(true)
+    setFiltereredjobs(key)
+    setsearchKey(key)
+    if (key) {
+      setResult(true)
+      let dubmyjobs = [...Filterjobs]
+      const filteredItems = dubmyjobs.filter((user) => {
+        if (JSON.stringify(user).includes(key.toLowerCase())) {
+          return user
+        }
+      })
+      setJobs(filteredItems)
+    } else {
+      getJobseekerjobs()
+      setResult(false)
+    }
+  }
+
+  // -----------------jobseeker home page search ends----------------
+
+  //------------------Employer Home page (without Login) starts---------
+  async function empSearchNoLogin(e) {
+    if(e===""){
+      // console.log("js")
+      getAllJobSeekerss()
+      setResult(false)
+      getAllJobSeekerss()
+      return
+    }
+    // console.log("xhxbc",e)
+    let key = e.target.value
+    setsearchKey(key)
+    setFiltereredjobs(key)
+    if (key) {
+      setResult(true)
+      let dubmyjobs = [...FilCandidate]
+      const filteredItems = dubmyjobs.filter((user) =>
+        JSON.stringify(user).toLowerCase().includes(key.toLowerCase())
+      )
+      setCandidate(filteredItems)
+    } else {
+      getAllJobSeekerss()
+      setResult(false)
+    }
+  }
+  async function getAllJobSeekerss() {
+    setCount(1)
+    setActive([])
+    setJobTagsIds([])
+
+    setNoPageFilter(false)
+    const headers = { authorization: 'BlueItImpulseWalkinIn' };
+    // await axios.get("StudentProfile/getAllJobseekers", { headers })
+    await axios.get(`/StudentProfile/getLimitJobs/${recordsPerPages}`, { params: { currentPageNo }, headers })
+
+      .then((res) => {
+        let result = (res.data)
+        // console.log(result)
+        gettotalcount()
+        let sortedate = result.sort(function (a, b) {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        setCandidate(sortedate)
+        setFilCandidate(sortedate)
+      })
+  }
+//------------------Employer Home page (without Login) ends---------
+
+  async function gettotalcount() {
+    const headers = { authorization: 'BlueItImpulseWalkinIn' };
+    await axios.get("/jobpost/getTotalCount", { headers })
+      .then((res) => {
+        // console.log(res.data.result)
+        settotalCount(res.data.result)
+      }).catch((err) => {
+        alert("something went wrong")
+      })
+  }
+
+
+  const [searchClick, setSearchClick] = useState(false)
+const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
+
+ const driveJobs = [
+    { id:1001,
+      jobTitle: "Software Engineer",
+      postedBy: "HR Manager",
+      companyName: "xyz",
+      jobType: "Full-Time",
+      driveTime: "9:00 AM",
+      driveDate: "2023-11-10",
+      location: "Koramangala,Bengaluru",
+      ctc: "10 LPA",
+      experience: "2-4 years",
+      qualification: "B.Tech/MCA",
+      skillsRequired: "React, Node.js, MongoDB",
+      link: "https://www.microsoft.com/en-in",
+      details: "1. To participate in the Walk-In Drive for Software Development, follow these steps:\n2. Click on the 'Career' section on the company's official website.\n3. A submenu will appear—select 'Walk-In Drive' from the list.\n4. The Walk-In Drive details page will open in a new window.\n5. Check the eligibility criteria, date, time, and venue of the drive.\n6. Prepare your updated resume along with necessary documents (ID proof, educational certificates, experience letters, etc.).\n7. Visit the venue on the scheduled date and complete the registration process.\n8. Appear for the technical assessment or coding test, followed by interviews.\n9. If shortlisted, attend further rounds as per the company's selection process.\n10. Await final confirmation from the recruitment team regarding the results."
+
+    },
+    {
+      id:2002,
+      jobTitle: "Frontend Developer",
+      postedBy: "Recruiter",
+      companyName: "Abc",
+      jobType: "Remote",
+      driveTime: "10:00 AM",
+      driveDate: "2025-1-20",
+      location: "WhiteField,Bengaluru",
+      ctc: "8 LPA",
+      experience: "1-3 years",
+      qualification: "B.Tech/BCA",
+      skillsRequired: "HTML, CSS, JavaScript",
+      link: "",
+      details: "1. To participate in the Walk-In Drive for Software Development, follow these steps:\n2. Click on the 'Career' section on the company's official website.\n3. A submenu will appear—select 'Walk-In Drive' from the list.\n4. The Walk-In Drive details page will open in a new window.\n5. Check the eligibility criteria, date, time, and venue of the drive.\n6. Prepare your updated resume along with necessary documents (ID proof, educational certificates, experience letters, etc.).\n7. Visit the venue on the scheduled date and complete the registration process.\n8. Appear for the technical assessment or coding test, followed by interviews.\n9. If shortlisted, attend further rounds as per the company's selection process.\n10. Await final confirmation from the recruitment team regarding the results."
+
+    },
+    { id:3003,
+      jobTitle: "Data Analyst",
+      postedBy: "HR Lead",
+      companyName: "xyz",
+      jobType: "Contract",
+      driveTime: "11:00 AM",
+      driveDate: "2025-06-05",
+      location: "Mumbai",
+      ctc: "6 LPA",
+      experience: "1-2 years",
+      qualification: "B.Sc/M.Sc",
+      skillsRequired:"Python, SQL, Power BI",
+      link: "",
+      details: "1. To participate in the Walk-In Drive for Software Development, follow these steps:\n2. Click on the 'Career' section on the company's official website.\n3. A submenu will appear—select 'Walk-In Drive' from the list.\n4. The Walk-In Drive details page will open in a new window.\n5. Check the eligibility criteria, date, time, and venue of the drive.\n6. Prepare your updated resume along with necessary documents (ID proof, educational certificates, experience letters, etc.).\n7. Visit the venue on the scheduled date and complete the registration process.\n8. Appear for the technical assessment or coding test, followed by interviews.\n9. If shortlisted, attend further rounds as per the company's selection process.\n10. Await final confirmation from the recruitment team regarding the results."
+
+    },
+  ];
+  
+  const [flashVisible, setFlashVisible] = useState(false);
+  const [processedJobs, setProcessedJobs] = useState([]);
+  const processDriveJobs = (driveJobs) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize today's date
+
+    const EmployeeAuth = localStorage.getItem("EmpLog");
+
+    let jobs = driveJobs.map((job) => ({
+      ...job,
+      dateObj: new Date(job.driveDate),
+    }));
+
+    jobs = jobs.filter((job) => !isNaN(job.dateObj));
+
+    if (!EmployeeAuth) {
+      jobs = jobs.filter((job) => job.dateObj >= today);
+    }
+
+    jobs.sort((a, b) => b.dateObj - a.dateObj);
+
+    return jobs.map(({ dateObj, ...rest }) => rest);
+  };
+
+  // Handle flashVisible state based on driveJobs
+  useEffect(() => {
+    if (!Array.isArray(driveJobs)) return;
+  
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+  
+    const jobs = driveJobs
+      .map((job) => ({
+        ...job,
+        dateObj: new Date(job.driveDate),
+      }))
+      .filter((job) => !isNaN(job.dateObj));
+  
+    // Update flashVisible only if changed
+    const shouldShowFlash = jobs.some((job) => job.dateObj >= today);
+    setFlashVisible((prev) => (prev !== shouldShowFlash ? shouldShowFlash : prev));
+  
+    // Avoid unnecessary setProcessedJobs if no real change
+    const processed = processDriveJobs(driveJobs);
+    setProcessedJobs((prev) => {
+      return JSON.stringify(prev) !== JSON.stringify(processed) ? processed : prev;
+    });
+  }, [driveJobs]);
+  
+
+  
+  
+  const sortedFilteredDriveJobs = processDriveJobs(driveJobs);
+     const options = [
+      { value: "Bangalore", label: "Bangalore, India", country:"India", img:location},
+      { value: "San Francisco", label: "San Francisco, USA",country:"USA", img:location},
+      { value: "New york", label: "New York, USA", country:"USA", img:location},
+      { value: "Sydney", label: "Sydney, Australia", country:"Australia", img:location},
+      { value: "London", label: "London, UK", country:"UK", img:  location},
+      { value: "Berlin", label: "Berlin, Germany", country:"Germany", img:location},
+    ];
+   const [selectedlocationOption, setSelectedlocationOption] = useState(options[0]);
   return (
     <>
 
       <BrowserRouter>
-        <Nav  chandinmargin={setShowSideNave}/>
+        <Nav flashVisible={flashVisible} options={options} selectedlocationOption={selectedlocationOption}  setSelectedlocationOption={setSelectedlocationOption} sortedFilteredDriveJobs={sortedFilteredDriveJobs} showDriveFlash={showDriveFlash} setShowDriveFlash={setShowDriveFlash} empSearchNoLogin={empSearchNoLogin} jobSeekersearch={jobSeekersearch} searchBlog={searchBlog} searchcarrer={searchcarrer} setSearchClick={setSearchClick} showMobileSearchIcon={showMobileSearchIcon} 
+        setShowMobileSearchIcon={setShowMobileSearchIcon} ShowSideNave={ShowSideNave} setShowSideNave={setShowSideNave}   searchClick={searchClick}  chandinmargin={setShowSideNave} 
+         search={search} searchKey={searchKey} searchIcon={searchIcon} searchs={searchs}/>
         
-        <div style={ShowSideNave && screenSize.width > 850 ? { marginLeft: "100px", transition: " ease-in-out 0.6s" } : { marginLeft: "-3px", transition: " ease-in-out 0.5s" }}>
+        <div style={ShowSideNave && screenSize.width > 850 ? { marginLeft: "210px", transition: " ease-in-out 0.6s" } : { marginLeft: "-3px", transition: " ease-in-out 0.5s" }}>
+        {/* <div style={ShowSideNave && screenSize.width > 850 ? { marginLeft: "210px" } : { marginLeft: "-3px"}}> */}
+      
           <Routes>
+            <Route path='/fraud-form' element={<PostFraudForm/>}></Route>
+            <Route path="/" element={
+              <Home 
+              selectedlocationOption={selectedlocationOption}
+              showMobileSearchIcon={showMobileSearchIcon} setShowMobileSearchIcon={setShowMobileSearchIcon}
+              ShowSideNave={ShowSideNave} setShowSideNave={setShowSideNave}
+              searchClick={searchClick} setSearchClick={setSearchClick}
+              nopageFilter={nopageFilter} setNoPageFilter={setNoPageFilter} 
+              searchKey={searchKey} setsearchKey={setsearchKey}
+              Filtereredjobs={Filtereredjobs} setFiltereredjobs={setFiltereredjobs}
+              Result={Result} setResult={setResult}
+              Filterjobs={Filterjobs} setFilterjobs={setFilterjobs}
+              jobs={jobs} setJobs={setJobs}
+              count={count} setCount={setCount}
+              Active={Active} setActive={setActive}
+              jobTagsIds={jobTagsIds} setJobTagsIds={setJobTagsIds}
+              PageLoader={PageLoader} setPageLoader={setPageLoader}
+              totalCount={totalCount} settotalCount={settotalCount}
+              search={search}
+              getjobs={getjobs}
+              gettotalcount={gettotalcount}
+              searchIcon={searchIcon}
+              />
+            } />
+            <Route path="/Walkin-Drives" element={
+              <AllWalkinDrive 
+              sortedFilteredDriveJobs={sortedFilteredDriveJobs}
+              showMobileSearchIcon={showMobileSearchIcon} setShowMobileSearchIcon={setShowMobileSearchIcon}
+              ShowSideNave={ShowSideNave} setShowSideNave={setShowSideNave}
+              searchClick={searchClick} setSearchClick={setSearchClick}
+              nopageFilter={nopageFilter} setNoPageFilter={setNoPageFilter} 
+              searchKey={searchKey} setsearchKey={setsearchKey}
+              Filtereredjobs={Filtereredjobs} setFiltereredjobs={setFiltereredjobs}
+              Result={Result} setResult={setResult}
+              Filterjobs={Filterjobs} setFilterjobs={setFilterjobs}
+              jobs={jobs} setJobs={setJobs}
+              count={count} setCount={setCount}
+              Active={Active} setActive={setActive}
+              jobTagsIds={jobTagsIds} setJobTagsIds={setJobTagsIds}
+              PageLoader={PageLoader} setPageLoader={setPageLoader}
+              totalCount={totalCount} settotalCount={settotalCount}
+              search={search}
+              getjobs={getjobs}
+              gettotalcount={gettotalcount}
+              searchIcon={searchIcon}
+              />
+            } />
+            <Route path="/Blogs" element={<Blogs 
+            showMobileSearchIcon={showMobileSearchIcon} setShowMobileSearchIcon={setShowMobileSearchIcon}
+            ShowSideNave={ShowSideNave} setShowSideNave={setShowSideNave}
+            searchClick={searchClick} setSearchClick={setSearchClick} 
+             nopageFilter={nopageFilter} setNoPageFilter={setNoPageFilter} 
+             searchKey={searchKey} setsearchKey={setsearchKey}
+             Filtereredjobs={Filtereredjobs} setFiltereredjobs={setFiltereredjobs}
+             Result={Result} setResult={setResult}
+             Filterjobs={Filterjobs} setFilterjobs={setFilterjobs}
+             jobs={jobs} setJobs={setJobs}
+             count={count} setCount={setCount}
+             Active={Active} setActive={setActive}
+             jobTagsIds={jobTagsIds} setJobTagsIds={setJobTagsIds}
+             PageLoader={PageLoader} setPageLoader={setPageLoader}
+             totalCount={totalCount} settotalCount={settotalCount}
+             search={search}
+             getjobs={getjobs}
+             gettotalcount={gettotalcount}
+             searchIcon={searchIcon}
+            />} />
 
-            <Route path="/" element={<Home />} />
-            <Route path="/Blogs" element={<Blogs />} />
+          <Route path="/BIAdd@Logg" element={<AdminLogin />} />
+          <Route path="/BIAdd@Gmail" element={<SearchParams/>} />
+          <Route path="/BIAdd@GmailEmp" element={<SearchParamsEmp/>} />
+          <Route path="/BIAdd@Gmaill" element={<SearchParamsDub/>} />
+          <Route path="/BIAdd@Gmaile" element={<SearchParamsDubEmp/>} />
+          <Route path="/BIAddmin@Profile" element={<AdminProfile />} />
+          <Route path="/BIAddmin@AllJobs" element={<AllJobsForAdmin />} />
+          <Route path="/BIAddmin@AllJobSeekers" element={<AllJobSeekers />} />
+          <Route path="/BIAddmin@AllEmployees" element={<AllEmployees />} />
+          <Route path="/BIAddmin@CheckEmpProfile/:CP" element={<CheckEmpProfileForAdmin />} />
+          <Route path="/BIAddmin@CheckStudentProfile/:CP" element={<CheckStudentProfileForAdmin />} />
+          <Route path="/BIAddmin@AdminUpdate" element ={<AdminUpdate/>} />
+          <Route path="/BIAddmin@PostJob" element={<AdminPostJobs/>} />
+          <Route path="/BIAddmin@AllIds" element={<AllIds/>} />
+
 
               <Route path="/Updatepostedjobs" element={<UpdatePostedJobs url={axios.defaults.baseURL} />} />
             {/* ..........Employee Private component i,e can not search in URL......... */}
             <Route element={<EmpPrivate />}>
               <Route path="/PostJobs" element={<PostJobs url={axios.defaults.baseURL} />} />
+              <Route path="/Post-Help-Questions" element={<PostHelp url={axios.defaults.baseURL} />} />
+              <Route path="/PostDrives" element={<PostWalkinDrive url={axios.defaults.baseURL}/>} />
               <Route path="/PostBlogs" element={<PostBlogs url={axios.defaults.baseURL} />} />
               <Route path="/postedjobs" element={<PostedJobsbyEmp url={axios.defaults.baseURL} />} />
+              <Route path="/posteddrives" element={<MyPostedDrives url={axios.defaults.baseURL} />} />
               <Route path="/posted-Blogs" element={<BlogpostedByEmp url={axios.defaults.baseURL} />} />
               <Route path="/UpdatePosted-Blogs" element={<UpdatePostedBlogs url={axios.defaults.baseURL} />} />
               <Route path="/Applied-User-Profile/:jid" element={<AppliedUserProfile url={axios.defaults.baseURL} />} />
               <Route path="/Check-Profile/:CP" element={<CheckStudentProfiel url={axios.defaults.baseURL} />} />
               <Route path="/UpdateProfile" element={<EmployeeUpdateProfile url={axios.defaults.baseURL} />} />
               <Route path="/MyProfile" element={<EmployeeProfile url={axios.defaults.baseURL}/>} />
-              <Route path="Search-Candidate" element={<SearchCandidate url={axios.defaults.baseURL} />} />
+              {/* <Route path="Search-Candidate" element={<SearchCandidate url={axios.defaults.baseURL} */}
+              <Route path="Search-Candidate" element={<SearchCandidate url={axios.defaults.baseURL}
+         showMobileSearchIcon={showMobileSearchIcon} setShowMobileSearchIcon={setShowMobileSearchIcon}
+         ShowSideNave={ShowSideNave} setShowSideNave={setShowSideNave}
+         searchClick={searchClick} setSearchClick={setSearchClick}     
+          nopageFilter={nopageFilter} setNoPageFilter={setNoPageFilter} 
+          searchKey={searchKey} setsearchKey={setsearchKey}
+          Filtereredjobs={Filtereredjobs} setFiltereredjobs={setFiltereredjobs}
+          Result={Result} setResult={setResult}
+          Filterjobs={Filterjobs} setFilterjobs={setFilterjobs}
+          jobs={jobs} setJobs={setJobs}
+          count={count} setCount={setCount}
+          Active={Active} setActive={setActive}
+          jobTagsIds={jobTagsIds} setJobTagsIds={setJobTagsIds}
+          PageLoader={PageLoader} setPageLoader={setPageLoader}
+          totalCount={totalCount} settotalCount={settotalCount}
+          searchs={searchs}
+          getjobs={getjobs}
+          gettotalcount={gettotalcount}
+          searchIcon={searchIcon}
+          FilCandidate={FilCandidate}
+          setFilCandidate={setFilCandidate}
+          getAllJobSeekers={getAllJobSeekers}
+          Candidate={Candidate}
+          setCandidate={setCandidate}
+               />} />
 
             </Route>
             {/* ..........Jobseeker Private component i,e can not search in URL......... */}
             <Route element={<StudPrivate />}>
-              <Route path="/alljobs" element={<Jobs url={axios.defaults.baseURL} />} />
+              <Route path="/resumes" element={<AllResumes url={axios.defaults.baseURL}/>}></Route> 
+              <Route path="/alljobs" element={<Jobs url={axios.defaults.baseURL} 
+               showMobileSearchIcon={showMobileSearchIcon} setShowMobileSearchIcon={setShowMobileSearchIcon}
+               ShowSideNave={ShowSideNave} setShowSideNave={setShowSideNave}
+               searchClick={searchClick} setSearchClick={setSearchClick}
+              nopageFilter={nopageFilter} setNoPageFilter={setNoPageFilter} 
+              searchKey={searchKey} setsearchKey={setsearchKey}
+              Filtereredjobs={Filtereredjobs} setFiltereredjobs={setFiltereredjobs}
+              Result={Result} setResult={setResult}
+              Filterjobs={Filterjobs} setFilterjobs={setFilterjobs}
+              jobs={jobs} setJobs={setJobs}
+              count={count} setCount={setCount}
+              Active={Active} setActive={setActive}
+              jobTagsIds={jobTagsIds} setJobTagsIds={setJobTagsIds}
+              PageLoader={PageLoader} setPageLoader={setPageLoader}
+              totalCount={totalCount} settotalCount={settotalCount}
+              searchs={searchs}
+              getjobs={getjobs}
+              gettotalcount={gettotalcount}
+              searchIcon={searchIcon}
+              FilCandidate={FilCandidate}
+              setFilCandidate={setFilCandidate}
+              getAllJobSeekers={getAllJobSeekers}
+              Candidate={Candidate}
+              setCandidate={setCandidate}
+              />} />
               <Route path="/AskQuestion" element={<AskQuestion  />} />
               <Route path="/Update-Profile" element={<StudentUpdateProfile url={axios.defaults.baseURL} />} />
               <Route path="/My-Profile" element={<StudentProfile />} />
               <Route path="/My-Applied-Jobs" element={<MyAppliedJobs url={axios.defaults.baseURL} />} />
+              <Route path="/My-Applied-Drives" element={<AppliedDrives url={axios.defaults.baseURL} />} />
               <Route path="/MyCareer-Applied-Jobs" element={<CareerAppliedJobs url={axios.defaults.baseURL} />} />
             </Route>
-            <Route path="/AllCareerJobs" element={<AllCareerJobs />} />
-            <Route path="/BIAdd@Logg" element={<AdminLogin />} />
-            <Route path="/BIAdd@Applied-User-Profile/:jid" element={<AppliedUserForAdminJobs url={axios.defaults.baseURL} />} />
-            <Route path="/BIAdd@Applied-CareerUser-Profile/:jid" element={<AppliedUserForCareerJobs url={axios.defaults.baseURL} />} />
-            <Route path="/BIAdd@PostedCareerJobs" element={<PostedCareerJobs url={axios.defaults.baseURL} />} />
-            <Route path="/BIAdd@AdminPostedJobs" element={<PostedJobsByAdmin url={axios.defaults.baseURL} />} />
-            <Route path="/BIAddAdminAccess" element={<AdminAccess />} />
-            <Route path="/BIAdd@Gmail" element={<SearchParams />} />
-            <Route path="/BIAdd@GmailEmp" element={<SearchParamsEmp />} />
-            <Route path="/BIAdd@Gmaill" element={<SearchParamsDub />} />
-            <Route path="/BIAdd@Gmaile" element={<SearchParamsDubEmp />} />
-            <Route path="/BIAddmin@Profile" element={<AdminProfile />} />
-            <Route path="/BIAddmin@AllJobs" element={<AllJobsForAdmin />} />
-            <Route path="/BIAddmin@ArchiveJobs" element={<ArchiveJobs />} />
-            <Route path="/BIAddmin@DeletedJobs" element={<DeletedJobs />} />
-            <Route path="/BIAddmin@DeletedBlogs" element={<DeletedBlogs />} />
-            <Route path="/BIAddmin@AllJobSeekers" element={<AllJobSeekers />} />
-            <Route path="/BIAddmin@AllEmployees" element={<AllEmployees />} />
-
-
-            <Route path="/BIAddmin@AllEmployeeAdmin" element={<AllJobSeekerAdmin />} />
-            <Route path="/BIAddmin@CheckEmpProfile/:CP" element={<CheckEmpProfileForAdmin />} />
-            <Route path="/BIAddmin@CheckStudentProfile/:CP" element={<CheckStudentProfileForAdmin />} />
-            <Route path="/BIAddmin@CheckStudentDeleted/:CP" element={<CheckDeletedJobSeeker />} />
-            <Route path="/BIAddmin@CheckStudentArchived/:CP" element={<CheckArchivedJobSeeker />} />
-            <Route path="/BIAddmin@CheckArchivedJob/:CP" element={<CheckArchivedJob />} />
-            <Route path="/BIAddmin@CheckDeletedJob/:CP" element={<CheckDeletedJob />} />
-            <Route path="/BIAddmin@CheckDeletedBlog/:CP" element={<CheckDeletedBlog />} />
-            <Route path="/BIAddmin@CheckDeletedQuestions/:CP" element={<CheckDeletedQuestions />} />
-            <Route path="/BIAddmin@AdminUpdate" element={<AdminUpdate />} />
-            <Route path="/BIAddmin@PostJob" element={<AdminPostJobs />} />
-            <Route path="/BIAddmin@UpdateCareer postedjobs" element={<UpdateCareerPostedJobs url={axios.defaults.baseURL} />} />
-
-            <Route path="/BIAddmin@AdminCareerPostJobs" element={<AdminCareerPostJobs />} />
-            <Route path="/BIAddmin@AllIds" element={<AllIds />} />
-            <Route path="/BIAddmin@DeletedJobSeekers" element={<DeletedJobSeekers />} />
-            <Route path="/BIAddmin@ArchiveJobSeekers" element={<ArchiveJobSeekers />} />
-          
+            <Route path="/AllCareerJobs" element={<AllCareerJobs 
+            showMobileSearchIcon={showMobileSearchIcon} setShowMobileSearchIcon={setShowMobileSearchIcon}
+            ShowSideNave={ShowSideNave} setShowSideNave={setShowSideNave}
+            searchClick={searchClick} setSearchClick={setSearchClick}
+            nopageFilter={nopageFilter} setNoPageFilter={setNoPageFilter} 
+            searchKey={searchKey} setsearchKey={setsearchKey}
+            Filtereredjobs={Filtereredjobs} setFiltereredjobs={setFiltereredjobs}
+            Result={Result} setResult={setResult}
+            Filterjobs={Filterjobs} setFilterjobs={setFilterjobs}
+            jobs={jobs} setJobs={setJobs}
+            count={count} setCount={setCount}
+            Active={Active} setActive={setActive}
+            jobTagsIds={jobTagsIds} setJobTagsIds={setJobTagsIds}
+            PageLoader={PageLoader} setPageLoader={setPageLoader}
+            totalCount={totalCount} settotalCount={settotalCount}
+            search={search}
+            getjobs={getjobs}
+            gettotalcount={gettotalcount}
+            searchIcon={searchIcon}
+            />} />
             <Route path="/JobSeekerLogin" element={<StudentLogin />} />
             <Route path="/New-Registration" element={<NewRegistered />} />
-            <Route path="/Jobseeker-New-Registration" element={<StuNewRegistered />} />
+            <Route path="/Jobseeker-New-Registration" element={<StuNewRegistered selectedlocationOption={selectedlocationOption} />} />
             <Route path="/EmployeeLogin" element={<EmployeeLogin />} />
-            <Route path="/JobSeekerSignUp" element={<StudentSignUp />} />
-            <Route path="/EmployeeSignUp" element={<EmployeeSignUp />} />
             <Route path="/JobDetails/:id" element={<Jobdetails />} />
             <Route path="/Blogdetails/:id" element={<Blogdetails />} />
             <Route path="/Answerdetails/:id" element={<Answerdetails />} />
             <Route path="/CareerJobdetails/:id" element={<CareerJobdetails />} />
             <Route path="/CheckEmpHalfProfile/:empId" element={<CheckEmpHalfProfile />} />
+            <Route path="/DriveDetails/:id" element={<DriveDetails />} />
 
-            <Route path="/Search-Candidate-Home" element={<SearchCandHome url={axios.defaults.baseURL} />} />
-
-            <Route path="/payment" element={<Payment />} />
-
+            <Route path="/Search-Candidate-Home" element={<SearchCandHome url={axios.defaults.baseURL}
+            FilCandidate={FilCandidate} setFilCandidate={setFilCandidate}
+            Candidate={Candidate} setCandidate={setCandidate} 
+              showMobileSearchIcon={showMobileSearchIcon} setShowMobileSearchIcon={setShowMobileSearchIcon}
+              ShowSideNave={ShowSideNave} setShowSideNave={setShowSideNave}
+              searchClick={searchClick} setSearchClick={setSearchClick}
+              nopageFilter={nopageFilter} setNoPageFilter={setNoPageFilter} 
+              searchKey={searchKey} setsearchKey={setsearchKey}
+              Filtereredjobs={Filtereredjobs} setFiltereredjobs={setFiltereredjobs}
+              Result={Result} setResult={setResult}
+              Filterjobs={Filterjobs} setFilterjobs={setFilterjobs}
+              jobs={jobs} setJobs={setJobs}
+              count={count} setCount={setCount}
+              Active={Active} setActive={setActive}
+              jobTagsIds={jobTagsIds} setJobTagsIds={setJobTagsIds}
+              PageLoader={PageLoader} setPageLoader={setPageLoader}
+              totalCount={totalCount} settotalCount={settotalCount}
+              search={search}
+              getjobs={getjobs}
+              gettotalcount={gettotalcount}
+              searchIcon={searchIcon} />} />
             <Route path="/AboutUs" element={<AboutUs />} />
+            <Route path="/support/help" element={<AllHelps   
+            Active={Active} setActive={setActive} 
+            getjobs={getjobs}  setJobs={setJobs} 
+            count={count} setCount={setCount}
+            nopageFilter={nopageFilter} setNoPageFilter={setNoPageFilter}
+            />} />
+            <Route path="/support/help/:id" element={<HelpDetails/>} />
             <Route path="/Services" element={<Services />} />
             <Route path="/Contact" element={<Contact />} />
             <Route path="/TermsAndCondition" element={<TermsAndCondition />} />

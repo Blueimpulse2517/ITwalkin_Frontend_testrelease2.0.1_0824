@@ -1,4 +1,126 @@
+/* ---------new drive beigns--------- */
+.dirveContainer {
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+    gap: 20px;
+    border: 2px solid black;
+    width: 55%;
+    /* margin-left: 231px; */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;margin-top: 10px;
+    display: flex
+;
+    /* align-items: center; */
+    flex-direction: column;
+    gap: 20px;
+    border: 2px solid black;
+    width: 54%;
+    /* margin-left: 231px; */
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: -8px;
+    overflow-x: hidden;
+}
+.dirvefirstRow {
+    display: flex;
+    /* gap: 160px; */
+    flex-wrap: wrap;
+    margin-top: -64px;
+    justify-content: space-between;
+  }
+  .driveThirdRow{
+    display: flex;
+    /* gap: 160px; */
+    flex-wrap: wrap;
+    justify-content: space-between;
+  } 
+  .driveFourthRow{
+    display: flex;
+    /* gap: 160px; */
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .driveinput {
+    width: 100%;
+    height:30px;
+    border-radius: 5px;
+    margin-right: 24px;
+  }
+  
+  .heading{
+          margin-left:2px;
+  }
 
+.dirvesubContainer{
+  width: 320px;
+}
+  .driveJobtitleFilterWrapper{
+    background:#cacaca;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+            height: 105px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: justify;
+            margin-right: 10px;
+            width:97%;
+}
+.driveRadioRow{
+    display: flex;
+        /* width: 935px; */
+        /* gap: 200px; */
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+}
+@media (max-width: 1024px) {
+    .dirveContainer{
+     width: 70%;
+    }
+
+  }
+  @media (max-width: 768px) {
+    .dirveContainer{
+     width: 90%;
+    }
+
+  }
+  @media (max-width: 426px) {
+    .dirveContainer{
+        width: 81%;
+        margin-bottom: -227px;
+    }
+
+  }
+
+  @media (max-width: 600px) {
+    .dirvefirstRow {
+      gap: 20px;
+    }
+
+  }
+  
+  
+/* --------------new drive ends-------- */
+.driveDateContainer1{
+    margin-top: 10px;
+    font-weight: 800;
+     display:flex; 
+     justify-content:space-between;
+     flex-wrap:wrap;
+ }
+ @media (max-width: 768px) {
+    .driveDateContainer1 {
+      gap: 20px;
+    }
+
+  }
+ .DriveDate{
+    border-radius:5px;
+ }
 
 
 .disable{
@@ -77,9 +199,8 @@
     border-radius: 3px;
 
 }
-.JobtitleFilter:hover{
+/* .JobtitleFilter:hover{
     background-color: rgb(40, 4, 99);
-    /* background-color:blue; */
     margin: 4px;
     cursor: pointer;
     color:white;
@@ -89,7 +210,7 @@
     align-content: center;
     text-wrap: nowrap ;
     border-radius: 3px;
-}
+} */
 
 .active{
     background-color: rgb(40, 4, 99);
@@ -196,7 +317,7 @@
     }
     .Otherinputbox{
         height: 40px ;
-    width : 100%;
+    width : 25%;
      border-radius: 5px;
      border: 1px solid black;
      font-size: medium;    
@@ -249,4 +370,25 @@
         .errormessage{
             color : red;
             font-style: italic;
+        }
+
+        .helpHeading{
+            margin-left: 230px;
+        }
+        @media  (max-width:1024px) {
+            .helpHeading{
+            margin-left:98px;
+            }
+        }
+
+        @media  (max-width:768px) {
+            .helpHeading{
+            margin-left: 77px;
+            }
+        }
+
+        @media  (max-width:475px) {
+            .helpHeading{
+            margin-left: 34px;
+            }
         }

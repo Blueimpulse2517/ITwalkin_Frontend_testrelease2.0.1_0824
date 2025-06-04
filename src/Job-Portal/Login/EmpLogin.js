@@ -245,12 +245,12 @@ function EmpLogin(props) {
   }, []);
 
   function microsoftLogin() {
-    instance.loginPopup(loginRequest)
-      .then(async response => {
-        // console.log(response)
-        let name = response.account.name
-        let email = response.account.username
-        let isApproved = false
+		instance.loginPopup(loginRequest)
+			.then(async response => {
+				// console.log(response)
+				let name = response.account.name
+				let email = response.account.username
+				let isApproved = false
         await axios.post("/EmpProfile/Glogin", { ipAddress,  email, name, isApproved })
         .then((response) => {
           let result = response.data
@@ -261,16 +261,16 @@ function EmpLogin(props) {
             localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
             navigate("/Search-Candidate", { state: { gserid: GuserId } })
           }
-        
-          }).catch((err) => {
-            alert("server issue occured")
-          })
-      })
-      .catch(error => {
-        // console.log("Login error", error);
-        // alert("some thing went wrong")
-      });
-  }
+				
+					}).catch((err) => {
+						alert("server issue occured")
+					})
+			})
+			.catch(error => {
+				// console.log("Login error", error);
+				// alert("some thing went wrong")
+			});
+	}
 
 
   return (
