@@ -14,10 +14,8 @@ import socketIO from 'socket.io-client';
 function PostedCareerJobs(props) {
   
 
-  let SupadminLogin= localStorage.getItem("SupAdMLog")
-let adminLogin = localStorage.getItem("AdMLog")
-  
   useEffect(()=>{
+    let adminLogin= localStorage.getItem("SupAdMLog")
         if(!adminLogin){
             navigate("/")
         }

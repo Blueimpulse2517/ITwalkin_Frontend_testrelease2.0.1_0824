@@ -3,6 +3,76 @@
   background-color: aqua;
 }
 
+.screen1 .jodit-wysiwyg {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  /* color: #bd1515; */
+  /* background-color: purple;  */
+  padding: 10px;
+  /* min-height: 200px; */
+  border-radius: 5px;
+  min-height: 33px !important;
+  height: 2px;
+}
+
+.screen1 .jodit-workplace {
+  /* background-color: #ee1111; */
+  border: 0 solid #cf0606;
+  /* max-height: 100%; */
+  min-height: 80px !important;
+  height: 45px !important;
+}
+.screen1 .jodit-container:not(.jodit_inline) {
+  background-color: #f5f5f6;
+  border: 1px solid #dadada;
+  border-radius: 3px;
+  min-height: 20px !important;
+  height:170px !important;
+}
+
+.screen2 .jodit-wysiwyg {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  /* color: #bd1515; */
+  /* background-color: purple;  */
+  padding: 10px;
+  /* min-height: 200px; */
+  border-radius: 5px;
+  min-height: 33px !important;
+  height: 2px;
+}
+
+.screen2 .jodit-workplace {
+  /* background-color: #ee1111; */
+  border: 0 solid #cf0606;
+  /* max-height: 100%; */
+  min-height: 80px !important;
+  height: 45px !important;
+}
+.screen2 .jodit-container:not(.jodit_inline) {
+  background-color: #f5f5f6;
+  border: 1px solid #dadada;
+  border-radius: 3px;
+  min-height: 20px !important;
+  height: 268px !important;
+  width: 232px;
+  margin-left: -10px;
+  margin-top: -9px;
+}
+
+.screen2 .jodit-status-bar{
+  height: 33px;
+} 
+
+@media (max-width: 768px) {
+  .screen3 .jodit-wysiwyg {
+    min-height: 127px !important;
+  }
+  .jodit-status-bar .jodit-status-bar__item {
+    font-size: 6px !important;
+}
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -39,3 +109,29 @@
 }
 
 
+.table {
+  /* border-collapse: collapse; */
+/*  */
+
+/* width:99.5%; */
+
+  width: 99.5%;
+  margin-left: 6px;
+  /* background-color: #61dafb; */
+}
+
+.td, .th {
+
+  /* border-collapse: collapse; */
+  
+  /* border: 1px solid #dddddd; */
+  text-align: center;
+  /* padding: 8px; */
+}
+
+.tr:nth-child(even) {
+  /* background-color: #dddddd; */
+  /* background:rgb(242, 244, 245) */
+
+
+}
