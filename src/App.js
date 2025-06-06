@@ -1139,19 +1139,41 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
             />} />
 
           <Route path="/BIAdd@Logg" element={<AdminLogin />} />
-          <Route path="/BIAdd@Gmail" element={<SearchParams/>} />
-          <Route path="/BIAdd@GmailEmp" element={<SearchParamsEmp/>} />
-          <Route path="/BIAdd@Gmaill" element={<SearchParamsDub/>} />
-          <Route path="/BIAdd@Gmaile" element={<SearchParamsDubEmp/>} />
-          <Route path="/BIAddmin@Profile" element={<AdminProfile />} />
-          <Route path="/BIAddmin@AllJobs" element={<AllJobsForAdmin />} />
-          <Route path="/BIAddmin@AllJobSeekers" element={<AllJobSeekers />} />
-          <Route path="/BIAddmin@AllEmployees" element={<AllEmployees />} />
-          <Route path="/BIAddmin@CheckEmpProfile/:CP" element={<CheckEmpProfileForAdmin />} />
-          <Route path="/BIAddmin@CheckStudentProfile/:CP" element={<CheckStudentProfileForAdmin />} />
-          <Route path="/BIAddmin@AdminUpdate" element ={<AdminUpdate/>} />
-          <Route path="/BIAddmin@PostJob" element={<AdminPostJobs/>} />
-          <Route path="/BIAddmin@AllIds" element={<AllIds/>} />
+          <Route path="/BIAdd@Applied-User-Profile/:jid" element={<AppliedUserForAdminJobs url={axios.defaults.baseURL} />} />
+            <Route path="/BIAdd@Applied-CareerUser-Profile/:jid" element={<AppliedUserForCareerJobs url={axios.defaults.baseURL} />} />
+            <Route path="/BIAdd@PostedCareerJobs" element={<PostedCareerJobs url={axios.defaults.baseURL} />} />
+            <Route path="/BIAdd@AdminPostedJobs" element={<PostedJobsByAdmin url={axios.defaults.baseURL} />} />
+            <Route path="/BIAddAdminAccess" element={<AdminAccess />} />
+            <Route path="/BIAdd@Gmail" element={<SearchParams />} />
+            <Route path="/BIAdd@GmailEmp" element={<SearchParamsEmp />} />
+            <Route path="/BIAdd@Gmaill" element={<SearchParamsDub />} />
+            <Route path="/BIAdd@Gmaile" element={<SearchParamsDubEmp />} />
+            <Route path="/BIAddmin@Profile" element={<AdminProfile />} />
+            <Route path="/BIAddmin@AllJobs" element={<AllJobsForAdmin />} />
+            <Route path="/BIAddmin@ArchiveJobs" element={<ArchiveJobs />} />
+            <Route path="/BIAddmin@DeletedJobs" element={<DeletedJobs />} />
+            <Route path="/BIAddmin@DeletedBlogs" element={<DeletedBlogs />} />
+            <Route path="/BIAddmin@AllJobSeekers" element={<AllJobSeekers />} />
+            <Route path="/BIAddmin@AllEmployees" element={<AllEmployees />} />
+
+
+            <Route path="/BIAddmin@AllEmployeeAdmin" element={<AllJobSeekerAdmin />} />
+            <Route path="/BIAddmin@CheckEmpProfile/:CP" element={<CheckEmpProfileForAdmin />} />
+            <Route path="/BIAddmin@CheckStudentProfile/:CP" element={<CheckStudentProfileForAdmin />} />
+            <Route path="/BIAddmin@CheckStudentDeleted/:CP" element={<CheckDeletedJobSeeker />} />
+            <Route path="/BIAddmin@CheckStudentArchived/:CP" element={<CheckArchivedJobSeeker />} />
+            <Route path="/BIAddmin@CheckArchivedJob/:CP" element={<CheckArchivedJob />} />
+            <Route path="/BIAddmin@CheckDeletedJob/:CP" element={<CheckDeletedJob />} />
+            <Route path="/BIAddmin@CheckDeletedBlog/:CP" element={<CheckDeletedBlog />} />
+            <Route path="/BIAddmin@CheckDeletedQuestions/:CP" element={<CheckDeletedQuestions />} />
+            <Route path="/BIAddmin@AdminUpdate" element={<AdminUpdate />} />
+            <Route path="/BIAddmin@PostJob" element={<AdminPostJobs />} />
+            <Route path="/BIAddmin@UpdateCareer postedjobs" element={<UpdateCareerPostedJobs url={axios.defaults.baseURL} />} />
+
+            <Route path="/BIAddmin@AdminCareerPostJobs" element={<AdminCareerPostJobs />} />
+            <Route path="/BIAddmin@AllIds" element={<AllIds />} />
+            <Route path="/BIAddmin@DeletedJobSeekers" element={<DeletedJobSeekers />} />
+            <Route path="/BIAddmin@ArchiveJobSeekers" element={<ArchiveJobSeekers />} />
 
 
               <Route path="/Updatepostedjobs" element={<UpdatePostedJobs url={axios.defaults.baseURL} />} />
