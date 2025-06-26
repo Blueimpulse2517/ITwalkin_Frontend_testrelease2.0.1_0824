@@ -113,6 +113,8 @@ import AllResumes from "./Job-Portal/Resumes/AllResumes";
 import PostFraudForm from "./Job-Portal/Jobs/PostFraudForm";
 import AppliedDrives from "./Job-Portal/Jobs/AppliedDrives";
 import MyPostedDrives from "./Job-Portal/Jobs/MyPostedDrives";
+import ScanDrive from "./Job-Portal/QRCode/ScanDrive";
+import QRScanner from "./Job-Portal/QRCode/QRScanner"
 // import PostFraud from "./Job-Portal/Jobs/PostFraud";
 // axios.defaults.baseURL = "http://localhost:8080" 
 
@@ -984,7 +986,7 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
       companyName: "xyz",
       jobType: "Contract",
       driveTime: "11:00 AM",
-      driveDate: "2025-06-05",
+      driveDate: "2025-06-25",
       location: "Mumbai",
       ctc: "6 LPA",
       experience: "1-2 years",
@@ -1009,13 +1011,13 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
       dateObj: new Date(job.driveDate),
     }));
 
-    jobs = jobs.filter((job) => !isNaN(job.dateObj));
+   // jobs = jobs.filter((job) => !isNaN(job.dateObj));
 
-    if (!EmployeeAuth) {
-      jobs = jobs.filter((job) => job.dateObj >= today);
-    }
+   //if (!EmployeeAuth) {
+    //  jobs = jobs.filter((job) => job.dateObj >= today);
+    //}
 
-    jobs.sort((a, b) => b.dateObj - a.dateObj);
+   // jobs.sort((a, b) => b.dateObj - a.dateObj);
 
     return jobs.map(({ dateObj, ...rest }) => rest);
   };
@@ -1070,6 +1072,7 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
         {/* <div style={ShowSideNave && screenSize.width > 850 ? { marginLeft: "210px" } : { marginLeft: "-3px"}}> */}
       
           <Routes>
+            <Route path="/scan/drive/:driveId" element={<ScanDrive  />} />
             <Route path='/fraud-form' element={<PostFraudForm/>}></Route>
             <Route path="/" element={
               <Home 
@@ -1177,8 +1180,10 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
 
 
               <Route path="/Updatepostedjobs" element={<UpdatePostedJobs url={axios.defaults.baseURL} />} />
+
             {/* ..........Employee Private component i,e can not search in URL......... */}
             <Route element={<EmpPrivate />}>
+              {/* <Route path="/scan/drive/:driveId" element={<ScanDrive  />} /> */}
               <Route path="/PostJobs" element={<PostJobs url={axios.defaults.baseURL} />} />
               <Route path="/Post-Help-Questions" element={<PostHelp url={axios.defaults.baseURL} />} />
               <Route path="/PostDrives" element={<PostWalkinDrive url={axios.defaults.baseURL}/>} />
@@ -1221,6 +1226,7 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
             </Route>
             {/* ..........Jobseeker Private component i,e can not search in URL......... */}
             <Route element={<StudPrivate />}>
+            <Route path="/scanner" element={<QRScanner />} />
               <Route path="/resumes" element={<AllResumes url={axios.defaults.baseURL}/>}></Route> 
               <Route path="/alljobs" element={<Jobs url={axios.defaults.baseURL} 
                showMobileSearchIcon={showMobileSearchIcon} setShowMobileSearchIcon={setShowMobileSearchIcon}

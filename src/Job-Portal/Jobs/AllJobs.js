@@ -857,7 +857,7 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
                               )
                             })
                               ?
-                              <button className={styles.Appliedbutton} title='HR will get in touch with you, Once they will check Your Profile' > Applied <span style={{ fontSize: '15px' }}>&#10004;</span></button>
+                              <button className={styles.Appliedbutton} title='HR will reach out to you after reviewing your profile' > Applied <span style={{ fontSize: '15px' }}>&#10004;</span></button>
                               :
                               items.SourceLink ?
                                 // <button title='This will redirect to the source company webpage' className={styles.Applybutton} onClick={() => {
@@ -1046,7 +1046,7 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
                               jobseeker.jobSeekerId == jobSeekerId
                             )
                           }) ?
-                          <button className={styles.Appliedbutton} title='HR will get in touch with you, Once they will check Your Profile' > Applied <span style={{ fontSize: '15px' }}>&#10004;</span></button>
+                          <button className={styles.Appliedbutton} title='HR will reach out to you after reviewing your profile' > Applied <span style={{ fontSize: '15px' }}>&#10004;</span></button>
                           
                           :
                           items.SourceLink ?
@@ -1079,7 +1079,7 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
               <option selected={jobsPerPageValue==25} value={25}>25</option>
               <option selected={jobsPerPageValue==50} value={50}>50</option>
               <option selected={jobsPerPageValue==100} value={100}>100</option>
-              </select>  jobs per page
+              </select>  jobs per page 
             </div>
 
             <div className={styles.navigationWrapper}>
@@ -1308,7 +1308,7 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
                                   <br></br>
                                   You will be redirected to the career page of {job.Source}. 
                                   ITWalkin is not the authorised partner of this company
-                                  <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website.
+                                  {/* <strong>Notice:</strong> ITWALKIN.com never charges fees for job applications. If you encounter misuse or payment requests, report it through our website. */}
 
                                   <div ref={alertRef} style={{ marginTop: '15px', display:"flex", justifyContent:"center", gap:"4px" }}>
                                     <button
@@ -1319,7 +1319,7 @@ style={{ cursor: "pointer", textDecoration: "underline", color: "blue" }}>{items
                                         color: 'white',
                                         border: 'none',
                                         borderRadius: '5px',
-                                        fontSize: '14px',
+                                        fontSize: '10px',
                                         cursor: 'pointer',
                                       }}
                                     >

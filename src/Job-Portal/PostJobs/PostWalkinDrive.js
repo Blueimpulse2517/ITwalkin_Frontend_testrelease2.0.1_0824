@@ -287,6 +287,28 @@ const [selectedTime, setSelectedTime] = useState("");
       return () => clearInterval(interval);
     }, []);
     
+    const [showTooltip, setShowTooltip] = useState(false);
+    
+      const toggleTooltip = () => {
+        setShowTooltip((prev) => !prev);
+      };
+    
+      const tooltipRef = useRef(null);
+    
+      useEffect(() => {
+          const handleClickOutside = (event) => {
+            if (
+              tooltipRef.current && !tooltipRef.current.contains(event.target)
+            ) {
+              setShowTooltip(false);
+            }
+           
+          };
+      
+          document.addEventListener("mousedown", handleClickOutside);
+          return () => document.removeEventListener("mousedown", handleClickOutside);
+        }, []);
+    
 
     return (
         <>
@@ -306,7 +328,7 @@ const [selectedTime, setSelectedTime] = useState("");
                                <div className={Style.dirvefirstRow}>
                                   <div className={Style.dirvesubContainer}>
                                     <h4 className={Style.heading}>Job title**</h4>
-                                    <input className={Style.driveinput} style={{width:"290px"}}maxLength="100"  type="text" value={jobtitle} onChange={(e) => { handlejobtitle(e) }} />          
+                                    <input className={Style.driveinput} style={{width:"360px"}}maxLength="100"  type="text" value={jobtitle} onChange={(e) => { handlejobtitle(e) }} />          
                                   </div>
                                  <div className={Style.dirvesubContainer}>
                                    <h4 className={Style.heading}>Company Name**</h4>
@@ -362,10 +384,31 @@ const [selectedTime, setSelectedTime] = useState("");
                                      </div>
                                     </div>    
                                     <div style={{marginRight:"150px"}}>
+                                      <div style={{position:"relative"}}>
                                      <h4 className={Style.jobHeadline}>Job Location**</h4>
+                                     <div
+    ref={tooltipRef} // ⬅ attach ref to parent of both icon and tooltip
+    className={Style.driveAlerti}
+    onClick={toggleTooltip}
+  >
+    i
+    {showTooltip && (
+      <div
+        className={Style.driveIdesc}
+      >
+        Job Location: Bangalore Only. Kindly ensure that all applications align with this specified location.
+      </div>
+    )}
+  </div>
+</div>
+    
+
                                         <div style={{ marginTop: "-10px" }}>
                                             <label><input name="Location" type="radio" checked={joblocation === "Bangalore"} value="Bangalore" onChange={(e) => { setJobLocation(e.target.value); setotherJobLocation(false) }} />Bangalore </label>
                                       </div>
+
+                                      
+
                                   </div> 
 
                                  
@@ -453,12 +496,12 @@ const [selectedTime, setSelectedTime] = useState("");
                                        <div>
 <p><input type="checkbox" onChange={()=>{setconcent((prev)=>!prev)}}/>
     I have read the terms and conditions of ITwalkin.com and I agree to all the 
-     <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}> terms and conditons</span> before posting the jobs </p>
+     <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}> Terms and Conditons</span> before posting the jobs </p>
 
      </div>
      {Logo ? <p ><span style={{ color: "blue" }}>Note** :</span> Logo will also be posted with the Job</p> : ""}
 <div style={{display:"flex", justifyContent:"center" }}>
-<button style={{width:"130px",}} disabled={concent} className={concent? Style.disableButton:Style.button} onClick={postJob}>Submit/Post</button>
+<button style={{width:"130px"}} disabled={concent} className={concent? Style.disableButton:Style.button} onClick={postJob}>Submit</button>
 </div>
                             {/* </div> */}
 

@@ -184,7 +184,7 @@ function Nav(props) {
 
     const [isOpen, setIsOpen] = useState(false);
     const handleSelect = (option) => {
-      props.setSelectedlocationOption(option);
+      // props.setSelectedlocationOption(option);
       setIsOpen(false);
     };
     const dropdownRef = useRef(null);
@@ -212,6 +212,23 @@ function Nav(props) {
              }
           }
 
+          const [resumeAlert, setresumeAlert]=useState(false)
+          const alertRef = useRef(null);
+          useEffect(() => {
+            const handleClickOutside = (event) => {
+              // If clicked outside alert box and it's open
+              if (alertRef.current && !alertRef.current.contains(event.target)) {
+                setresumeAlert(false); // close the alert
+              }
+            };
+          
+            document.addEventListener('mousedown', handleClickOutside);
+          
+            return () => {
+              document.removeEventListener('mousedown', handleClickOutside);
+            };
+          }, []);
+
         return (
     <>
 
@@ -236,7 +253,7 @@ function Nav(props) {
                 </div>
                   <div><NavLink to="/alljobs" className={Styles.AllJobJobSeeker}  style={navLinkStyles}>All Jobs </NavLink>
                   </div>
-                  <div><NavLink to="/resumes" className={Styles.AllJobJobSeeker}  style={navLinkStyles}>Resume </NavLink></div>
+                  <div><NavLink to="/resumes" className={Styles.AllJobJobSeeker}  style={navLinkStyles}>AI Resume Builder </NavLink></div>
                   <div ref={dropdownRef} style={{ position: "relative" }}>
                             
                             <div style={{ display: "flex", marginTop: "-5px" }}>
@@ -297,8 +314,9 @@ function Nav(props) {
                                         display: "flex",
                                         alignItems: "center",
                                         padding: "10px",
-                                        cursor: "pointer",
+                                        cursor: option.value === "Bangalore" ? "pointer" : "default",
                                         borderRadius: "10px",
+                                        color: option.value !== "Bangalore" ? "gray" : "black",
                                       }}
                                     >
                                       <img
@@ -463,8 +481,9 @@ function Nav(props) {
                                         display: "flex",
                                         alignItems: "center",
                                         padding: "10px",
-                                        cursor: "pointer",
+                                        cursor: option.value === "Bangalore" ? "pointer" : "default",
                                         borderRadius: "10px",
+                                        color: option.value !== "Bangalore" ? "gray" : "black",
                                       }}
                                     >
                                       <img
@@ -499,7 +518,7 @@ function Nav(props) {
                             <p className={Styles.text} ref={menuRef} onClick={EmployeeProfile} >My profile</p>
                             <p className={Styles.text} ref={menuRef} onClick={mypostedjob}>My posted Jobs</p>
                             <p className={Styles.text} ref={menuRef} onClick={myposteddrive}>My posted Drives</p>
-                            <p className={Styles.text} ref={menuRef} onClick={mypostedArticle}>posted Articles</p>
+                            <p className={Styles.text} ref={menuRef} onClick={mypostedArticle}>Posted Articles</p>
                             <p className={Styles.text} ref={menuRef} onClick={PostBlogs}>Write Article</p>
                             <p className={Styles.text} ref={menuRef} onClick={logutEmp}>Logout</p>
                           </div>
@@ -622,6 +641,66 @@ function Nav(props) {
                       <div>
                       <NavLink to="/" className={Styles.HomeJobs} style={navLinkStyles}><i style={{ marginLeft: 0, marginRight: "5px" }} class="fa-solid fa-house"></i>Home</NavLink>   
                       </div>
+                      <div ref={alertRef} style={{position:"relative"}}>
+                        <div onClick={()=>setresumeAlert((prev)=>prev=!prev)} className={Styles.AllJobJobSeeker} style={{cursor:"pointer"}}>AI Resume Builder </div>
+                         {resumeAlert&&
+                         <>
+                            <div
+        style={{
+          width: '300px',
+          padding: '20px',
+          backgroundColor: 'rgb(40,4,99)',
+          color: 'white',
+          fontSize: '12px',
+          borderRadius: '5px',
+          position: 'fixed',
+          top: '17%',
+          left: '32%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 9999,
+          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+          textAlign: 'center',
+        }}
+        
+        > 
+        
+        Login as a Jobseeker to explore opportunities and create a strong resume!
+          <div  style={{ marginTop: '15px', display:"flex", justifyContent:"center", gap:"5px" }}>
+            <button
+              onClick={() => {navigate("/JobSeekerLogin"); setresumeAlert(false)}}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#4CAF50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                fontSize: '12px',
+                cursor: 'pointer',
+              }}
+            >
+              Ok
+            </button>
+            <button
+              onClick={()=> setresumeAlert(false)}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#4CAF50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                fontSize: '12px',
+                cursor: 'pointer',
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+                         </>
+
+                         }
+                        </div>
+            
 
                       <div ref={dropdownRef} style={{ position: "relative" }}>
                             
@@ -683,8 +762,9 @@ function Nav(props) {
                                         display: "flex",
                                         alignItems: "center",
                                         padding: "10px",
-                                        cursor: "pointer",
+                                        cursor: option.value === "Bangalore" ? "pointer" : "default",
                                         borderRadius: "10px",
+                                        color: option.value !== "Bangalore" ? "gray" : "black",
                                       }}
                                     >
                                       <img
@@ -810,8 +890,11 @@ function Nav(props) {
                 </div>
                  
                 <div className={Styles.fullnavewrapperRSMobile} style={{marginRight:"11px"}}>
-                 <div>
-                  <NavLink to="/alljobs" className={`${Styles.Moblink} ${Styles.AlllJobs}`} >All Jobs </NavLink>
+                <div className={Styles.resumeMenuVisible}><NavLink to="/resumes" className={Styles.AllJobJobSeeker}  >AI <br></br>Resume<br></br> Builder </NavLink></div>
+
+                 <div style={{display:"flex", flexDirection:"column"}}>
+                  <div className={Styles.allJobMobspl}> <NavLink to="/alljobs" className={`${Styles.Moblink} ${Styles.AlllJobs}`} >All Jobs </NavLink> </div>
+                  <div className={Styles.resumeMenuVisibleMob}><NavLink to="/resumes" className={Styles.AllJobJobSeeker}  >AI Resume Builder </NavLink></div>
                   </div>
                 <div>
                   
@@ -933,8 +1016,8 @@ className={props.ShowSideNave ? "fas fa-times" : "fas fa-bars"} ref={SimgRef} on
                      <div  className={Styles.EmpMobDropdownwrapperMobile} ref={menuRef} >
                     <p className={Styles.text} ref={menuRef} onClick={EmployeeProfile} >My profile</p>
                     <NavLink to="/postedjobs" className={`${Styles.text} `} > Posted jobs</NavLink>
-                    <p className={Styles.text} ref={menuRef} onClick={myposteddrive}>posted Drives</p>
-                    <p className={Styles.text} ref={menuRef} onClick={mypostedArticle}>posted Articles</p>
+                    <p className={Styles.text} ref={menuRef} onClick={myposteddrive}>Posted Drives</p>
+                    <p className={Styles.text} ref={menuRef} onClick={mypostedArticle}>Posted Articles</p>
                     <p className={Styles.text} ref={menuRef} onClick={PostBlogs}>Write Article</p>
                     <p className={Styles.text} ref={menuRef} onClick={logutEmp}>Logout</p>
                     </div>
@@ -1017,6 +1100,70 @@ className={props.ShowSideNave ? "fas fa-times" : "fas fa-bars"} ref={SimgRef} on
                       <div>
                         <img className={Styles.MobIwalkinLogologo} src={Itwalkinlogo} />
                       </div>
+
+                      <div style={{display:"flex", flexDirection:"column"}}>
+
+                      <div ref={alertRef} style={{position:"relative", marginBottom: "-28px", zIndex:"999"}}>
+                        <div onClick={()=>setresumeAlert((prev)=>prev=!prev)} className={Styles.AllJobJobSeeker} style={{cursor:"pointer"}}>AI Resume Builder </div>
+                         {resumeAlert&&
+                         <>
+                            <div
+        style={{
+          width: '300px',
+          padding: '20px',
+          backgroundColor: 'rgb(40,4,99)',
+          color: 'white',
+          fontSize: '12px',
+          borderRadius: '5px',
+          position: 'fixed',
+          top: '20%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 9999,
+          boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+          textAlign: 'center',
+        }}
+        
+        > 
+        
+        Login as a Jobseeker to explore opportunities and create a strong resume!
+          <div  style={{ marginTop: '15px', display:"flex", justifyContent:"center", gap:"5px" }}>
+            <button
+              onClick={() => {navigate("/JobSeekerLogin"); setresumeAlert(false)}}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#4CAF50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                fontSize: '12px',
+                cursor: 'pointer',
+              }}
+            >
+              Ok
+            </button>
+            <button
+              onClick={()=> setresumeAlert(false)}
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#4CAF50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                fontSize: '12px',
+                cursor: 'pointer',
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+                         </>
+
+                         }
+                        </div>
+            
+
                        <div ref={dropdownRef} style={{ position: "relative" }}>
                          <div style={{ display: "flex", marginTop: "11px"}}>
                               <button
@@ -1069,8 +1216,9 @@ className={props.ShowSideNave ? "fas fa-times" : "fas fa-bars"} ref={SimgRef} on
                                         display: "flex",
                                         alignItems: "center",
                                         padding: "10px",
-                                        cursor: "pointer",
+                                        cursor: option.value === "Bangalore" ? "pointer" : "default",
                                         borderRadius: "10px",
+                                        color: option.value !== "Bangalore" ? "gray" : "black",
                                       }}
                                     >
                                       <img
@@ -1086,7 +1234,7 @@ className={props.ShowSideNave ? "fas fa-times" : "fas fa-bars"} ref={SimgRef} on
                             )}
                           </div>
                     </div>
-
+                    </div>
                     <div className={Styles.fullnavewrapperLSMobile}>
                       <div>
                           {props.flashVisible && (

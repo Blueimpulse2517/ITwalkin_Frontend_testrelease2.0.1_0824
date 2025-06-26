@@ -314,7 +314,7 @@ return(
         let sortedate = result.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-    
+        setJobTagsIds(sortedate)
       })
   }
 
@@ -650,7 +650,7 @@ return(
                 {uniqueList.length} </span>Jobs with following matching tags:
                 <span style={{ color: "blue" }}>{Active.toString()}</span></p>
               :
-              <p style={{ fontWeight: 400, marginLeft: "10px" }}>showing {firstIndex + 1} to {lastIndex} latest jobs</p>
+              <p style={{ fontWeight: 400, marginLeft: "10px" }}>showing {firstIndex + 1} to {lastIndex} latest Candidates</p>
             }
             <div className={styles.navigationWrapper}>
               <button disabled={currentPage === 1} style={{ display: "inline", margin: "5px" }} className={styles.navigation} onClick={firstPage}>
@@ -675,7 +675,7 @@ return(
               <option selected = {lastIndex === 25} value={25}>25</option>
               <option selected = {lastIndex === 50} value={50}>50</option>
               <option selected = {lastIndex === 100} value={100}>100</option>
-            </select>  jobs per page
+            </select>  Candidates per page
             </div>
 
           <div className={styles.AllUiWrapper}>
@@ -694,7 +694,7 @@ return(
                   <i onClick={AgeDescendingOrder} className={`${styles.arrow} ${styles.down}`}></i>
                 </p>
               </li>
-              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Qualification}`}>  <b>Qualif</b>
+              <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Qualification}`}>  <b>Qualification</b>
               </li>
               <li style={{ backgroundColor: " rgb(40, 4, 99)" }} className={`${styles.li} ${styles.Experiance}`}><b>Experience</b>
                 <p style={{ display: "inline", marginLeft: "1%" }}>
@@ -782,7 +782,7 @@ return(
               <option selected = {lastIndex === 25} value={25}>25</option>
               <option selected = {lastIndex === 50} value={50}>50</option>
               <option selected = {lastIndex === 100} value={100}>100</option>
-            </select>  jobs per page
+            </select>  Candidates per page
           </div>
           <div className={styles.navigationWrapper}>
               <button disabled={currentPage === 1} style={{ display: "inline", margin: "5px" }} className={styles.navigation} onClick={firstPage}>

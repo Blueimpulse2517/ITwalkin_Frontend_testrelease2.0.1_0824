@@ -285,7 +285,7 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
                                         <input maxLength="30" className={Style.inputbox} type="text" value={companyName} disabled /> */}
 
 
-                                        <h4 className={Style.jobHeadline}>Bolg**</h4>
+                                        <h4 className={Style.jobHeadline}>Blog**</h4>
                                         {/* <input maxLength="100" className={Style.inputbox} type="text" value={jobDescription} onChange={(e) => { setJobDescription(e.target.value) }} /> */}
                                         {/* <Editor
                                             toolbarClassName="toolbarClassName"
@@ -390,7 +390,7 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
 />*/}
 <p><input type="checkbox" onChange={()=>{setconcent((prev)=>!prev)}}/>
     I have read the terms and conditions of ITwalkin.com and I agree to all the 
-     <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}> terms and conditons</span> before posting the jobs </p> 
+     <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}> terms and conditons</span> before posting the Blogs </p> 
 
      <p><input type="checkbox" onChange={()=>{setProfileConcent((prev)=>!prev)}}/>
      Show my company and designation</p>
@@ -401,8 +401,10 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
 
                                         {/* {Logo ? <p ><span style={{ color: "blue" }}>Note** :</span> Logo will also be posted with the Job</p> : ""} */}
 
-                                        <button disabled={concent} className={concent? Style.disableButton:Style.button} onClick={postJob}>Post Blog</button>
-                                    </div >
+                                        </div >
+                                         <div style={{display:"flex",justifyContent:"center"}}>
+                                         <button style={{width:"132px",marginLeft:"-64px"}} disabled={concent} className={concent? Style.disableButton:Style.button} onClick={postJob}>Post Blog</button>
+                                         </div>
                                 </div >
                             </div>
                             : <p style={{ color: "red", fontStyle: "italic", marginLeft: "20px" }}>Your account is in under verification process, Once your account gets verified, then you will be able to write a Blog</p>

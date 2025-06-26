@@ -238,7 +238,27 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
     }
 }
 
+const [showTooltip, setShowTooltip] = useState(false);
 
+  const toggleTooltip = () => {
+    setShowTooltip((prev) => !prev);
+  };
+
+  const tooltipRef = useRef(null);
+
+  useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (
+          tooltipRef.current && !tooltipRef.current.contains(event.target)
+        ) {
+          setShowTooltip(false);
+        }
+       
+      };
+  
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
         <>
@@ -278,7 +298,7 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
                                </>
                                 :""
                                     } */}
-                                        <p className={Style.jobHeadline}>Company Name** &nbsp;<span className={Style.hint}>(Update Company Name from your Profile)</span></p>
+                                        <p className={Style.jobHeadline}>Company Name** &nbsp;<span className={Style.hint}>(Company name cannot be edited ,taken automatically from the profile section)</span></p>
                                         <input maxLength="30" className={Style.inputbox} type="text" value={companyName} disabled />
 
 
@@ -334,8 +354,25 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
                                         <label><input name="Job-Type" type="radio" checked={jobtype === "Part Time"} value="Part Time" onChange={(e) => { setJobtype(e.target.value) }} />Part Time  </label>
                                         <label><input name="Job-Type" type="radio" checked={jobtype === "Internship"} value="Internship" onChange={(e) => { setJobtype(e.target.value)}} />Internship </label>
                                         <label><input name="Job-Type" type="radio" checked={jobtype === "Contract"} value="Contract" onChange={(e) => { setJobtype(e.target.value) }} />Contract   </label>
+                                        <div style={{ position: "relative", display:"flex",  alignItems:"center" }}>
+  <div><h4 className={Style.jobHeadline}>Job Location**</h4></div>
 
-                                        <h4 className={Style.jobHeadline}>Job Location**</h4>
+  <div
+    ref={tooltipRef} // ⬅ attach ref to parent of both icon and tooltip
+    className={Style.JobAlerti}
+    onClick={toggleTooltip}
+  >
+    i
+    {showTooltip && (
+      <div
+        className={Style.jobIdesc}
+      >
+        Job Location: Bangalore Only. Kindly ensure that all applications align with this specified location.
+      </div>
+    )}
+  </div>
+</div>
+
                                         <div style={{ marginTop: "-10px" }}>
                                             <label><input name="Location" type="radio" checked={joblocation === "Bangalore"} value="Bangalore" onChange={(e) => { setJobLocation(e.target.value); setotherJobLocation(false) }} />Bangalore </label>
                                             {/* <label><input name="Location" type="radio" checked={joblocation === "Hyderabad"} value="Hyderabad" onChange={(e) => { setJobLocation(e.target.value); setotherJobLocation(false) }} disabled />Hyderabad </label>
@@ -370,12 +407,17 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
                                                 : ""
 
                                         }
+                                       <div style={{position:"relative"}} >
+                                           <h4 className={Style.jobHeadline}>Salary Per Annum in Lakhs** &nbsp;<span className={Style.hint}>(e.g 5 or 10)</span></h4>
+                                           <input maxLength="3" className={Style.inputbox} type="number" value={salaryRange} onChange={(e) => { handleSalary(e) }} />
+                                           <span className={Style.suffix}>{salaryRange===""?"":"LPA"}</span>
+                                        </div>
 
-                                        <h4 className={Style.jobHeadline}>Salary Per Annum in Lakhs** &nbsp;<span className={Style.hint}>(e.g 5 or 10)</span></h4>
-                                        <input maxLength="3" className={Style.inputbox} type="number" value={salaryRange} onChange={(e) => { handleSalary(e); handleRadioTags(e.target.value) }} />
-
+                                        <div style={{position:"relative"}} >
                                         <h4 className={Style.jobHeadline}>Experience Needed** &nbsp;<span className={Style.hint}>(e.g 5 or 10)</span></h4>
                                         <input maxLength="3" className={Style.inputbox} type="number" value={experiance} onChange={(e) => { handleExperiance(e) }} />
+                                        <span className={Style.suffix}>{experiance===""?"":"YRS"}</span>
+                                        </div>
                                         {/* <h4 className={Style.jobHeadline}>Skill Tags**</h4>
                                         <div>
                                             <CreatableSelect
@@ -391,14 +433,13 @@ if(key==='Full Time' ||key=== 'Contract' || key==='Internship' || key==='Part Ti
 // onChange={(e)=>{setSkills(e.target.value)}} 
 />
 <p><input type="checkbox" onChange={()=>{setconcent((prev)=>!prev)}}/>
-I have read and understood the <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}>terms and conditions</span> of ITwalkin.com, and I 
-fully agree to them before posting help-related questions.</p>
+I have read the terms and conditions of ITwalkin.com and I agree to all the  <span style={{color:"blue", cursor:"pointer"}} onClick={()=>(window.open("/TermsAndCondition"))}>Terms and Conditions</span>  before posting the jobs  .</p>
 
 
 
                                         {Logo ? <p ><span style={{ color: "blue" }}>Note** :</span> Logo will also be posted with the Job</p> : ""}
                                         <div style={{display:"flex", justifyContent:"center"}}>
-                                        <button style={{width:"210px"}} disabled={concent} className={concent? Style.disableButton:Style.button} onClick={postJob}>Post Job</button>
+                                        <button style={{width:"132px"}} disabled={concent} className={concent? Style.disableButton:Style.button} onClick={postJob}>Post Job</button>
                                         </div>
                                     </div >
                                 </div >

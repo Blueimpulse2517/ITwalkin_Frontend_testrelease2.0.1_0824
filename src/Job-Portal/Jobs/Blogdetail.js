@@ -411,6 +411,7 @@ async function deletComment(id){
                  <div style={{fontSize:"12px", fontWeight:"800px"}}>Back</div>
           </button>
 
+             {!isNaN(index+1)&&    
           <div style={{display:"flex",height:"55px"}}>
           <button onClick={descIndex}  className={styles.readPageBackBtn}style={{padding: "0px 5px 0px 8px"}}>
           <i class='fas fa-caret-square-left' style={{fontSize:"9px",marginLeft:"-2px"}}></i>   
@@ -421,6 +422,7 @@ async function deletComment(id){
           <div style={{fontSize:"12px", fontWeight:"800px"}}>Next</div> <i class='fas fa-caret-square-right' style={{fontSize:"9px",marginLeft:"4px"}}></i>
           </button>
           </div>
+          }
        </div>
        {PageLoader ?"":
        <h1 style={{textAlign:"center", fontSize:"40px", whiteSpace:"no", marginTop:"10px",marginRight:"0px"}}>{jobs?.jobTitle?jobs.jobTitle.charAt(0).toUpperCase()+jobs.jobTitle.substring(1):"Loading..."}</h1>
@@ -451,12 +453,15 @@ async function deletComment(id){
           </div>
 
           <div className={styles.copyLinkContainer}>
-            <input type="text" value={url} readOnly className={styles.urlInput} />
-            <button onClick={copyToClipboard} className={styles.copyButton}>
+            {/* <input type="text" value={url} readOnly className={styles.urlInput} /> */}
+            <div style={{wordBreak:"break-word", padding:"3px"}}>{url}</div>
+           
+          </div>
+          <div style={{display:"flex", justifyContent:"center"}}>
+          <button onClick={copyToClipboard} className={styles.copyButton}>
               {copied ? "Copied!" : "Copy Link"}
             </button>
-          </div>
-
+            </div>
           <div onClick={() => setShareClicked(false)} className={styles.closeButton} style={{position:"absolute", top:"8px", right:"13px",fontSize:"20px", color:"white", cursor:"pointer"}}>X</div>
         </div>
       )}
@@ -547,24 +552,40 @@ async function deletComment(id){
             <img src={Whatsapp} style={{borderRadius:"50%", height:"46px",width:"48px"}}></img>
             </a>
 
-            <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=&su=Shared%20Link&body=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer">
+            {/* <a href={`https://mail.google.com/mail/?view=cm&fs=1&to=&su=Shared%20Link&body=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer">
             <img src={Email} style={{borderRadius:"70%", borderRadius:"50%", height:"45px"}}></img>
-              </a>
+              </a> */}
+              <a
+  href={`mailto:?subject=Shared Link&body=${encodeURIComponent(url)}`}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <img
+    src={Email}
+    style={{ borderRadius: "50%", height: "45px" }}
+    alt="Share via Email"
+  />
+</a>
+
           </div>
 
           <div className={styles.copyLinkContainer} style={{marginTop:"16px"}}>
-            <input type="text" value={url} readOnly className={styles.urlInput} />
-            <button onClick={copyToClipboard} className={styles.copyButton}>
+            {/* <input type="text" value={url} readOnly className={styles.urlInput} /> */}
+            <div style={{wordBreak:"break-word", padding:"3px"}}>{url}</div>
+           
+          </div>
+          <div style={{display:"flex", justifyContent:"center"}}>
+          <button onClick={copyToClipboard} className={styles.copyButton}>
               {copied ? "Copied!" : "Copy Link"}
             </button>
-          </div>
-
+            </div>
           <div onClick={() => setShareClicked(false)} className={styles.closeButton} style={{position:"absolute", top:"8px", right:"13px",fontSize:"20px", color:"white", cursor:"pointer"}}>X</div>
         </div>
       )}
  </div>
  </div>
 
+ {!isNaN(index+1)&&
  <div style={{display:"flex",marginLeft:"8px",marginTop:"11px",marginRight:"-6px",alignItems:"center", gap:"2px"}}>
               {/* <button class={styles.jobdetailBackBtn} onClick={()=>{navigate(-1)}}>Back</button> */}
               <button onClick={descIndex} className={styles.jobdetailBackBtnMobile} style={{fontWeight:"100"}} >
@@ -576,6 +597,7 @@ async function deletComment(id){
              <i class='fas fa-caret-square-right' style={{ color: "white",marginLeft:"0px", marginLeft:"-2px" }}></i>    Next
           </button>
  </div>
+}
 
                 <div className={styles.JobCard} style={{marginTop:"8px"}} >
                 {/* <p className={`${styles.Date} ${styles.readPageDate}`}>{new Date(jobs.createdAt).toLocaleString(

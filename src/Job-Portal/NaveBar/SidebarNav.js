@@ -7,8 +7,12 @@ import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
 function SidebarNav(props) {
   const[show,setShow]=useState(false)
   let navigate = useNavigate()
+  function Linkedin(e){
+    window.open("https://www.linkedin.com/company/104886917/admin/dashboard/", '_blank');  
+  }
   const [empHome, setEmpHome] = useState(false);
   const location = useLocation(); 
+  
   // const[pathName,setPathName]=useState(location.pathname)
   // console.log("pathnameees",pathName)
 
@@ -21,10 +25,15 @@ function SidebarNav(props) {
       setEmpHome(false); 
     }
 
+    
+
     const inputField = document.querySelector(`.${Styles.blogInputboxsearch}`);
     if (inputField) {
       inputField.value = ""; 
       props.setShowMobileSearchIcon(true)
+
+
+      
 
     //   if(empHome){
     //     // props.searchs("")
@@ -113,9 +122,14 @@ function SidebarNav(props) {
 //  };
 
 
-
-
-
+let StudentAuth = localStorage.getItem("StudLog")
+const resumeRedirect=()=>{
+  if(StudentAuth)
+    navigate("/resumes")
+else{
+  navigate("/JobSeekerLogin")
+}
+}
   return (
   <>
   
@@ -148,7 +162,7 @@ function SidebarNav(props) {
                                                                                                                                                                              else{
                                                                                                                                                                               props.search(e)
                                                                                                                                                                               console.log("s-screen else entered")   
-                                                                                                                                                                             } }} />
+                                                                                                                                             } }} />
            
             <i style={{marginLeft:"2px",fontSize:"16px",marginTop:"6px"}} class="fa fa-search" onClick={() => { props.searchIcon(props.searchKey);props.setShowSideNaveProps();props.setShowMobileSearchIcon(true)}}></i>
           </div>
@@ -219,16 +233,21 @@ function SidebarNav(props) {
         :""
        }
         <p onClick={()=>{navigate("/Blogs"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Blogs </p>
+        {!EmployeeAuth&&
+        <>
         <p onClick={()=>{navigate("/AllCareerJobs"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>ITwalkin Career</p>
+        <p onClick={()=>{resumeRedirect(); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>AI Resume Builder</p>
         <p onClick={()=>{navigate("/Walkin-Drives"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Walkin Drive</p>
+        </>
+        }
         <p onClick={()=>{navigate("/fraud-form"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Report Fraud</p>
         <p onClick={()=>{navigate("/AboutUs"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>About Us</p>
         <p onClick={()=>{navigate("/Services"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Our Services</p>
         <p onClick={()=>{navigate("/Contact"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Contact Us</p>
        
         <p onClick={()=>{navigate("/TermsAndCondition"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Terms & Conditions</p>
-       
-         <p className={`${Styles.textinMobileSodeBar} `}>Version 3.0</p>
+        <i onClick={()=>{Linkedin(); }} className={`${Styles.textBigSodeBar}  fa-brands fa-linkedin`} style={{ fontSize: "xx-large" }} ></i>
+         <p className={`${Styles.textinMobileSodeBar} `} style={{marginBottom:"100px"}}>Release Version : v3.0</p>
         </div>
       </div>
       </>

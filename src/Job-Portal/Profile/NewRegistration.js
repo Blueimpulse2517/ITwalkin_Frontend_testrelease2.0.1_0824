@@ -22,6 +22,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import JoditEditor from 'jodit-react'
 import Style from "../PostJobs/postJobs.module.css"
 import CustomTextEditor from '../Editor/CustomTextEditor';
+import CustomAlert from '../Alert/customAlert';
 
 function EmployeeUpdateProfile(props) {
   const editor=useRef(null)
@@ -84,12 +85,14 @@ const [immage, setimmage] = useState()
       }, []);
   
   function NoEmailAlert(){
-      alert("primary email field must be filled")
+    alert("primary email field must be filled")
   }
   
  function InvalidEmailAlert(){
   alert("Invalid Primary email id")
  }
+
+ const [alertVisible, setAlertVisible] = useState(false);
 
   const login= useGoogleLogin({
     
@@ -125,7 +128,8 @@ const [immage, setimmage] = useState()
             let GuserId = result.id
             // console.log(result)
             if (result.action == "registered") {
-              alert("Registered Successfully")
+              // alert("Registered Successfully")
+              setAlertVisible(true)
               }else if(result.action == "login"){
                 alert("Primary email id is already registered please try different email id")
 
@@ -250,8 +254,8 @@ const [immage, setimmage] = useState()
 
    function  handleCompanyname(e){    
     const value = e.target.value;
-    const sanitizedValue = value.replace(/[^\w\s.]|_/g, ''); // Regex to remove special characters
-    setCompanyName(sanitizedValue);
+    // const sanitizedValue = value.replace(/[^\w\s.]|_/g, ''); // Regex to remove special characters
+    setCompanyName(value);
 
    }
 
@@ -534,8 +538,18 @@ const helpData = [
   }, [CompanyAddress]);
 
 
+  // useEffect(()=>{
+  //    console.log("about updated",AboutCompany)
+  // },[AboutCompany])
+
  return (
     <>
+            <CustomAlert
+        show={alertVisible}
+        title="Registration successful!"
+        message="Start posting jobs and hiring top talent now"
+        onClose={() => setAlertVisible(false)}
+      />
 
       {/* <div className={styles.EntireFullWrapper}>
 
@@ -609,13 +623,13 @@ const helpData = [
             </label>
 
             <div className={styles.inputName}>
-              <h4>Type of Organisation :  <span style={{color:"blue"}}>{TypeofOrganisation}</span></h4>
+              <h4>Type of Organisation : </h4>
               {/* <input className={styles.input} value={TypeofOrganisation} onChange={(e) => { setTypeofOrganisation(e.target.value) }} type="text" /> */}
            
             <select className={styles.input } style={{height:"35px"}}onChange={(e)=>{setTypeofOrganisation(e.target.value)}}>
-            {TypeofOrganisation? <option style={{color:"blue"}} >{TypeofOrganisation}</option>
+            {/* {TypeofOrganisation? <option style={{color:"blue"}} >{TypeofOrganisation}</option>
             :<option value="" >Select Company type</option>
-            }
+            } */}
               <option value="Pvt.Ltd.">Pvt. Ltd.</option>
               <option value="Firm">Firm</option>
               <option value="Consultancy">Consultancy</option> 
@@ -724,8 +738,9 @@ const helpData = [
 <div className={styles.EmpEditor}>
             <h4>About Company:</h4>
             <div className={`screen1 ${styles.screen1}`} style={{ marginTop: "-10px", marginLeft: "11px", width: "103%" }}>
-    <JoditEditor ref={editor} value={AboutCompany.toString()} onChange={(e) => setAboutCompany(e)} />
-{/* <CustomTextEditor ref={editor} value={AboutCompany.toString()} onChange={(e) => setAboutCompany(e)} /> */}
+    {/* <JoditEditor ref={editor} value={AboutCompany.toString()} onChange={(e) => setAboutCompany(e)} /> */}
+    <CustomTextEditor ref={editor} className={Style.inputbox} value={AboutCompany} onChange={setAboutCompany}/>
+
 </div>
 
 </div>
@@ -901,11 +916,11 @@ const helpData = [
             </label>
             */}
             <div className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Type of Organisation :  <span style={{color:"blue"}}>{TypeofOrganisation}</span></h4>          
+              <h4 className={styles.MobileName}>Type of Organisation: </h4>          
             <select className={styles.Mobileinput } style={{height:"35px"}}onChange={(e)=>{setTypeofOrganisation(e.target.value)}}>
-            {TypeofOrganisation? <option style={{color:"blue"}} >{TypeofOrganisation}</option>
+            {/* {TypeofOrganisation? <option style={{color:"blue"}} >{TypeofOrganisation}</option>
             :<option value="" >Select Company type</option>
-            }
+            } */}
               <option value="Pvt.Ltd.">Pvt. Ltd.</option>
               <option value="Firm">Firm</option>
               <option value="Consultancy">Consultancy</option> 

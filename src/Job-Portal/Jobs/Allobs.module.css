@@ -237,7 +237,7 @@
     border-radius: 8px;
     width:92%;
     margin-left: 15px;
-    height:40px;
+    /* height:40px; */
     align-items: center;
 }
 
@@ -253,8 +253,8 @@
     
 }
 .copyButton{
-        background-color: rgb(40, 4, 99);
-        color: white;
+        background-color: white;
+        color:  rgb(40, 4, 99);
         border: none;
         padding: 2px 2px 2px 2px;
         cursor: pointer;
@@ -264,6 +264,8 @@
         width:100px;
         height:35px;
         margin-right:7px;
+        margin-top:6px;
+        margin-bottom: -6px;
     }
 
 /* ----------------share button ends--------------------------- */
@@ -297,6 +299,24 @@
     /* background-color: blue; */
     display: flex;
     justify-content: space-between;
+
+}
+
+.QRHomeBtn{
+    background-color: rgb(40, 4, 99);
+    color: white;
+    border: none;
+    padding: 0px 10px 0px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 1.0rem; 
+    margin-left: 5px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    gap:3px;
 
 }
 .jobdetailBackBtn{
@@ -1364,9 +1384,9 @@ table {
 }
 .jobdetailBackBtn{
     margin-left: 20px;
-    height:36px;
+    /* height:36px;
     padding-bottom: 25px;
-    padding-top: 8px;
+    padding-top: 8px; */
 }
 }
 @media (max-width:360px){
@@ -1758,5 +1778,3 @@ margin-top: 11px;
        overflow: hidden;
        box-sizing: border-box;
 }
-
-
