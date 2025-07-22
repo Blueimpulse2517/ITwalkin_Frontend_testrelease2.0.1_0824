@@ -222,7 +222,7 @@ let EmployeeAuth = localStorage.getItem("EmpLog")
         <p onClick={()=>{navigate("/Services"); update("Services")}} className={`${Styles.textBigSodeBar} ${value==="Services"?Styles.active:""}`}>Our Services</p>
         <p onClick={()=>{navigate("/Contact"); update("Contact")}} className={`${Styles.textBigSodeBar} ${value==="Contact"?Styles.active:""}`}>Contact Us</p>
         <p onClick={()=>{navigate("/TermsAndCondition"); update("TermsAndCondition")}} className={`${Styles.textBigSodeBar} ${value==="TermsAndCondition"?Styles.active:""}`}>Terms & Conditions</p>
-        <i onClick={()=>{Linkedin(); }} className={`${Styles.textBigSodeBar}  fa-brands fa-linkedin`} style={{ fontSize: "xx-large" }} ></i>Add commentMore actions
+        <i onClick={()=>{Linkedin(); }} className={`${Styles.textBigSodeBar}  fa-brands fa-linkedin`} style={{ fontSize: "xx-large" }} ></i>
         <p  className={`${Styles.textBigSodeBar} `} style={{ marginBottom: "120px", marginTop: "0px" }}>Release Version : v3.0</p> 
         <div></div>
         {/* <div className={Styles.brands}> */}
@@ -231,7 +231,7 @@ let EmployeeAuth = localStorage.getItem("EmpLog")
               <a> <i className='fa-brands fa-instagram-square' style={{fontSize:"xx-Large", marginBottom:"30px"}}></i> </a><br></br>
               <a> <i className='fa-brands fa-twitter-square' style={{fontSize:"xx-Large", marginBottom:"45px", marginTop:"10px"}}></i> </a> */}
               {/* <i className="fa-brands fa-linkedin-square" style={{fontSize:"xx-Large", marginBottom:"30px"}} onClick={Linkedin} ></i><br></br> */}
-                          {/* <i className={`${Styles.textBigSodeBar} fa-brands fa-linkedin`} style={{ fontSize: "xx-large", marginBottom: "30px" }}  onClick={Linkedin}></i> */}Add commentMore actions
+                          {/* <i className={`${Styles.textBigSodeBar} fa-brands fa-linkedin`} style={{ fontSize: "xx-large", marginBottom: "30px" }}  onClick={Linkedin}></i> */}
              {/* <p style={{marginTop:"-10px", marginLeft:"15px"}}>Version 3.0</p>
         </div> */}
         </div>

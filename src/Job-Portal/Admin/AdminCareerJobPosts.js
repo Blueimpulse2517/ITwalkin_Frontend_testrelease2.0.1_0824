@@ -210,8 +210,8 @@ function AdminCareerPostJobs() {
                     setTag([])
                     setSuccessMessage("Success! job successfully posted")
                 }
-                else if (result == "field are missing") {
-                    setSuccessMessage("Alert!... JobTitle, CompanyName JobDescription, Experiance, JobLocation and Skills must be filled")
+                else if (result == "fields are missing") {
+                    setSuccessMessage("Alert!... JobTitle, CompanyName JobDescription, Experience, JobLocation and Skills must be filled")
                 }
             }).catch((err) => {
                 alert("server issue occured", err)
