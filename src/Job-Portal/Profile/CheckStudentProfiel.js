@@ -128,8 +128,8 @@ useEffect(() => {
   >
     <div style={{ fontSize: "12px", fontWeight: "800" }}>Back</div>
   </button>
-                             {/* <img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
-             width:"28px"}} onClick={()=>{navigate("/Search-Candidate")}}  src={Arrowimage} /> */}
+                             <img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
+             width:"28px"}} onClick={()=>{navigate("/Search-Candidate")}}  src={Arrowimage} />
     <p style={{marginLeft:"40%"}}><b>JobSeeker Profile </b></p>
     </div>
     <div style={{marginLeft:"4%"}}>

@@ -780,11 +780,10 @@ async function search(e) {
             AllEmployees.map((items, i) => {
               return (
                 <ul className={styles.ul}>
-                  <li className={`${styles.li} ${styles.Name}`} title='Click to Check the Full Profile' onClick={() => navigate(`/BIAddmin@CheckEmpProfile/${items._id}`)}>
-                    <Link style={{ color: "blue" }}>
-                    {items.online ? <span className={styles.dot}></span> :""} {items.name}</Link></li>
+                  <li className={`${styles.li} ${styles.Name}`} title='Click to Check the Full Profile' onClick={()=>{navigate(`/BIAddmin@CheckEmpProfile/${items._id}`)}}><Link style={{color:"blue"}}>
+                    {items.online ? <span className={styles.dot}></span> :""} {items.name}
+                    </Link></li>
                   <li className={`${styles.li} ${styles.phoneNumber}`}>{items.phoneNumber}</li>
-
                   <li className={`${styles.li} ${styles.CompanyName}`}>{items.CompanyName}</li>
                   <li className={`${styles.li} ${styles.CompanyAddress}`}>{items.CompanyAddress}</li>
                   <li className={`${styles.li} ${styles.Date}`}>

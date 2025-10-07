@@ -385,14 +385,11 @@ async function RecentLogin(e){
                   return (
 <>
                     <ul className={styles.ul}>
-
-                      <li className={`${styles.li} ${styles.name}`} 
-    onClick={()=>{navigate(`/BIAddmin@CheckStudentProfile/${items._id}`)}}><Link style={{color:"blue"}}>
+                      <li className={`${styles.li} ${styles.name}`} onClick={()=>{navigate(`/BIAddmin@CheckStudentProfile/${items._id}`)}}><Link style={{color:"blue"}}>
      {items.online ? <span className={styles.dot}></span> :""} {items.name}
       </Link></li>
                 <li className={`${styles.li} ${styles.phoneNumber}`}>{items.phoneNumber}</li>
                 <li className={`${styles.li} ${styles.age}`}>{items.age}</li>
-
                       <li className={`${styles.li} ${styles.Aadhar}`}> {items.Aadhar}</li>
                       <li className={`${styles.li} ${styles.Pdate}`}>
                         {new Date(items.createdAt).toLocaleString(
