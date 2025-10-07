@@ -14,9 +14,12 @@ import StudentLogin from "./Job-Portal/Login/StudLogin";
 import EmployeeLogin from "./Job-Portal/Login/EmpLogin"
 import NewRegistered from "./Job-Portal/Profile/NewRegistration";
 import StuNewRegistered from "./Job-Portal/Profile/StudentRegistration";
+import StudentSignUp from "./Job-Portal/SignUp/StudSignin";
+import EmployeeSignUp from "./Job-Portal/SignUp/EmplSign";
 import StudPrivate from "./Job-Portal/Private/OutletStud";
 import PostedJobsbyEmp from "./Job-Portal/Jobs/mypostedjobs";
 import BlogpostedByEmp from "./Job-Portal/Jobs/mypostedBlogs";
+import PostedJobsByAdmin from "./Job-Portal/Jobs/AdminPostedJobs";
 import PostedCareerJobs from "./Job-Portal/Jobs/myPostedCaereerjobs";
 import EmpPrivate from "./Job-Portal/Private/OuletEmp";
 import PostJobs from "./Job-Portal/PostJobs/postJobs";
@@ -25,7 +28,6 @@ import Jobs from "./Job-Portal/Jobs/AllJobs";
 import Nav from "./Job-Portal/NaveBar/Nav";
 import Jobdetails from "./Job-Portal/Jobs/AllJobdetails"
 import Blogdetails from "./Job-Portal/Jobs/Blogdetail"
-
 import Answerdetails from "./Job-Portal/Jobs/Answerdetails";
 import CareerJobdetails from "./Job-Portal/Jobs/CareerJobdetails"
 import Home from "./Job-Portal/Jobs/AllHomeJobs";
@@ -39,18 +41,46 @@ import UpdatePostedBlogs from "./Job-Portal/PostJobs/updatePostedBlogs";
 import MyAppliedJobs from "./Job-Portal/Jobs/MyAppliedJobs"
 import CareerAppliedJobs from "./Job-Portal/Jobs/MyCareerAppliedJobs"
 import AppliedUserProfile from "./Job-Portal/AppliedUserProfile/AppliedUserProfile";
+//import AppliedUserProfile from "./Job-Portal/AppliedUserProfile/AppliedUserProfile";
+import AppliedUserForAdminJobs from "./Job-Portal/AppliedUserProfile/AdminJobsAppliedUser";
+import AppliedUserForCareerJobs from "./Job-Portal/AppliedUserProfile/AdminCareerJobsAppliedUser ";
 import CheckStudentProfiel from "./Job-Portal/Profile/CheckStudentProfiel";
 import CheckEmpHalfProfile from "./Job-Portal/Profile/CheckEmpHalfProf";
+import AllJobSeekerAdmin from "./Job-Portal/AppliedUserProfile/AllJobSeekerAdmin";
+//admin
+import AdminLogin from "./Job-Portal/Login/AdminLogin"
+import AdminAccess from "./Job-Portal/Admin/AdminAccess"
 // import SearchParams from "./Job-Portal/Login/SearchParams";
 import SearchParams from "./Job-Portal/Login/SearchParams ";
 import SearchParamsEmp from "./Job-Portal/Login/SearchParamsEmp";
 import SearchParamsDub from "./Job-Portal/Login/SearchParamsDupStuD";
 import SearchParamsDubEmp from "./Job-Portal/Login/SearchParamsDupEmp";
+import AdminProfile from "./Job-Portal/Admin/AdminProfile"
+import AllJobsForAdmin from "./Job-Portal/Admin/AllJobsForAdmin"
+import ArchiveJobs from "./Job-Portal/Jobs/ArchiveJobs";
+// import ArchiveJobs from "./Job-Portal/Admin/ArchiveJobs";
+//import DeletedJobs from "./Job-Portal/Admin/DeletedJobs";
+import DeletedJobs from './Job-Portal/Jobs/DeletedJobsAdmin';
+// import DeletedBlogs from "./Job-Portal/Admin/DeletedBlogs";
+import DeletedBlogs from "./Job-Portal/Jobs/DeletedBlogs"
+import AllJobSeekers from "./Job-Portal/Admin/AllJobSeekers"
+import AllEmployees from "./Job-Portal/Admin/AllEmployees"
 import CheckEmpProfileForAdmin from "./Job-Portal/Profile/CheckEmplProfileForAdmin";
 import CheckStudentProfileForAdmin from "./Job-Portal/Profile/CheckStuForAdmin";
+import CheckDeletedJobSeeker from "./Job-Portal/Profile/CheckDeletedJobseeker";
 import CheckArchivedJobSeeker from "./Job-Portal/Profile/CheckArchivedStud";
+import CheckArchivedJob from './Job-Portal/Jobs/CheckArchiveJobs';
+import CheckDeletedJob from './Job-Portal/Jobs/CheckDeletedJovs';
+import CheckDeletedBlog from './Job-Portal/Jobs/CheckDeletedBlogs';
+import CheckDeletedQuestions from './Job-Portal/Jobs/CheckDeletedQuestions';
 import SearchCandidate from "./Job-Portal/AppliedUserProfile/SearchCandidat";
 import SearchCandHome from "./Job-Portal/AppliedUserProfile/SearchCandHome";
+import AdminUpdate from "./Job-Portal/Admin/AdminUpdate"
+import AdminPostJobs from "./Job-Portal/Admin/AdminJobPosts";
+import AllIds from "./Job-Portal/Admin/Allid'sStudent";
+import DeletedJobSeekers from "./Job-Portal/Admin/DeletedJobSeekers";
+import ArchiveJobSeekers from "./Job-Portal/Admin/ArchiveJobSeekers";
+import AdminCareerPostJobs from "./Job-Portal/Admin/AdminCareerJobPosts";
 import AllCareerJobs from "./Job-Portal/Jobs/AllCareerJobs";
 import Blogs from "./Job-Portal/Jobs/AllBlogs";
 import AboutUs from "./Job-Portal/AboutUs"
@@ -1127,6 +1157,40 @@ const [showMobileSearchIcon, setShowMobileSearchIcon]= useState(true)
              gettotalcount={gettotalcount}
              searchIcon={searchIcon}
             />} />
+              <Route path="/BIAdd@Logg" element={<AdminLogin />} />
+          <Route path="/BIAdd@Applied-User-Profile/:jid" element={<AppliedUserForAdminJobs url={axios.defaults.baseURL} />} />
+            <Route path="/BIAdd@Applied-CareerUser-Profile/:jid" element={<AppliedUserForCareerJobs url={axios.defaults.baseURL} />} />
+            <Route path="/BIAdd@PostedCareerJobs" element={<PostedCareerJobs url={axios.defaults.baseURL} />} />
+            <Route path="/BIAdd@AdminPostedJobs" element={<PostedJobsByAdmin url={axios.defaults.baseURL} />} />
+            <Route path="/BIAddAdminAccess" element={<AdminAccess />} />
+            <Route path="/BIAdd@Gmail" element={<SearchParams />} />
+            <Route path="/BIAdd@GmailEmp" element={<SearchParamsEmp />} />
+            <Route path="/BIAdd@Gmaill" element={<SearchParamsDub />} />
+            <Route path="/BIAdd@Gmaile" element={<SearchParamsDubEmp />} />
+            <Route path="/BIAddmin@Profile" element={<AdminProfile />} />
+            <Route path="/BIAddmin@AllJobs" element={<AllJobsForAdmin />} />
+            <Route path="/BIAddmin@ArchiveJobs" element={<ArchiveJobs />} />
+            <Route path="/BIAddmin@DeletedJobs" element={<DeletedJobs />} />
+            <Route path="/BIAddmin@DeletedBlogs" element={<DeletedBlogs />} />
+            <Route path="/BIAddmin@AllJobSeekers" element={<AllJobSeekers />} />
+            <Route path="/BIAddmin@AllEmployees" element={<AllEmployees />} />
+             <Route path="/BIAddmin@AllEmployeeAdmin" element={<AllJobSeekerAdmin />} />
+            <Route path="/BIAddmin@CheckEmpProfile/:CP" element={<CheckEmpProfileForAdmin />} />
+            <Route path="/BIAddmin@CheckStudentProfile/:CP" element={<CheckStudentProfileForAdmin />} />
+            <Route path="/BIAddmin@CheckStudentDeleted/:CP" element={<CheckDeletedJobSeeker />} />
+            <Route path="/BIAddmin@CheckStudentArchived/:CP" element={<CheckArchivedJobSeeker />} />
+            <Route path="/BIAddmin@CheckArchivedJob/:CP" element={<CheckArchivedJob />} />
+            <Route path="/BIAddmin@CheckDeletedJob/:CP" element={<CheckDeletedJob />} />
+            <Route path="/BIAddmin@CheckDeletedBlog/:CP" element={<CheckDeletedBlog />} />
+            <Route path="/BIAddmin@CheckDeletedQuestions/:CP" element={<CheckDeletedQuestions />} />
+            <Route path="/BIAddmin@AdminUpdate" element={<AdminUpdate />} />
+            <Route path="/BIAddmin@PostJob" element={<AdminPostJobs />} />
+            <Route path="/BIAddmin@UpdateCareer postedjobs" element={<UpdateCareerPostedJobs url={axios.defaults.baseURL} />} />
+
+            <Route path="/BIAddmin@AdminCareerPostJobs" element={<AdminCareerPostJobs />} />
+            <Route path="/BIAddmin@AllIds" element={<AllIds />} />
+            <Route path="/BIAddmin@DeletedJobSeekers" element={<DeletedJobSeekers />} />
+            <Route path="/BIAddmin@ArchiveJobSeekers" element={<ArchiveJobSeekers />} />
             <Route path="/support/help" element={<AllHelps   
             showMobileSearchIcon={showMobileSearchIcon} setShowMobileSearchIcon={setShowMobileSearchIcon}
             ShowSideNave={ShowSideNave} setShowSideNave={setShowSideNave}

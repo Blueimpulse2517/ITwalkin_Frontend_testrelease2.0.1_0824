@@ -253,7 +253,7 @@ else{
        
         <p onClick={()=>{navigate("/TermsAndCondition"); props.setShowSideNaveProps(false);props.setShowMobileSearchIcon(true)}} className={`${Styles.textinMobileSodeBar} `}>Terms & Conditions</p>
         <i onClick={()=>{Linkedin(); }} className={`${Styles.textBigSodeBar}  fa-brands fa-linkedin`} style={{ fontSize: "xx-large" }} ></i>
-         <p className={`${Styles.textinMobileSodeBar} `} style={{marginBottom:"100px"}}>Release Version : v3.0</p>
+         <p className={`${Styles.textinMobileSodeBar} `} style={{marginBottom:"100px"}}>Release Version : v4.0.10/6/25</p>
         </div>
       </div>
       </>

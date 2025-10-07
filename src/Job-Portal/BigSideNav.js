@@ -222,7 +222,7 @@ let EmployeeAuth = localStorage.getItem("EmpLog")
         <p onClick={()=>{navigate("/Contact"); update("Contact")}} className={`${Styles.textBigSodeBar} ${value==="Contact"?Styles.active:""}`}>Contact Us</p>
         <p onClick={()=>{navigate("/TermsAndCondition"); update("TermsAndCondition")}} className={`${Styles.textBigSodeBar} ${value==="TermsAndCondition"?Styles.active:""}`}>Terms & Conditions</p>
         <i onClick={()=>{Linkedin(); }} className={`${Styles.textBigSodeBar}  fa-brands fa-linkedin`} style={{ fontSize: "xx-large" }} ></i>
-         <p  className={`${Styles.textBigSodeBar} `} style={{ marginBottom: "120px", marginTop: "0px" }}>Release Version : v3.0</p> 
+         <p  className={`${Styles.textBigSodeBar} `} style={{ marginBottom: "120px", marginTop: "0px" }}>Release Version : v4.0.10/6/25</p> 
         <div></div>
         {/* <div className={Styles.brands}> */}
 
