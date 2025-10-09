@@ -93,9 +93,9 @@ function unReject(Empid , status){
     let params =useParams()
     
     async function getProfile() {
-      setPageLoader(true)
       let userid = atob(JSON.parse(localStorage.getItem("IdLog")))
       const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("AdMLog"))) };
+      setPageLoader(true)
         await axios.get(`/StudentProfile/viewProfile/${atob(params.CP)}`,{headers})
             .then((res) => {
                 let result = res.data.result                
@@ -204,8 +204,8 @@ profileData.map((item, i) => {
 
 })
     } */}
-    <div >
-    <img className={styles.imageV} src={profileData[0].Gpicture?profileData[0].Gpicture: profileDp}/>
+ <div >
+    <img className={styles.imageV} src={profileData.Gpicture?profileData.Gpicture: profileDp}/>
     </div>
                                             {PageLoader?
  <Puff  height="90"  width="90"  color="#4fa94d"  ariaLabel="bars-loading"  wrapperStyle={{marginLeft:"45%", marginTop:"60px"}}/> 
