@@ -96,7 +96,7 @@ function unReject(Empid , status){
       setPageLoader(true)
       let userid = atob(JSON.parse(localStorage.getItem("IdLog")))
       const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("AdMLog"))) };
-        await axios.get(`/StudentProfile/getProfile/${params.CP}`,{headers})
+        await axios.get(`/StudentProfile/viewProfile/${atob(params.CP)}`,{headers})
             .then((res) => {
                 let result = res.data.result                
                 setProfileData([result])
