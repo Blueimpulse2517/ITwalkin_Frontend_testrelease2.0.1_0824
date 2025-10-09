@@ -282,40 +282,40 @@ function EmpLogin(props) {
       scope: 'openid email profile w_member_social',
     });
 
-    // Redirect to LinkedIn OAuth
-    window.location.href = `https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`;
+  //   // Redirect to LinkedIn OAuth
+   window.location.href = `https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`;
   
 
-  // Optional: handle callback response (e.g., in another component or useEffect)
-  const handleCallback = async (res) => {
-    try {
-      const userId = res.data.sub;
-      const email = res.data.email;
-      const name = res.data.name;
-      const isApproved = false;
-      const Gpicture = res.data.picture;
-      const ipAddress = 'your-ip-logic-here'; // Replace with actual IP logic
+  // // Optional: handle callback response (e.g., in another component or useEffect)
+  // const handleCallback = async (res) => {
+  //   try {
+  //     const userId = res.data.sub;
+  //     const email = res.data.email;
+  //     const name = res.data.name;
+  //     const isApproved = false;
+  //     const Gpicture = res.data.picture;
+  //     const ipAddress = 'your-ip-logic-here'; // Replace with actual IP logic
 
-      const response = await axios.post("/EmpProfile/Glogin", {
-        ipAddress,
-        email,
-        name,
-        isApproved,
-        Gpicture,
-      });
+  //     const response = await axios.post("/EmpProfile/Glogin", {
+  //       ipAddress,
+  //       email,
+  //       name,
+  //       isApproved,
+  //       Gpicture,
+  //     });
 
-      const result = response.data;
-      console.log(result);
+  //     const result = response.data;
+  //     console.log(result);
 
-      if (result.status === "success") {
-        localStorage.setItem("StudLog", JSON.stringify(btoa(result.token)));
-        localStorage.setItem("StudId", JSON.stringify(result.id));
-        navigate("/alljobs", { state: { name: result.name } });
-      }
-    } catch (err) {
-      alert("Server issue occurred");
-    }
-  }
+  //     if (result.status === "success") {
+  //       localStorage.setItem("StudLog", JSON.stringify(btoa(result.token)));
+  //       localStorage.setItem("StudId", JSON.stringify(result.id));
+  //       navigate("/alljobs", { state: { name: result.name } });
+  //     }
+  //   } catch (err) {
+  //     alert("Server issue occurred");
+  //   }
+  // }
   }
   return (
     <>
