@@ -193,7 +193,7 @@ function unReject(Empid , status){
             //  width:"28px"}} onClick={()=>{navigate(-1)}}  src={Arrowimage} />
 
 */}
-{
+{/* {
 profileData.map((item, i) => {
     return (
         <div key={i}>
@@ -203,7 +203,10 @@ profileData.map((item, i) => {
     )
 
 })
-    }
+    } */}
+    <div >
+    <img className={styles.imageV} src={profileData[0].Gpicture?profileData[0].Gpicture: profileDp}/>
+    </div>
                                             {PageLoader?
  <Puff  height="90"  width="90"  color="#4fa94d"  ariaLabel="bars-loading"  wrapperStyle={{marginLeft:"45%", marginTop:"60px"}}/> 
      :""
