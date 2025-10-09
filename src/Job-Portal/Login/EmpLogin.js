@@ -273,10 +273,8 @@ function EmpLogin(props) {
         // alert("some thing went wrong")
       });
   }
-  const LinkedinLogin = () => {
-  //const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const LinkedinLogin = async () => {
     const params = new URLSearchParams({
       response_type: 'code',
       client_id: import.meta.env.VITE_LINKEDIN_CLIENT_ID,
@@ -286,7 +284,7 @@ function EmpLogin(props) {
 
     // Redirect to LinkedIn OAuth
     window.location.href = `https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`;
-  };
+  
 
   // Optional: handle callback response (e.g., in another component or useEffect)
   const handleCallback = async (res) => {
@@ -318,7 +316,7 @@ function EmpLogin(props) {
       alert("Server issue occurred");
     }
   }
-}
+  }
   return (
     <>
       {/* <div className={styles.LoginpageWapper}> */}
@@ -390,7 +388,7 @@ function EmpLogin(props) {
             <p className={styles.signUpwrap} >Continue with Microsoft</p>
           </div>
         </div>
-        <div className={styles.signUpWrapper}  onClick={handleLogin}>
+        <div className={styles.signUpWrapper}  onClick={LinkedinLogin}>
           <div className={styles.both}>
             <img className={styles.google} src={linkedIn} />
             <span className={styles.signUpwrap} >Continue with Linkedin</span>
