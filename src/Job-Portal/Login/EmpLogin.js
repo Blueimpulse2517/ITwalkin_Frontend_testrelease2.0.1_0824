@@ -245,35 +245,80 @@ function EmpLogin(props) {
     handleGitHubCallback();
   }, []);
 
-  function microsoftLogin() {
-		instance.loginPopup(loginRequest)
-			.then(async response => {
-				// console.log(response)
-				let name = response.account.name
-				let email = response.account.username
-				let isApproved = false
-        await axios.post("/EmpProfile/Glogin", { ipAddress,  email, name, isApproved })
-        .then((response) => {
-          let result = response.data
-          let token = result.token
-          let GuserId = result.id
-          if (result.status == "success") {
-            localStorage.setItem("EmpLog", JSON.stringify(btoa(token)))
-            localStorage.setItem("EmpIdG", JSON.stringify(GuserId))
-            navigate("/Search-Candidate", { state: { gserid: GuserId } })
-          }
-				
-					}).catch((err) => {
-						alert("server issue occured")
-					})
-			})
-			.catch(error => {
-				// console.log("Login error", error);
-				// alert("some thing went wrong")
-			});
-	}
+ function microsoftLogin() {
+    instance.loginPopup(loginRequest)
+      .then(async response => {
+        // console.log(response)
+        let name = response.account.name
+        let email = response.account.username
+        let isApproved = false
+ 
+        await axios.post("/EmpProfile/Glogin", { ipAddress, email, name, isApproved, })
+          .then((response) => {
+            let result = response.data
+             console.log(result)
+            let token = result.token
+            let Id = result.id
+            if (result.status == "success") {
+              localStorage.setItem("StudLog", JSON.stringify(btoa(token)))
+              navigate("/alljobs", { state: { name: result.name } })
+              localStorage.setItem("StudId", JSON.stringify(Id))
+            }
+          }).catch((err) => {
+            alert("server issue occured")
+          })
+      })
+      .catch(error => {
+        // console.log("Login error", error);
+        // alert("some thing went wrong")
+      });
+  }
+  const LinkedinLogin = () => {
+  //const navigate = useNavigate();
 
+  const handleLogin = async () => {
+    const params = new URLSearchParams({
+      response_type: 'code',
+      client_id: import.meta.env.VITE_LINKEDIN_CLIENT_ID,
+      redirect_uri: 'https://www.itwalkin.com/LinkedIn/callback',
+      scope: 'openid email profile w_member_social',
+    });
 
+    // Redirect to LinkedIn OAuth
+    window.location.href = `https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`;
+  };
+
+  // Optional: handle callback response (e.g., in another component or useEffect)
+  const handleCallback = async (res) => {
+    try {
+      const userId = res.data.sub;
+      const email = res.data.email;
+      const name = res.data.name;
+      const isApproved = false;
+      const Gpicture = res.data.picture;
+      const ipAddress = 'your-ip-logic-here'; // Replace with actual IP logic
+
+      const response = await axios.post("/EmpProfile/Glogin", {
+        ipAddress,
+        email,
+        name,
+        isApproved,
+        Gpicture,
+      });
+
+      const result = response.data;
+      console.log(result);
+
+      if (result.status === "success") {
+        localStorage.setItem("StudLog", JSON.stringify(btoa(result.token)));
+        localStorage.setItem("StudId", JSON.stringify(result.id));
+        navigate("/alljobs", { state: { name: result.name } });
+      }
+    } catch (err) {
+      alert("Server issue occurred");
+    }
+  }
+}
   return (
     <>
       {/* <div className={styles.LoginpageWapper}> */}
@@ -345,12 +390,12 @@ function EmpLogin(props) {
             <p className={styles.signUpwrap} >Continue with Microsoft</p>
           </div>
         </div>
-        {/* <div className={styles.signUpWrapper}  >
+        <div className={styles.signUpWrapper}  onClick={LinkedinLogin}>
           <div className={styles.both}>
             <img className={styles.google} src={linkedIn} />
             <span className={styles.signUpwrap} >Continue with Linkedin</span>
           </div>
-        </div> */}
+        </div>
 
 
         {/* <div className={styles.signUpWrapper} >
