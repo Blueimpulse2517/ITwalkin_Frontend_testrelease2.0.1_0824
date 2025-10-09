@@ -390,7 +390,7 @@ function EmpLogin(props) {
             <p className={styles.signUpwrap} >Continue with Microsoft</p>
           </div>
         </div>
-        <div className={styles.signUpWrapper}  onClick={LinkedinLogin}>
+        <div className={styles.signUpWrapper}  onClick={handleLogin}>
           <div className={styles.both}>
             <img className={styles.google} src={linkedIn} />
             <span className={styles.signUpwrap} >Continue with Linkedin</span>
