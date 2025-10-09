@@ -411,7 +411,7 @@ function EmpLogin(props) {
         // </div>
         ""
         :
-        <div style={{ marginTop: "50px", }}>
+        <div style={{ marginTop: "206px",height:"183px" }}>
 
           <Footer />
         </div>

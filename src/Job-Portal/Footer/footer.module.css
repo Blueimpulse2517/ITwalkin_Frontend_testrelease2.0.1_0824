@@ -19,6 +19,7 @@
     width: 100%;
 
     align-items: center;
+    height: 185px;
 }
 .Bottom{
     display: flex;
@@ -46,7 +47,3 @@ margin-left:10%;
 color: white;
 
 }
-
-
-
-

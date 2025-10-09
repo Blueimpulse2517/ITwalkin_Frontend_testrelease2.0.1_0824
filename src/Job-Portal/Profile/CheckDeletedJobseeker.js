@@ -62,7 +62,7 @@ const [message, setmessage] = useState("")
 profileData.map((item, i) => {
     return (
         <div key={i}>
-        <img className={styles.imageV} src={item.Archived.image?item.Archived.image : profileDp}/>
+        <img className={styles.imageV} src={item.Gpicture?item.Gpicture: profileDp}/>
         
         </div>
     )

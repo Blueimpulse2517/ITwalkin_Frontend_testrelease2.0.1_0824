@@ -27,7 +27,7 @@ let navigate = useNavigate()
         let userid = JSON.parse(localStorage.getItem("EmpIdG"))
         const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("EmpLog"))) };
         setPageLoader(true)
-        await axios.get(`/StudentProfile/viewProfile/${params.CP}`,{headers})
+        await axios.get(`/StudentProfile/viewProfile/${atob(params.CP)}`,{headers})
             .then((res) => {
                 let result = res.data.result
         console.log("result->",result)
@@ -122,14 +122,14 @@ useEffect(() => {
       if (window.history.length > 1) {
         navigate(-1);
       } else {
-        navigate("/posteddrives");
+        navigate("/Search-Candidate");
       }
     }}
   >
     <div style={{ fontSize: "12px", fontWeight: "800" }}>Back</div>
   </button>
-                             <img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
-             width:"28px"}} onClick={()=>{navigate("/Search-Candidate")}}  src={Arrowimage} />
+                             {/* <img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
+             width:"28px"}} onClick={()=>{navigate("/Search-Candidate")}}  src={Arrowimage} /> */}
     <p style={{marginLeft:"40%"}}><b>JobSeeker Profile </b></p>
     </div>
     <div style={{marginLeft:"4%"}}>
@@ -147,7 +147,7 @@ useEffect(() => {
 profileData.map((item, i) => {
     return (
         <div key={i}>
-        <img className={styles.imageV} src={item.image?item.image : profileDp}/>
+        <img className={styles.imageV} src={item.Gpicture?item.Gpicture: profileDp}/>
         
         </div>
     )

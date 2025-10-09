@@ -132,7 +132,7 @@ const screenSize = useScreenSize();
 profileData.map((item, i) => {
     return (
         <div class={styles.imgBgv} key={i}>
-          <img className={styles.imageV} src={item.image?item.image : profileDp}/>
+          <img className={styles.imageV} src={item.Gpicture?item.Gpicture: profileDp}/>
                       {verification&&(
                         <div style={{display:"flex", justifyContent:"center", flexDirection:"column"}}>
                         <Puff height="80" width="80" color="#4fa94d" ariaLabel="bars-loading" wrapperStyle={{ marginTop: "20px" }} />

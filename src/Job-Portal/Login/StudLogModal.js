@@ -18,6 +18,7 @@ import { signInWithPopup, OAuthProvider, getAuth } from "firebase/auth";
 
 import { useMsal } from "@azure/msal-react";
 import { loginRequest } from "../Config";
+const url = 'https://login.microsoftonline.com/ae4ae520-4db7-4149-ad51-778e540d8bec/oauth2/v2.0/token';
 
 const Modal = ({ isStuOpen, onClose, children, msalInstance }) => {
 	const { instance } = useMsal();

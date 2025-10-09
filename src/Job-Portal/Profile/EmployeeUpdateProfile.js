@@ -1,792 +1,293 @@
-import React, { useEffect, useState, useRef } from 'react';
-import styles from "./SudentUpdateProfile.module.css"
-import imageCompression from 'browser-image-compression';
-import axios from 'axios';
-import logo from "../img/Blue.jpg"
-import { Navigate, useNavigate } from 'react-router-dom';
+import React, { useRef } from 'react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import styles from "./StudentProfile.module.css"
+import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import profileDp from "../img/user_3177440.png"
-import delet from "../img/icons8-delete-48.png"
-import { TailSpin } from "react-loader-spinner"
-import Companylogo from "../img/logo.png"
+import { Puff } from  'react-loader-spinner'
 import useScreenSize from '../SizeHook';
-import socketIO from 'socket.io-client';
 import Arrowimage from '../img/icons8-arrow-left-48.png'
-import validator from "validator";
 import Footer from '../Footer/Footer';
-import JoditEditor from 'jodit-react'
-import CustomTextEditor from '../Editor/CustomTextEditor';
 
+function CheckStudentProfile() {
 
-function EmployeeUpdateProfile(props) {
-  const editor=useRef(null)
-
-  // useEffect( ()=>{    
-  //   const socket = socketIO.connect(props.url,{
-  //     auth:{
-  //       token: JSON.parse(localStorage.getItem("EmpIdG"))
-  //     }
-  //   });
-  // },[])
-  const [file, setFile] = useState()
-  const [uploaded, setUploaded] = useState()
+    const [profileData, setProfileData] = useState([])
+    const [approved, setapproved] = useState()
+const [PageLoader, setPageLoader] = useState(false)
 const screenSize = useScreenSize();
 
-const [image, setimage] = useState()
-const [immage, setimmage] = useState()
-  const [name, setname] = useState("")
-  const [email, setemail] = useState("")
-  const [phoneNumber, setphoneNumber] = useState("")
-  const [Aadhar, setAadhar] = useState("")
-  const [panCard, setpanCard] = useState("")
-  const [CompanyName, setCompanyName] = useState("")
-  const [CompanyContact, setCompanyContact] = useState("")
-  const [CompanyGSTIN, setCompanyGSTIN] = useState("")
-  const [CompanyWebsite, setCompanyWebsite] = useState("")
-  const [CompanyAddress, setCompanyAddress] = useState("")
-  const [CompanyEmail, setCompanyEmail] = useState("")
-  const [TypeofOrganisation, setTypeofOrganisation] = useState("")
-  const [loader, setLoader] = useState(false)
+let navigate = useNavigate()
 
-    const [RegLoader, setRegLoader] = useState(false)
-    const [compemailError, setCompEmailError] = useState("");
+
+    let studId = JSON.parse(localStorage.getItem("StudId"))
+
+    let params =useParams()
+
+    async function getProfile() {
+        let userid = JSON.parse(localStorage.getItem("EmpIdG"))
+        const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("EmpLog"))) };
+        setPageLoader(true)
+        await axios.get(`/StudentProfile/viewProfile/${atob(params.CP)}`,{headers})
+            .then((res) => {
+                let result = res.data.result
+        console.log("result->",result)
+                // setMessage(result.message)
+                setProfileData([result])
+        setPageLoader(false)
+
+            }).catch((err) => {
+                alert("some thing went wrong")
+            })
+            
+    }
+
+    useEffect(() => {
+        getProfile()
+        getEmpProfile()
+    }, [])
+
+    let empId = JSON.parse(localStorage.getItem("EmpIdG"))
+
+
+    async function getEmpProfile() {
+        const headers = { authorization: 'BlueItImpulseWalkinIn' };
+
+        await axios.get(`/EmpProfile/getProfile/${empId}`, { headers })
+            .then((res) => {
+                let result = res.data.result
+                console.log(result.isApproved)
+                const approved = result.isApproved
+                setapproved(approved)
+            }).catch((err) => {
+                alert("some thing went wrong")
+            })
+    }
+
+ const[message, setMessage]=useState("")   
+const comment=(e)=>{
+   setMessage(e.target.value)
+}
+
+// const onSubmit=()=>{
+//     setSaveComment("")
+// }
+
+const skillsHeadingRef = useRef(null);
+const skillsValueRef = useRef(null);
+useEffect(() => {
+    if (skillsHeadingRef.current && skillsValueRef.current) {
+      const headingHeight = skillsHeadingRef.current.offsetHeight;
+      const valueHeight = skillsValueRef.current.offsetHeight;
+      const maxHeight = Math.max(headingHeight, valueHeight);
   
-    const [PrimeryuserDesignation, setPrimeryuserDesignation] = useState("");
-    const [secondaryuserDesignation, setsecondaryuserDesignation] = useState("");
-    const [Secondaryusername, setSecondaryusername] = useState("");
-    const [Secondaryuseremailid, setSecondaryuseremailid] = useState("");
-    const [Secondaryusercontactnumber, setSecondaryusercontactnumber] = useState("");
-    const [CompanyCIN, setCompanyCIN] = useState("");
-
-  const [AboutCompany, setAboutCompany] = useState("");
-
-
-  let navigate = useNavigate()
-
-  let empId = JSON.parse(localStorage.getItem("EmpIdG"))
-
-
-  const [topMessage, settopMessage] = useState("")
-
-  async function getUser() {
-    const headers = { authorization: 'BlueItImpulseWalkinIn'};
-
-    await axios.get(`/EmpProfile/getProfile/${empId}`, {headers})
-      .then((res) => {
-        let result = res.data.result
-        console.log(result)
-        if (result) {
-          setname(result.name)
-          setemail(result.email)
-          // result.image? setimage(result.image):setimage(Companylogo)
-          // setimage(result.image)
-          setimage(result.Gpicture)
-          setimmage(result.image)
-          setphoneNumber(result.phoneNumber)
-          setAadhar(result.Aadhar)
-          setpanCard(result.panCard)
-          setCompanyName(result.CompanyName)
-          setCompanyContact(result.CompanyContact)
-          setCompanyGSTIN(result.CompanyGSTIN)
-          setCompanyWebsite(result.CompanyWebsite)
-          setCompanyAddress(result.CompanyAddress)
-          setTypeofOrganisation(result.TypeofOrganisation)
-          setCompanyEmail(result.CompanyEmail)
-          setAboutCompany(result.AboutCompany)
-          setCompanyCIN(result.CompanyCIN)
-          setPrimeryuserDesignation(result.PrimeryuserDesignation)
-          setSecondaryusername(result.Secondaryusername)
-          setsecondaryuserDesignation(result.secondaryuserDesignation)
-          setSecondaryuseremailid(result.Secondaryuseremailid)
-          setSecondaryusercontactnumber(result.Secondaryusercontactnumber)
-        }
-      }).catch((err) => {
-        alert("server issue occured", err)
-      })
-  }
-  useEffect(() => {
-    getUser()
-  }, [])
-
-  const [emailError, setEmailError] = useState("");
-
-  async function saveUpdate(e) {
-    if(emailError==="Enter valid Email!" || emailError1==="Enter valid Email!" ){
-      return false
+      skillsHeadingRef.current.style.height = `${maxHeight}px`;
+      skillsValueRef.current.style.height = `${maxHeight}px`;
     }
-    let userid = JSON.parse(localStorage.getItem("EmpIdG"))
-    const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("EmpLog"))) };
-    // e.preventDefault()
-    // console.log("before saving", TypeofOrganisation
-    // ) 
-    await axios.put(`/EmpProfile/updatProfile/${empId}`, { PrimeryuserDesignation, secondaryuserDesignation, Secondaryusername,
-      Secondaryuseremailid, Secondaryusercontactnumber, CompanyCIN, AboutCompany, name, email, phoneNumber, Aadhar, panCard, 
-      CompanyName, CompanyContact, CompanyGSTIN, CompanyWebsite, CompanyAddress, CompanyEmail, TypeofOrganisation}, {headers})
-      .then(async (res) => {
-        let result = res.data
-        if (result == "success") {
-          settopMessage(
-            <span style={{
-              color: "green",
-                            fontWeight: "800",   
-                            fontStyle: "normal", 
-                            fontFamily: "Courier New, Courier, monospace" 
-            }}>
-             Profile updated successfully
-            </span>
-          );
-        } else if (result == "feilds are missing") {
-          settopMessage("Alert!..name, emailAddress, NoticePeriod, phoneNumber, Qualification, Skills and Experiance should not be empty")
-        }
+  }, [profileData]); // runs again when data changes
+  const [commentmessage,setCommentmessage]=useState("");
+  
 
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth"
-        });
-
-
-      }).catch((err) => {
-      })
-  }
-
-  // ...............upload Image.....................
-  async function uploadImage() {
-    const formdata = new FormData()
-    formdata.append('image', image)
-
-    await axios.put(`/EmpProfile/uploadImage/${empId}`, formdata)
-      .then((res) => {
-        window.location.reload()
-      }).catch((err) => {
-      })
-  }
-
-  async function prevewImage(e) {
-    setLoader(true)
-    setimmage("")
-    setFile(URL.createObjectURL(e.target.files[0]))
-    // setimage(e.target.files[0])
-    const imageFile = e.target.files[0];
-    const options = {
-      maxSizeMB: 0.08,
-      // maxWidthOrHeight: 2000,
-      useWebWorker: true,
+  async function sendMessage() {
+    if(message==""){
+      setCommentmessage("Empty feedback cannot be submitted")
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+          return
     }
-    try {
-      const compressedFile = await imageCompression(imageFile, options);
-      setLoader(false)
-      setimage(compressedFile)
-
-    } catch (error) {
-    }
-  }
-  async function deletePic() {
-    await axios.put(`/EmpProfile/deleteImage/${empId}`, { image })
+    const id=profileData[0]._id
+    await axios.put(`/StudentProfile/sendMessage/${id}`, { message })
       .then((res) => {
-        window.location.reload()
-      }).catch((err) => {
-        alert("server issue occured")
-      })
-  }
-
-  function handlephoneNumber(e){
-
-    const sanitizedValue = e.target.value.replace(/[A-Za-z]/g, '');
-        // if(e.target.value.includes(/[1-9]/g))
-            if (sanitizedValue.length>10){
-            return false
-        }else{
-          setphoneNumber(sanitizedValue)
+        if (res.data) {         
+            setCommentmessage("Feedback has been submitted successfully")
+            setMessage("")
         }
-   }
+      })
+      .catch((err) => {
+        setCommentmessage("something went wrong");
+        console.error(err);
+      })
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+  }
+    return (
+        <>
+<div style={{display:"flex"}}>
+<button
+    className={styles.tvbackbtn}
+    onClick={() => {
+      if (window.history.length > 1) {
+        navigate(-1);
+      } else {
+        navigate("/Search-Candidate");
+      }
+    }}
+  >
+    <div style={{ fontSize: "12px", fontWeight: "800" }}>Back</div>
+  </button>
+                             {/* <img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
+             width:"28px"}} onClick={()=>{navigate("/Search-Candidate")}}  src={Arrowimage} /> */}
+    <p style={{marginLeft:"40%"}}><b>JobSeeker Profile </b></p>
+    </div>
+    <div style={{marginLeft:"4%"}}>
+    {commentmessage&&
+    <>
+        {commentmessage==="Feedback has been submitted successfully"?
+            <p style={{color:"green"}}>{commentmessage}</p>    :
+            <p style={{color:"red"}}>{commentmessage}</p>                          
+        }
+      </>
 
-  const AadharhandleChange = (event) => {
-    if (event.target.value.length > 12){
-      return false
-  }else{
-  // setphoneNumber(e.target.value)
-  const value = event.target.value;
-  const sanitizedValue = value.replace(/[^\w\s]/gi, ''); // Regex to remove special characters
-  setAadhar(sanitizedValue);
+      }
+   </div>
+ {
+profileData.map((item, i) => {
+    return (
+        <div key={i}>
+        <img className={styles.imageV} src={item.Gpicture?item.Gpicture: profileDp}/>
+        
+        </div>
+    )
+
+})
+    } 
+
+
+           {screenSize.width>850?
+           <>
+<div className={styles.uiwrapper}>
+            <ul className={styles.ul}>
+                <li className={styles.li}><b>Name </b></li>
+                <li className={styles.li}><b>Email  Address</b></li>
+                <li className={styles.li}><b>City</b></li> 
+                <li className={styles.li}><b>Phone  Number</b></li>
+                <li className={styles.li}><b>Qualification</b></li>
+                <li ref={skillsHeadingRef} className={`${styles.li} ${styles.skillsHeading}`}><b>Skills</b></li>
+                <li className={styles.li}><b>Notice  Period</b></li>
+                <li className={styles.li}><b>Experience</b></li>
+                <li className={styles.li}><b>Current  CTC</b></li>
+                <li className={styles.li}><b>Expected  Salary</b></li>
+                <li className={styles.li}><b>Previous Company Name</b></li>
+                <li className={styles.li}><b>Present Company Name</b></li>
+                <li className={styles.li}><b>Aadhar</b></li>
+                <li className={styles.li}><b>Pan  Card</b></li>
+                <li className={styles.li}><b>Account Status</b></li>
+                <li className={styles.li}><b>HRs/Employer FeedBack</b></li>
+
+            </ul>
+            {PageLoader?
+ <Puff  height="80"  width="80"  color="#4fa94d"  ariaLabel="bars-loading"  wrapperStyle={{marginLeft:"22%", marginTop:"60px"}}/> 
+     :""
   }
 
-   };
-   
-  const PanCardhandleChange = (event) => {
-    if (event.target.value.length> 10){
-      return false
-  }else{
-    const value = event.target.value;
-    const sanitizedValue = value.replace(/[^\w\s]/gi, ''); // Regex to remove special characters
-    setpanCard(sanitizedValue);
-  }
-   };
-
-   function  handleCompanyname(e){    
-    const value = e.target.value;
-    // console.log(value)
-    // const sanitizedValue = value.replace(/[^\w\s.]|_/g, ''); // Regex to remove special characters
-    setCompanyName(value);
-
-   }
-  const[emailError2,setEmailError2]=useState("");
-   function handleCompanyEmail(event){
-    const email = event.target.value;
-    const sanitizedValue = email.replace(/[^\w\s.@]|_/g, ''); // Regex to remove special characters
-    setCompanyEmail(sanitizedValue);
-
-    if (validator.isEmail(email)) {
-      setEmailError2("");
-  } else {
-    setEmailError2("Enter valid Email!");
-  }
-
-   }
-
-   
-      function handleChangeCompanyCIN(e){
-       setCompanyCIN(e.target.value)
-      }
-   
-      function  handleCompanyname(e){    
-       const value = e.target.value;
-      //  const sanitizedValue = value.replace(/[^\w\s.]|_/g, ''); // Regex to remove special characters
-       setCompanyName(value);
-   
-      }
-   
-    //   function handleCompanyEmail(event){
-    //    const email = event.target.value;
-    //    const sanitizedValue = email.replace(/[^\w\s.@]|_/g, ''); // Regex to remove special characters
-    //    setCompanyEmail(sanitizedValue);
-   
-    //    if (validator.isEmail(email)) {
-    //      setCompEmailError("");
-    //  } else {
-    //    setCompEmailError("Enter valid Email!");
-    //  }
-    //   }
-   
-      function handlesetemail(event){
-       const email = event.target.value;
-       const sanitizedValue = email.replace(/[^\w\s.@]|_/g, ''); // Regex to remove special characters
-       setemail(sanitizedValue);
-   
-       if (validator.isEmail(email)) {
-         setEmailError("");
-     } else {
-         setEmailError("Enter valid Email!");
-     }
-      }
-      
-      function handlePrimeryuserDesignation(e){
-       setPrimeryuserDesignation(e.target.value)
-      }
-      function handleSecondaryuserDesignation(e){
-       setsecondaryuserDesignation(e.target.value)
-      }
-      
-   
-   
-      function handleSecondaryusername(e){
-       setSecondaryusername(e.target.value)
-      }
-   
-      const [emailError1,setEmailError1]=useState("");
-      function handleSecondaryuseremailid(e){
-       const email = e.target.value;
-       const sanitizedValue = email.replace(/[^\w\s.@]|_/g, ''); // Regex to remove special characters
-       setSecondaryuseremailid(sanitizedValue)
-   
-       if (validator.isEmail(email)) {
-        setEmailError1("");
-     } else {
-      setEmailError1("Enter valid Email!");
-     }
-      }
-      function handleSecondaryusercontactnumber(e){
-   
-       const sanitizedValue = e.target.value.replace(/[A-Za-z]/g, '');
-       // if(e.target.value.includes(/[1-9]/g))
-           if (sanitizedValue.length>10){
-           return false
-       }else{
-         setSecondaryusercontactnumber(sanitizedValue)
-       }
-   
-      }
-   
-      function handleCompanyPhoneNumber(e){
-   
-       if (e.target.value.length > 10){
-         return false
-     }else{
-     setCompanyContact(e.target.value)
-     }
-      }
-   
-      function handleGstn(e){
-       if (e.target.value.length > 15){
-         return false
-     }else{
-       const value = e.target.value;
-       const sanitizedValue = value.replace(/[^\w\s]|_/g, ''); // Regex to remove special characters
-       setCompanyGSTIN(sanitizedValue);
-     }
-      }
-      function handleCompanyWebsite(event){
-       const email = event.target.value;
-       const sanitizedValue = email.replace(/[^\w\s.@/]|_/g, ''); // Regex to remove special characters
-       setCompanyWebsite(sanitizedValue);
-      }
-      function handleCompanyAddress(event){
-       const email = event.target.value;
-       const sanitizedValue = email.replace(/[^\w\s,.]|_/g, ''); // Regex to remove special characters
-       setCompanyAddress(sanitizedValue);
-      }
-   
-
-   
-
-   function handleCompanyPhoneNumber(e){
-
-    if (e.target.value.length > 10){
-      return false
-  }else{
-  setCompanyContact(e.target.value)
-  }
-   }
-
-   function handleGstn(e){
-    if (e.target.value.length > 15){
-      return false
-  }else{
-    const value = e.target.value;
-    const sanitizedValue = value.replace(/[^\w\s]|_/g, ''); // Regex to remove special characters
-    setCompanyGSTIN(sanitizedValue);
-  }
-   }
-   function handleCompanyWebsite(event){
-    const email = event.target.value;
-    const sanitizedValue = email.replace(/[^\w\s.@/]|_/g, ''); // Regex to remove special characters
-    setCompanyWebsite(sanitizedValue);
-   }
-   function handleCompanyAddress(event){
-    const email = event.target.value;
-    const sanitizedValue = email.replace(/[^\w\s,.]|_/g, ''); // Regex to remove special characters
-    setCompanyAddress(sanitizedValue);
-   }
+            {
+            
+                profileData.map((item, i) => {
+                    return (
+                        <ul className={styles.ulR} key={i}>
+                            
+                            <li className={`${styles.Hli}`}>{item.name?item.name:<li className={styles.Nli}>Not Updated</li>}</li>
+                            <li className={`${styles.Hli}`}>{approved?item.email?item.email:<li className={styles.Nli}>Not Updated</li>:<li className={styles.Nli}>please wait for your account Approval</li>}</li>
+                            <li className={`${styles.Hli}`}>{item?.city?.value?item.city?.value:<li className={styles.Nli}>Not Updated</li>}</li>
+                       <li className={` ${styles.Hli}`}>{approved?item.phoneNumber?item.phoneNumber:<li className={styles.Nli}>Not Updated</li> : <li className={styles.Nli}>please wait for your account Approval</li>}</li>
+                       
+                       <li className={` ${styles.Hli}`}>{item.Qualification?item.Qualification:<li className={styles.Nli}>Not Updated</li>}</li>
+                       <li style={{marginLeft:"26%", height:"auto", width:"324%"}} ref={skillsValueRef} className={`${styles.Hli} ${styles.skillsValue}`}>{item.Skills?item.Skills:<li className={styles.Nli} style={{marginLeft:"-8%"}}>Not Updated</li>}</li>
+                       <li className={` ${styles.Hli}`}>{item.NoticePeriod?item.NoticePeriod:<li className={styles.Nli}>Not Updated</li>}</li>
+                       <li className={` ${styles.Hli}`}>{item.Experiance?item.Experiance:<li className={styles.Nli}>Not Updated</li>}</li>
+                       <li className={` ${styles.Hli}`}>{item.currentCTC?item.currentCTC:<li className={styles.Nli}>Not Updated</li>}</li>
+                       <li className={` ${styles.Hli}`}>{item.ExpectedSalary?item.ExpectedSalary:<li className={styles.Nli}>Not Updated</li>}</li>
+                        
+                       <li className={` ${styles.Hli}`}>{item.previousCompany?item.previousCompany:<li className={styles.Nli}>No FeedBack</li>}</li>
+                       <li className={` ${styles.Hli}`}>{item.currentCompany?item.currentCompany:<li className={styles.Nli}>No FeedBack</li>}</li>
 
 
-    const inputRef = useRef(null);
-   
-     useEffect(() => {
-       const loadScript = (url, callback) => {
-         const existingScript = document.getElementById("googleMaps");
-         if (!existingScript) {
-           const script = document.createElement("script");
-           script.src = url;
-           script.id = "googleMaps";
-           script.async = true;
-           script.defer = true;
-           script.onload = callback;
-           document.body.appendChild(script);
-         } else {
-           callback();
-         }
-       };
-   
-       const initAutocomplete = () => {
-         if (!window.google) return;
-   
-         const autocomplete = new window.google.maps.places.Autocomplete(
-           inputRef.current,
-           {
-             // Allows all place types: address, establishment, cities, regions
-             types: [], // Empty array means no restriction
-             fields: ["formatted_address", "geometry", "name", "place_id"],
-           }
-         );
-   
-         autocomplete.addListener("place_changed", () => {
-           const place = autocomplete.getPlace();
-           console.log("Selected Place:", place);
-         
-           const address = place.formatted_address;
-           setCompanyAddress(address);
-         
-           console.log("Company :", address, CompanyAddress); // ✅ shows correct value
-         
-           if (!place.geometry) {
-             alert("No details available for: " + place.name);
-             return;
-           }
-     
-   
-           // You can access: place.name, place.formatted_address, place.geometry.location, etc.
-         });
-       };
-   
-       loadScript(
-         `https://maps.googleapis.com/maps/api/js?key=AIzaSyBJ1-4QU6vh2XuUhENkFLY1YRX5barmKZk&libraries=places`,
-         initAutocomplete
-       );
-     }, []);
+                       <li className={` ${styles.Hli}`}>{item.Aadhar?<li className={styles.Nli}>###########</li>:<li className={styles.Nli}>Not Updated</li>}</li>
+                       <li className={` ${styles.Hli}`}>{item.panCard?<li className={styles.Nli}>###########</li>:<li className={styles.Nli}>Not Updated</li>}</li>
+                       <li className={` ${styles.Hli}`}>{item.age?item.age:<li className={styles.Nli}>Not Updated</li>}</li>
+                       <li className={` ${styles.Hli}`}>{item.message?item.message:<li className={styles.Nli}>No FeedBack</li>}</li>
+                        </ul>
+                    )
+                })
 
-     const [showTooltip, setShowTooltip] = useState(false);
-         
-           const toggleTooltip = () => {
-             setShowTooltip((prev) => !prev);
-           };
-         
-           const tooltipRef = useRef(null);
-         
-           useEffect(() => {
-               const handleClickOutside = (event) => {
-                 if (
-                   tooltipRef.current && !tooltipRef.current.contains(event.target)
-                 ) {
-                   setShowTooltip(false);
-                 }
-                
-               };
-           
-               document.addEventListener("mousedown", handleClickOutside);
-               return () => document.removeEventListener("mousedown", handleClickOutside);
-             }, []);
+            }
+            
+            </div>
+            <div style={{marginLeft:"70px", marginBottom:"20px"}}>
+                <h2>Comment</h2>
+                <div style={{display:"flex"}}>
+                   <textarea onChange={(e)=>comment(e)} value={message} style={{width:"30%",height:"80px"}}></textarea>
+                   <div style={{display:"flex", alignItems:"end",}}>
+                     <button onClick={sendMessage} className={styles.jobdetailBackBtn} style={{padding: "0px 5px 0px 8px"}} >Submit</button>
+                    </div>
+                </div>
+            </div>
 
+            </>
+            :
+            <>
+            <div id={styles.JobCardWrapper} >
+
+{profileData.map((job, i) => {
   return (
     <>
+      <div className={styles.JobCard} key={i}>
+        <div style={{display:"flex"}}>
+        <div className={styles.LeftTable}>
+                        <span className={styles.span}>Name :  </span> <br></br>
+                        <span className={styles.span}>Age :</span><br></br>
+                        <span className={styles.span}> Email Id :</span><br></br>
+                        <span className={styles.span}> Phone number :</span><br></br>
+                        <span className={styles.span}> Notice Period :</span><br></br>
+                        <span className={styles.span}>Qualification :</span><br></br>
+                        <span className={styles.span}>Experience : </span><br></br>
+                        <span className={styles.span}> Current CTC :</span><br></br>
+                        <span className={styles.span}>Expected CTC : </span><br></br>
+                    </div>
+            
+                    <div className={styles.RightTable}>
+                    <span className={styles.span}><span style={{color:"blue"}}  >{job.name}</span></span><br></br>      
+                    <span className={styles.span}>{job.age? <span style={{ color: "blue" }}>{job.age} </span>:<span style={{color:"red"}}>Not updated</span> }</span><br></br>
+                    <span className={styles.span}> {job.email?<span style={{ color: "blue" }}>{approved?job.email:<span style={{color:"red", fontWeight:400}}>please wait for your account Approval</span>} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                    <span className={styles.span}> {job.phoneNumber?<span style={{ color: "blue" }}>{approved?job.phoneNumber:<span style={{color:"red", fontWeight:400}}>please wait for your account Approval</span>} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                    <span className={styles.span}> {job.NoticePeriod?<span style={{ color: "blue" }}>{job.NoticePeriod} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                    <span className={styles.span}> {job.Qualification?<span style={{ color: "blue" }}>{job.Qualification} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                    <span className={styles.span}> {job.Experiance?<span style={{ color: "blue" }}>{job.Experiance} </span>:<span style={{color:"red"}}>Not updated</span>}   </span><br></br>
+                    <span className={styles.span}>{job.currentCTC?<span style={{ color: "blue" }}>{job.currentCTC} </span>:<span style={{color:"red"}}>Not updated</span>} </span><br></br>
+                    <span className={styles.span}> {job.ExpectedSalary?<span style={{ color: "blue" }}>{job.ExpectedSalary} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>          
+                    </div>
+            
+                  </div>
 
-      <div className={styles.EntireFullWrapper}>
-        <div className={styles.EntireWrapper} style={{height:"100%"}}>
-        {/* <img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
-             width:"28px"}} onClick={()=>{navigate(-1)}}  src={Arrowimage} /> */}
-              <button className={styles.readPageBackBtn} 
-            onClick={() => {
-               if (window.history.length > 1) {
-                  navigate(-1);
-                 } else {
-                    navigate('/Blogs'); 
-                  }
-             }}>
-                 Back
-          </button>
-        {/* <h3 style={{color:"rgb(40, 4, 99)", marginLeft:"2%"}}>Update your Profi</h3> */}
+                  <div className={styles.Down}>
+                  <span className={styles.span}> Skills : {job.Skills?<span style={{ color: "blue" }}>{job.Skills} </span>:<span style={{color:"red"}}>Not updated</span>}</span><br></br>
+                  <span className={styles.span}> HRs/Employer FeedBack : {job.message?<span style={{ color: "blue" }}>{job.message} </span>:<span style={{color:"red"}}>No FeedBack</span>}</span><br></br>
+                  </div>
 
-
-          <div className={styles.EmpimageViewWrapper} style={{height:"76px",width:"94px", marginBottom:"70px"}}>
-            {file?"":<img className={styles.imageView}  src={image ? image : Companylogo} />}
-            {/* {file?<img className={styles.EmpfileView} src={file} />:""} */}
-
-            {/* <div className={styles.EmpaddfileDiconwrapper}>
-              <input className={`${styles.addfile} ${styles.EmpaddfileD}`} type="file" accept='.png, .jpg, .jpeg' onChange={prevewImage} />
-              <div className={styles.Emploader}> {loader ? <TailSpin height={"40px"} /> : ""} </div>
-            </div> */}
-
-          </div>
-          {/* <div className={styles.saveDelete}>
-            {file && !loader ? <button className={styles.EmpsaveImage} onClick={uploadImage}>Save</button> : ""}
-            {immage ? <button className={styles.EmpDeleteImage} onClick={deletePic}>Delete</button> : ""}
-          </div> */}
-
-          <p style={{ fontStyle: "italic", color: "green" }}>{topMessage}</p>
-{screenSize.width>850?
-
-<>
-          <div className={styles.inputWrapper}>
-
-
-            <label className={styles.inputName}>
-              <h4>Company Name: </h4>
-              <input maxLength="40" className={styles.input} value={CompanyName} onChange={(e) => {handleCompanyname(e) }} type="text" />
-            </label>
-
-            <div className={styles.inputName}>
-              <h4>Type of Organisation:</h4>
-              {/* <input className={styles.input} value={TypeofOrganisation} onChange={(e) => { setTypeofOrganisation(e.target.value) }} type="text" /> */}
-           
-            <select className={styles.input }  value={TypeofOrganisation} style={{height:"35px"}}onChange={(e)=>{setTypeofOrganisation(e.target.value)}}>
-            {/* {TypeofOrganisation? <option style={{color:"blue"}} >{TypeofOrganisation}</option>
-            :<option value="" >Select Company type</option>
-            } */}
-              <option value="Pvt.Ltd.">Pvt. Ltd.</option>
-              <option value="Firm">Firm</option>
-              <option value="Consultancy">Consultancy</option> 
-              <option value="Individual">Individual</option> 
-            </select>                                 
-            </div>  
-
-            <label className={styles.inputName}>
-              <h4>Company Email Id:**</h4>
-              <input maxLength="35" className={styles.input} value={CompanyEmail} onChange={(e) => { handleCompanyEmail(e) }} type="text" /><br></br>
-              <span style={{color:"red", marginLeft:"5%"}}>{emailError2}</span>
-            </label>
-
-            <label className={styles.inputName}>
-              <h4>Company Contact No:</h4>
-              <input maxLength="15"  className={styles.input} value={CompanyContact} onChange={(e) => { handleCompanyPhoneNumber(e) }} type="number" />
-            </label>
-
-            <label className={styles.inputName}>
-              <h4>Company Pan Card Number:</h4>
-              <input maxLength="12" className={styles.input} value={panCard} onChange={(e) => {PanCardhandleChange(e)} } type="text" />
-            </label>
-            <label className={styles.inputName}>
-              <h4>Company CIN Number:</h4>
-              <input maxLength="21" className={styles.input} value={CompanyCIN} onChange={(e) => {handleChangeCompanyCIN(e)} } type="text" />
-            </label>
-
-            <label className={styles.inputName}>
-              <h4>Company GSTIN: </h4>
-              <input maxLength="15" className={styles.input} value={CompanyGSTIN} onChange={(e) => { handleGstn(e) }} type="text" />
-            </label>
-
-            <label className={styles.inputName}>
-              <h4>Company Website:</h4>
-              <input maxLength="40" className={styles.input} value={CompanyWebsite} onChange={(e) => { handleCompanyWebsite(e) }} type="text" />
-            </label>
-
-            <label className={styles.inputName}>
-              <h4>Company Address:</h4>
-              <input  ref={inputRef} maxLength="200" className={styles.input} value={CompanyAddress} onChange={(e) => { handleCompanyAddress(e) }} type="text" />
-            </label>
-
-            <label className={styles.inputName}>
-              <div style={{position:"relative"}}>
-               <div style={{display:"flex", alignItems:"center"}}>
-              <div><h4>Primary User Name : </h4></div>
-                <div
-    ref={tooltipRef} // ⬅ attach ref to parent of both icon and tooltip
-    className={styles.driveAlerti}
-    onClick={toggleTooltip}
-  >
-    i
-    </div>
-    </div> 
-    {showTooltip && (
-      <div
-        className={styles.driveIdesc}
-      >
-       We primary user will have the admin right for your
-                company, primary user can add or remove multiple secondary user
       </div>
-    )}
-    
-  </div>
-              <input maxLength="40" className={styles.input}  value={name}  onChange={(e) => { setname(e.target.value) }} type="text" />
-            </label>
-
-            <label className={styles.inputName}>
-              <h4> Primary User Email Id:**</h4>
-              <input maxLength="35" className={styles.input} value={email}  onChange={(e) => { handlesetemail(e) }} type="text" />
-              <div style={{color:"red", marginLeft:"5%"}}>{emailError}</div>
-            </label>
-            
-            <label className={styles.inputName}>
-              <h4>Primary User Designation:</h4>
-              <input maxLength="90" className={styles.input} value={PrimeryuserDesignation} onChange={(e) => {handlePrimeryuserDesignation(e) }} type="text" />
-            </label>
-
-            <label className={styles.inputName}>
-              <h4>Aadhaar Number:
-              <span style={{fontWeight:800, fontSize:"medium"}} title='(Applicable for individual job posters)'>
-                <i class="fa-solid fa-circle-info"></i></span> </h4>
-              <input maxLength="12" className={styles.input} value={Aadhar} onChange={(e) => {AadharhandleChange(e)} } type="number" />
-            </label>
-
-            <label className={styles.inputName}>
-              <h4>Primary User Phone Number:</h4>
-            <input maxLength="15" className={styles.input}  value={phoneNumber} onChange={(e) => { handlephoneNumber(e) }} type="number" />
-            </label>
-            
-
-            <label className={styles.inputName}>
-              <h4>Secondary User Name : <span style={{fontWeight:800, fontSize:"medium"}} 
-            title='(The secondary user can post jobs and find candidates.)'><i class="fa-solid fa-circle-info"></i></span></h4>
-              <input maxLength="90" className={styles.input} value={Secondaryusername} onChange={(e) => {handleSecondaryusername(e) }} type="text" />
-            </label>
-
-            <label className={styles.inputName}>
-              <h4>Secondary User Designation:</h4>
-              <input maxLength="90" className={styles.input} value={secondaryuserDesignation} onChange={(e) => {handleSecondaryuserDesignation(e) }} type="text" />
-            </label>
-
-            
-            <label className={styles.inputName} style={{zIndex:"999"}}>
-              <h4>Secondary User Email Id:</h4>
-              <input maxLength="90" className={styles.input} value={Secondaryuseremailid} onChange={(e) => {handleSecondaryuseremailid(e) }} type="text" />
-              <div style={{color:"red", marginLeft:"5%"}}>{emailError1}</div>
-            </label>
-            
-            <label className={styles.inputName} style={{zIndex:"999" }}>
-              <h4>Secondary User Contact Number:</h4>
-              <input maxLength="90" className={styles.input} value={Secondaryusercontactnumber} onChange={(e) => {handleSecondaryusercontactnumber(e) }} type="text" />
-            </label>
-            <div className={styles.Editor}>
-            <h4 style={{marginTop:"38px", marginBottom:"10px"}}>About Company:</h4>
-{/* <JoditEditor  ref={editor}  value={AboutCompany.toString()} onChange={(e)=>{setAboutCompany(e)}} /> */}
-<div style={{marginLeft:"12px"}}>
-<CustomTextEditor
- ref={editor} 
-        value={AboutCompany.toString()}
-        onChange={setAboutCompany}
-      />
-      </div>
-             
-</div>
-
-<div style={{ display:"flex", margin:"10px 20px"}}>
-
-            <button className={styles.Save} onClick={(e) => { saveUpdate(e) }}>Save</button>
-            <button className={styles.cancel} onClick={() => { navigate(-1) }} >Cancel</button>
-</div>
-
-          </div>
-
-</>
-          :
-          <>
-           
-           <label className={styles.MobileinputName}>
-           <div style={{position:"relative"}}>
-           <div style={{display:"flex", alignItems:"center"}}>
-             <div><h4 className={styles.MobileName}>Primary User Name :</h4></div> 
-              <div
-    ref={tooltipRef} // ⬅ attach ref to parent of both icon and tooltip
-    className={styles.driveAlerti}
-    onClick={toggleTooltip}
-  >
-    i
-    </div>
-    </div> 
-    {showTooltip && (
-      <div
-        className={styles.driveIdesc} style={{left:"4px"}}
-      >
-       We primary user will have the admin right for your
-                company, primary user can add or remove multiple secondary user
-      </div>
-    )}
-     </div>
-              <input maxLength="40" className={styles.Mobileinput}  value={name}  onChange={(e) => { setname(e.target.value) }} type="text" />
-            </label>
-
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>User Email Id</h4>
-              <input maxLength="35" className={styles.Mobileinput} value={email} onChange={(e) => { handlesetemail(e) }}  type="text" />
-              <div style={{color:"red", marginLeft:"5%"}}>{emailError}</div>
-
-            </label>
-            
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Primary User Designation:</h4>
-              <input maxLength="90" className={styles.Mobileinput} value={PrimeryuserDesignation} onChange={(e) => {handlePrimeryuserDesignation(e) }} type="text" />
-            </label>
-            
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Aadhaar Number:</h4>
-              <input maxLength="16" className={styles.Mobileinput} value={Aadhar} onChange={(e) => { AadharhandleChange(e) }} type="number" />
-            </label>
-
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Pan Card Number:</h4>
-              <input className={styles.Mobileinput} value={panCard} onChange={(e) => { PanCardhandleChange(e) }} type="text" />
-            </label>
-
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Company Name: </h4>
-              <input maxLength="25" className={styles.Mobileinput} value={CompanyName} onChange={(e) => { handleCompanyname(e) }} type="text" />
-            </label>
-
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Company Email Id:</h4>
-              <input maxLength="35" className={styles.Mobileinput} value={CompanyEmail} onChange={(e) => { handleCompanyEmail(e) }} type="text" />
-           {/* <br></br> */}
-           <div style={{color:"red", marginLeft:"5%"}}>{emailError2}</div>
-
-            </label>
-
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Company Contact No:</h4>
-              <input maxLength="15" className={styles.Mobileinput} value={CompanyContact} onChange={(e) => { handleCompanyPhoneNumber(e) }} type="number" />
-            </label>
-
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Company GSTIN: </h4>
-              <input maxLength="15" className={styles.Mobileinput} value={CompanyGSTIN} onChange={(e) => { handleGstn(e) }} type="text" />
-            </label>
-
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Company Website:</h4>
-              <input maxLength="25" className={styles.Mobileinput} value={CompanyWebsite} onChange={(e) => { handleCompanyWebsite(e)}} type="text" />
-            </label>
-            {/* <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>About us:</h4>
-              <input maxLength="25" className={styles.Mobileinput} value={CompanyWebsite} onChange={(e) => { handleCompanyWebsite(e)}} type="text" />
-            </label> */}
-
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Company Address:</h4>
-              <input  ref={inputRef} maxLength="90" className={styles.Mobileinput} value={CompanyAddress} onChange={(e) => {handleCompanyAddress(e) }} type="text" />
-            </label>
-
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Secondary User Name : <span style={{fontWeight:800, fontSize:"medium"}} 
-            title='(The secondary user can post jobs and find candidates.)'><i class="fa-solid fa-circle-info"></i></span></h4>
-              <input maxLength="90" className={styles.Mobileinput} value={Secondaryusername} onChange={(e) => {handleSecondaryusername(e) }} type="text" />
-            </label>
-
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Secondary user Designation:</h4>
-              <input  maxLength="90" className={styles.Mobileinput} value={secondaryuserDesignation} onChange={(e) => {handleSecondaryuserDesignation(e) }} type="text" />
-            </label>
-
-            
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Secondary User Email Id:</h4>
-              <input maxLength="90" className={styles.Mobileinput} value={Secondaryuseremailid} onChange={(e) => {handleSecondaryuseremailid(e) }} type="text" />
-              <div style={{color:"red", marginLeft:"5%"}}>{emailError1}</div>
-            </label>
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Secondary User Contact Number:</h4>
-              <input maxLength="90" className={styles.Mobileinput} value={Secondaryusercontactnumber} onChange={(e) => {handleSecondaryusercontactnumber(e) }} type="text" />
-            </label>
-           
-            <div className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>Type of Organisation :</h4>          
-            <select className={styles.Mobileinput }  value={TypeofOrganisation} style={{height:"35px"}}onChange={(e)=>{setTypeofOrganisation(e.target.value)}}>
-            {/* {TypeofOrganisation? <option style={{color:"blue"}} >{TypeofOrganisation}</option>
-            :<option value="" >Select Company type</option>
-            } */}
-              <option value="Pvt.Ltd.">Pvt. Ltd.</option>
-              <option value="Firm">Firm</option>
-              <option value="Consultancy">Consultancy</option> 
-              <option value="Individual">Individual</option> 
-
-            </select>  
-            {/* </div> */}
-
-            <div style={{margin:"10px"}}>
-            <label className={styles.MobileinputName}>
-              <h4 className={styles.MobileName}>About us:</h4>
-              <CustomTextEditor ref={editor} value={AboutCompany.toString()} onChange={setAboutCompany} />
-              {/* <input maxLength="25" className={styles.Mobileinput} value={CompanyWebsite} onChange={(e) => { handleCompanyWebsite(e)}} type="text" /> */}
-            </label>
-            </div>  
-
-            <button className={styles.MobileSave} onClick={(e) => { saveUpdate(e) }}>Save</button>
-            <button className={styles.Mobilecancel} onClick={() => { navigate(-1) }} >Cancel</button>                               
+      <div style={{marginLeft:"16px", marginBottom:"20px"}}>
+                <h2>Comment</h2>
+                   <textarea onChange={(e)=>comment(e)} value={message} style={{width:"99%",height:"80px"}}></textarea>
+                   <div>
+                     <button onClick={sendMessage} className={styles.jobdetailBackBtn} style={{padding: "0px 5px 0px 8px", marginLeft:"2px"}} >Submit</button>
+                    </div>
             </div>
-            <div style={{marginTop:"60px"}}>
-          <Footer/>
-        </div>
-          </>
-}
-        </div>
-
-      </div>
-
     </>
   )
+})}
+
+</div>
+<div style={{marginTop:"50px"}}>
+                      <Footer/>
+                    </div>
+            </>
 }
-export default EmployeeUpdateProfile
+
+        </>
+    )
+}
+
+export default CheckStudentProfile
