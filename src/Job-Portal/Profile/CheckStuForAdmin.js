@@ -188,12 +188,12 @@ function unReject(Empid , status){
 
     return (
         <>
-
+{/* 
 <img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
-             width:"28px"}} onClick={()=>{navigate(-1)}}  src={Arrowimage} />
+            //  width:"28px"}} onClick={()=>{navigate(-1)}}  src={Arrowimage} />
 
+*/}
 {
-
 profileData.map((item, i) => {
     return (
         <div key={i}>
