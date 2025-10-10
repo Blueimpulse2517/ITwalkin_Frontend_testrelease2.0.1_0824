@@ -5,10 +5,11 @@ import axios from "axios"
 import Footer from "../Footer/Footer"
 import GoogleImage from "../img/icons8-google-48.png"
 import MicosoftImage from "../img/icons8-windows-10-48.png"
-import linkedIn from "../img/icons8-linked-in-48.png"
+import LinkedInImage from "../img/icons8-linked-in-48.png"
 import github from "../img/icons8-github-50.png"
 import { useNavigate, Link } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
+import {linkedIn,LinkedInCallback,useLinkedIn,LinkedinLogin} from 'react-linkedin-login-oauth2'
 import { GoogleLogin } from '@react-oauth/google';
 import image from "../img/user_3177440.png"
 import { TailSpin } from "react-loader-spinner"
@@ -390,7 +391,7 @@ function EmpLogin(props) {
         </div>
         <div className={styles.signUpWrapper}  onClick={LinkedinLogin}>
           <div className={styles.both}>
-            <img className={styles.google} src={linkedIn} />
+            <img className={styles.google} src={LinkedInImage} />
             <span className={styles.signUpwrap} >Continue with Linkedin</span>
           </div>
         </div>
