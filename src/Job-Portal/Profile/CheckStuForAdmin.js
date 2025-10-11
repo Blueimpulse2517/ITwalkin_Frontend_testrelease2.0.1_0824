@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import styles from "./StudentProfile.module.css"
@@ -11,7 +11,6 @@ import Arrowimage from '../img/icons8-arrow-left-48.png'
 
 
 function CheckStudentProfileForAdmin() {
-  let navigate = useNavigate()
 
     useEffect(()=>{
         let adminLogin= localStorage.getItem("AdMLog")
@@ -20,64 +19,13 @@ function CheckStudentProfileForAdmin() {
             }
         },[])
 
-    const [profileData, setProfileData] = useState([])
+  let navigate = useNavigate()
+
+const [profileData, setProfileData] = useState([])
 const [PageLoader, setPageLoader] = useState(false)
 const screenSize = useScreenSize();
-
 const [message, setmessage] = useState("")
 
-function Reject(Empid , status){
-  const isReject=status
-  Swal.fire({
-    title: "Are You sure?",
-    // icon:"question",
-    width:"245",
-      position:"top",
-      customClass:{
-        popup:"alertIcon"
-      },
-    showCancelButton:true
-  }).then( async (res)=>{
-    if(res.isConfirmed){
-      await axios.put(`/StudentProfile/isReject/${Empid}`,{isReject})
-      .then((res)=>{
-          getProfile()
-
-      }).catch((err)=>{
-        alert("backend error occured")
-      })
-    }
-  })
-}    
-
-function unReject(Empid , status){
-  const isReject=status
-
-  Swal.fire({
-    title: "Are You sure ?",
-    // icon:"question",
-    width:"245",
-      position:"top",
-      customClass:{
-        popup:"alertIcon"
-      },
-    showCancelButton:true
-  }).then( async (res)=>{
-    if(res.isConfirmed){
-      await axios.put(`/StudentProfile/isReject/${Empid}`,{isReject})
-      .then((res)=>{
-          getProfile()
-
-      }).catch((err)=>{
-        alert("backend error occured")
-      })
-    }
-  })
-}
-
-
-
-    
     async function sendMessage(id){
       await axios.put(`/StudentProfile/sendMessage/${id}`, {message})
       .then((res)=>{
@@ -93,12 +41,14 @@ function unReject(Empid , status){
     let params =useParams()
     
     async function getProfile() {
-      let userid = atob(JSON.parse(localStorage.getItem("IdLog")))
-      const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("AdMLog"))) };
+      // let userid = atob(JSON.parse(localStorage.getItem("IdLog")))
+      // const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("AdMLog"))) };
       setPageLoader(true)
+      const headers = { authorization: 'BlueItImpulseWalkinIn'};
         await axios.get(`/StudentProfile/viewProfile/${atob(params.CP)}`,{headers})
             .then((res) => {
-                let result = res.data.result                
+                let result = res.data.result   
+                console.log(result)            
                 setProfileData([result])
         setPageLoader(false)
 
@@ -112,7 +62,58 @@ function unReject(Empid , status){
         getProfile()
     }, [])
 
-    function Approve(Empid , status){
+  function Reject(StudId , status){
+  const isReject=status
+  Swal.fire({
+    title: "Are You sure?",
+    // icon:"question",
+    width:"245",
+      position:"top",
+      customClass:{
+        popup:"alertIcon"
+      },
+    showCancelButton:true
+  }).then( async (res)=>{
+    if(res.isConfirmed){
+      await axios.put(`/StudentProfile/isReject/${StudId}`,{isReject})
+      .then((res)=>{
+          getProfile()
+
+      }).catch((err)=>{
+        alert("backend error occured")
+      })
+    }
+  })
+}    
+
+function unReject(StudId , status){
+  const isReject=status
+
+  Swal.fire({
+    title: "Are You sure ?",
+    // icon:"question",
+    width:"245",
+      position:"top",
+      customClass:{
+        popup:"alertIcon"
+      },
+    showCancelButton:true
+  }).then( async (res)=>{
+    if(res.isConfirmed){
+      await axios.put(`/StudentProfile/isReject/${StudId}`,{isReject})
+      .then((res)=>{
+          getProfile()
+
+      }).catch((err)=>{
+        alert("backend error occured")
+      })
+    }
+  })
+}
+
+
+
+    function Approve(StudId , status){
         const isApproved = status
         Swal.fire({
           title: "Are You sure?",
@@ -125,7 +126,7 @@ function unReject(Empid , status){
           showCancelButton:true
         }).then( async (res)=>{
           if(res.isConfirmed){
-            await axios.put(`/StudentProfile/setApproval/${Empid}`,{isApproved})
+            await axios.put(`/StudentProfile/setApproval/${StudId}`,{isApproved})
             .then((res)=>{
                 getProfile()
    
@@ -137,7 +138,7 @@ function unReject(Empid , status){
     
       }
     
-      function DisApprove(Empid , status){
+      function DisApprove(StudId , status){
         const isApproved = status
         Swal.fire({
           title: "Are You sure?",
@@ -150,7 +151,7 @@ function unReject(Empid , status){
           showCancelButton:true
         }).then( async (res)=>{
           if(res.isConfirmed){
-            await axios.put(`/StudentProfile/setApproval/${Empid}`,{isApproved})
+            await axios.put(`/StudentProfile/setApproval/${StudId}`,{isApproved})
             .then((res)=>{
                 getProfile()
     
@@ -188,25 +189,25 @@ function unReject(Empid , status){
 
     return (
         <>
-{/* 
-<img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
-            //  width:"28px"}} onClick={()=>{navigate(-1)}}  src={Arrowimage} />
 
-*/}
-{/* {
+<img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
+             width:"28px"}} onClick={()=>{navigate(-1)}}  src={Arrowimage} />
+
+
+{
 profileData.map((item, i) => {
     return (
         <div key={i}>
-        <img className={styles.imageV} src={item.Gpicture?item.Gpicture: profileDp}/>
+        <img className={styles.imageV} src={profileData.Gpicture?profileData.Gpicture: profileDp}/>
         
         </div>
     )
 
 })
-    } */}
- <div >
+    } 
+ {/* <div >
     <img className={styles.imageV} src={profileData.Gpicture?profileData.Gpicture: profileDp}/>
-    </div>
+    </div> */}
                                             {PageLoader?
  <Puff  height="90"  width="90"  color="#4fa94d"  ariaLabel="bars-loading"  wrapperStyle={{marginLeft:"45%", marginTop:"60px"}}/> 
      :""
@@ -306,7 +307,7 @@ profileData.map((item, i) => {
                     </div>
             
                     <div className={styles.RightTable}>
-                    <span className={styles.span}>{job.name? <span style={{ color: "blue" }}>{job.name} </span>:<span style={{color:"red"}}>Not updated</span> }</span><br></br>     
+                    <span className={styles.span}><span style={{color:"blue"}}>{job.name}</span></span><br></br>  
                     <span className={styles.span}>{job.age? <span style={{ color: "blue" }}>{job.age} </span>:<span style={{color:"red"}}>Not updated</span> }</span><br></br>
                     <span className={styles.span}> {job.email?<span style={{ color: "blue" }}>{job.email} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
                     <span className={styles.span}> {job.phoneNumber?<span style={{ color: "blue" }}>{job.phoneNumber} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>

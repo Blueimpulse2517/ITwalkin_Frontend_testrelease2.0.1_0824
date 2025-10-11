@@ -9,7 +9,7 @@ import LinkedInImage from "../img/icons8-linked-in-48.png"
 import github from "../img/icons8-github-50.png"
 import { useNavigate, Link } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
-import {linkedIn,LinkedInCallback,useLinkedIn,LinkedinLogin} from 'react-linkedin-login-oauth2'
+import { LinkedIn, LinkedInCallback, useLinkedIn } from 'react-linkedin-login-oauth2';
 import { GoogleLogin } from '@react-oauth/google';
 import image from "../img/user_3177440.png"
 import { TailSpin } from "react-loader-spinner"
@@ -275,49 +275,33 @@ function EmpLogin(props) {
       });
   }
 
-  const LinkedinLogin = async () => {
-    const params = new URLSearchParams({
-      response_type: 'code',
-      client_id: import.meta.env.VITE_LINKEDIN_CLIENT_ID,
-      redirect_uri: 'https://www.itwalkin.com/LinkedIn/callback',
-      scope: 'openid email profile w_member_social',
-    });
+ const { linkedInLogin } = useLinkedIn({
+    clientId: import.meta.env.VITE_LINKEDIN_CLIENT_ID,
+    redirectUri: 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${process.env.LINKEDIN_REDIRECT_URI}&scope=${scope}',
+    scope: 'openid email profile w_member_social',
+    onSuccess: async (code) => {
+      try {
+        // Exchange code for access token and user info
+        const response = await axios.post('/EmpProfile/Glogin', {
+          code,
+          redirectUri: 'https://www.itwalkin.com/LinkedIn/callback',
+        });
 
-  //   // Redirect to LinkedIn OAuth
-   window.location.href = `https://www.linkedin.com/oauth/v2/authorization?${params.toString()}`;
-  
+        const result = response.data;
+        if (result.status === 'success') {
+          localStorage.setItem('StudLog', JSON.stringify(btoa(result.token)));
+          localStorage.setItem('StudId', JSON.stringify(result.id));
+          navigate('/alljobs', { state: { name: result.name } });
+        }
+      } catch (err) {
+        alert('Server issue occurred');
+      }
+    },
+    onError: (error) => {
+      console.error('LinkedIn login error:', error);
+    },
+  });
 
-  // // Optional: handle callback response (e.g., in another component or useEffect)
-  // const handleCallback = async (res) => {
-  //   try {
-  //     const userId = res.data.sub;
-  //     const email = res.data.email;
-  //     const name = res.data.name;
-  //     const isApproved = false;
-  //     const Gpicture = res.data.picture;
-  //     const ipAddress = 'your-ip-logic-here'; // Replace with actual IP logic
-
-  //     const response = await axios.post("/EmpProfile/Glogin", {
-  //       ipAddress,
-  //       email,
-  //       name,
-  //       isApproved,
-  //       Gpicture,
-  //     });
-
-  //     const result = response.data;
-  //     console.log(result);
-
-  //     if (result.status === "success") {
-  //       localStorage.setItem("StudLog", JSON.stringify(btoa(result.token)));
-  //       localStorage.setItem("StudId", JSON.stringify(result.id));
-  //       navigate("/alljobs", { state: { name: result.name } });
-  //     }
-  //   } catch (err) {
-  //     alert("Server issue occurred");
-  //   }
-  // }
-  }
   return (
     <>
       {/* <div className={styles.LoginpageWapper}> */}
@@ -389,7 +373,7 @@ function EmpLogin(props) {
             <p className={styles.signUpwrap} >Continue with Microsoft</p>
           </div>
         </div>
-        <div className={styles.signUpWrapper}  onClick={LinkedinLogin}>
+        <div className={styles.signUpWrapper}  onClick={linkedInLogin}>
           <div className={styles.both}>
             <img className={styles.google} src={LinkedInImage} />
             <span className={styles.signUpwrap} >Continue with Linkedin</span>
