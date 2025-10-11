@@ -274,33 +274,37 @@ function EmpLogin(props) {
         // alert("some thing went wrong")
       });
   }
+const LinkedInLoginButton = () => {
+  const handleLogin = () => {
+    window.location.href = "https://www.itwalkin.com/LinkedIn";
+  };
+}
+//  const { linkedInLogin } = useLinkedIn({
+//     clientId: import.meta.env.VITE_LINKEDIN_CLIENT_ID,
+//     redirectUri: 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${process.env.LINKEDIN_REDIRECT_URI}&scope=${scope}',
+//     scope: 'openid email profile w_member_social',
+//     onSuccess: async (code) => {
+//       try {
+//         // Exchange code for access token and user info
+//         const response = await axios.post('/EmpProfile/Glogin', {
+//           code,
+//           redirectUri: 'https://www.itwalkin.com/LinkedIn/callback',
+//         });
 
- const { linkedInLogin } = useLinkedIn({
-    clientId: import.meta.env.VITE_LINKEDIN_CLIENT_ID,
-    redirectUri: 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${process.env.LINKEDIN_CLIENT_ID}&redirect_uri=${process.env.LINKEDIN_REDIRECT_URI}&scope=${scope}',
-    scope: 'openid email profile w_member_social',
-    onSuccess: async (code) => {
-      try {
-        // Exchange code for access token and user info
-        const response = await axios.post('/EmpProfile/Glogin', {
-          code,
-          redirectUri: 'https://www.itwalkin.com/LinkedIn/callback',
-        });
-
-        const result = response.data;
-        if (result.status === 'success') {
-          localStorage.setItem('StudLog', JSON.stringify(btoa(result.token)));
-          localStorage.setItem('StudId', JSON.stringify(result.id));
-          navigate('/alljobs', { state: { name: result.name } });
-        }
-      } catch (err) {
-        alert('Server issue occurred');
-      }
-    },
-    onError: (error) => {
-      console.error('LinkedIn login error:', error);
-    },
-  });
+//         const result = response.data;
+//         if (result.status === 'success') {
+//           localStorage.setItem('StudLog', JSON.stringify(btoa(result.token)));
+//           localStorage.setItem('StudId', JSON.stringify(result.id));
+//           navigate('/alljobs', { state: { name: result.name } });
+//         }
+//       } catch (err) {
+//         alert('Server issue occurred');
+//       }
+//     },
+//     onError: (error) => {
+//       console.error('LinkedIn login error:', error);
+//     },
+//   });
 
   return (
     <>
@@ -373,7 +377,7 @@ function EmpLogin(props) {
             <p className={styles.signUpwrap} >Continue with Microsoft</p>
           </div>
         </div>
-        <div className={styles.signUpWrapper}  onClick={linkedInLogin}>
+        <div className={styles.signUpWrapper}  onClick={handleLogin}>
           <div className={styles.both}>
             <img className={styles.google} src={LinkedInImage} />
             <span className={styles.signUpwrap} >Continue with Linkedin</span>

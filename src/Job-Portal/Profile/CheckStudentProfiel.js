@@ -249,7 +249,7 @@ profileData.map((item, i) => {
                     </div>
             
                     <div className={styles.RightTable}>
-                    <span className={styles.span}><span style={{color:"blue"}}  >{job.name}</span></span><br></br>      
+                    <span className={styles.span}><span style={{color:"blue"}}>{job.name}</span></span><br></br>      
                     <span className={styles.span}>{job.age? <span style={{ color: "blue" }}>{job.age} </span>:<span style={{color:"red"}}>Not updated</span> }</span><br></br>
                     <span className={styles.span}> {job.email?<span style={{ color: "blue" }}>{approved?job.email:<span style={{color:"red", fontWeight:400}}>please wait for your account Approval</span>} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
                     <span className={styles.span}> {job.phoneNumber?<span style={{ color: "blue" }}>{approved?job.phoneNumber:<span style={{color:"red", fontWeight:400}}>please wait for your account Approval</span>} </span>: <span style={{color:"red"}}>Not updated</span>}</span><br></br>
