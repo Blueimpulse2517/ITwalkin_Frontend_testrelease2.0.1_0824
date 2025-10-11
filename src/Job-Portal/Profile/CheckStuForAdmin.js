@@ -45,7 +45,7 @@ const [message, setmessage] = useState("")
       // const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("AdMLog"))) };
       setPageLoader(true)
       const headers = { authorization: 'BlueItImpulseWalkinIn'};
-        await axios.get(`/StudentProfile/viewProfile/${atob(params.CP)}`,{headers})
+        await axios.get(`/StudentProfile/viewProfile/${params.CP}`,{headers})
             .then((res) => {
                 let result = res.data.result   
                 console.log(result)            
@@ -198,7 +198,7 @@ function unReject(StudId , status){
 profileData.map((item, i) => {
     return (
         <div key={i}>
-        <img className={styles.imageV} src={profileData.Gpicture?profileData.Gpicture: profileDp}/>
+        <img className={styles.imageV} src={item.Gpicture?item.Gpicture: profileDp}/>
         
         </div>
     )
