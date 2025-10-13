@@ -27,10 +27,10 @@ let navigate = useNavigate()
         let userid = JSON.parse(localStorage.getItem("EmpIdG"))
         const headers = { authorization: userid +" "+ atob(JSON.parse(localStorage.getItem("EmpLog"))) };
         setPageLoader(true)
-        await axios.get(`/StudentProfile/viewProfile/${atob(params.CP)}`,{headers})
+        await axios.get(`/StudentProfile/viewProfile/${params.CP}`,{headers})
             .then((res) => {
                 let result = res.data.result
-        console.log("result->",result)
+        console.log(result)
                 // setMessage(result.message)
                 setProfileData([result])
         setPageLoader(false)
@@ -43,7 +43,7 @@ let navigate = useNavigate()
 
     useEffect(() => {
         getProfile()
-        getEmpProfile()
+       // getEmpProfile()
     }, [])
 
     let empId = JSON.parse(localStorage.getItem("EmpIdG"))
